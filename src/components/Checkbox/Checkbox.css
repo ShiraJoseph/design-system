@@ -1,0 +1,144 @@
+.ds-checkbox {
+  font-family: var(--ds-font-family-sans), sans-serif;
+  color: var(--ds-color-text-primary);
+}
+
+.ds-checkbox .ds-row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--ds-space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.ds-checkbox.ds-disabled .ds-row {
+  cursor: not-allowed;
+  opacity: var(--ds-opacity-disabled);
+}
+
+.ds-checkbox .ds-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: calc(var(--ds-font-size-base) * var(--ds-font-line-height-snug));
+}
+
+.ds-checkbox.ds-size-sm .ds-control {
+  height: calc(var(--ds-font-size-sm) * var(--ds-font-line-height-snug));
+}
+
+.ds-checkbox.ds-size-md .ds-box {
+  width: var(--ds-space-3);
+  height: var(--ds-space-3);
+  border-radius: var(--ds-radius-sm);
+}
+
+.ds-checkbox.ds-size-sm .ds-box {
+  width: var(--ds-space-2);
+  height: var(--ds-space-2);
+  border-radius: var(--ds-radius-sm);
+}
+
+.ds-checkbox .ds-input {
+  position: absolute;
+  inset: 0;
+  width: var(--ds-size-full);
+  height: var(--ds-size-full);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+  z-index: var(--ds-z-raised);
+}
+
+/* State changes (border + bg) snap instantly. The only motion is the
+   .ds-bouncing scale pop applied via the shared rule. */
+.ds-checkbox .ds-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
+}
+
+/* Check + dash appear / disappear instantly via opacity. The bounce
+   lives on the parent .ds-box so the entire check-and-border unit
+   scales together. translateZ(0) keeps the SVG on its own compositor
+   layer so its stroke stays sub-pixel stable across the bounce. */
+.ds-checkbox .ds-check {
+  width: 75%;
+  height: 75%;
+  color: var(--ds-color-action-primary-bg);
+  opacity: 0;
+  transform: translateZ(0);
+}
+
+.ds-checkbox .ds-dash {
+  position: absolute;
+  width: 70%;
+  height: var(--ds-border-width-heavy);
+  background: var(--ds-color-action-primary-bg);
+  border-radius: var(--ds-radius-sm);
+  opacity: 0;
+}
+
+.ds-checkbox .ds-input:checked ~ .ds-box {
+  background: transparent;
+  border-color: var(--ds-color-action-primary-bg);
+}
+
+.ds-checkbox .ds-input:checked ~ .ds-box .ds-check {
+  opacity: 1;
+}
+
+.ds-checkbox.ds-indeterminate .ds-box {
+  background: transparent;
+  border-color: var(--ds-color-action-primary-bg);
+}
+
+.ds-checkbox.ds-indeterminate .ds-box .ds-check {
+  display: none;
+}
+
+.ds-checkbox.ds-indeterminate .ds-box .ds-dash {
+  opacity: 1;
+}
+
+.ds-checkbox .ds-input:focus-visible ~ .ds-box {
+  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+  outline-offset: var(--ds-border-width-heavy);
+}
+
+/* JS-triggered bounce on change: parent React component adds the
+   `ds-bouncing` class and removes it on animation end. Lives on .ds-box
+   so the border + check scale together; the label outside .ds-control
+   is not affected. */
+.ds-checkbox .ds-box.ds-bouncing {
+  --bounce-rest: scale(1);
+  --bounce-out: var(--ds-motion-bounce-scale-md-out);
+  --bounce-out-2: var(--ds-motion-bounce-scale-md-out-2);
+}
+
+.ds-checkbox .ds-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-025);
+}
+
+.ds-checkbox .ds-label {
+  font-size: var(--ds-font-size-base);
+  font-weight: var(--ds-font-weight-medium);
+  line-height: var(--ds-font-line-height-snug);
+}
+
+.ds-checkbox.ds-size-sm .ds-label {
+  font-size: var(--ds-font-size-sm);
+}
+
+.ds-checkbox .ds-description {
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-text-secondary);
+  line-height: var(--ds-font-line-height-snug);
+}

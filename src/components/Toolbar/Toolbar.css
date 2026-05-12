@@ -1,0 +1,69 @@
+.ds-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-05);
+  padding: var(--ds-space-05);
+  background: var(--ds-color-bg-surface);
+  border: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-sm);
+  font-family: var(--ds-font-family-sans), sans-serif;
+}
+
+.ds-toolbar.ds-orientation-horizontal {
+  flex-direction: row;
+}
+
+.ds-toolbar.ds-orientation-vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ds-toolbar .ds-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-secondary);
+  padding: var(--ds-space-1) var(--ds-space-2);
+  border-radius: var(--ds-radius-md);
+  white-space: nowrap;
+}
+
+.ds-toolbar .ds-item:disabled {
+  cursor: not-allowed;
+  opacity: var(--ds-opacity-disabled);
+}
+
+.ds-toolbar .ds-item:hover:not(:disabled):not([aria-pressed='true']) {
+  color: var(--ds-color-text-primary);
+  background: var(--ds-color-bg-surface-sunk);
+}
+
+.ds-toolbar .ds-item[aria-pressed='true']:hover {
+  color: var(--ds-color-action-primary-fg);
+}
+
+/* Selected item gets the primary colour. Background snaps on; the
+   bounce is on translateY of the item itself, matching the Button
+   family's 6px / 2px bounce-up. Re-fires automatically when
+   aria-pressed flips because the animation declaration enters scope
+   on the newly-selected item. */
+.ds-toolbar .ds-item[aria-pressed='true'] {
+  color: var(--ds-color-action-primary-fg);
+  background: var(--ds-color-action-primary-bg);
+  --bounce-out: translateY(calc(var(--ds-motion-bounce-translate-out) * -1));
+  --bounce-out-2: translateY(calc(var(--ds-motion-bounce-translate-out-2) * -1));
+  animation: ds-bounce var(--ds-motion-duration-medium) linear both;
+}
+
+.ds-toolbar .ds-item:focus-visible {
+  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+  outline-offset: var(--ds-border-width-thin);
+}

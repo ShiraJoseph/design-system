@@ -1,0 +1,135 @@
+.ds-tabs {
+  display: flex;
+  font-family: var(--ds-font-family-sans), sans-serif;
+  color: var(--ds-color-text-primary);
+  width: var(--ds-size-full);
+  gap: var(--ds-space-2);
+}
+
+.ds-tabs.ds-orientation-horizontal {
+  flex-direction: column;
+}
+
+.ds-tabs.ds-orientation-vertical {
+  flex-direction: row;
+}
+
+.ds-tabs .ds-list {
+  display: flex;
+  position: relative;
+}
+
+.ds-tabs.ds-orientation-horizontal .ds-list {
+  flex-direction: row;
+  overflow-x: auto;
+  border-bottom: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+  scrollbar-width: thin;
+}
+
+.ds-tabs.ds-orientation-vertical .ds-list {
+  flex-direction: column;
+  border-right: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
+  flex-shrink: 0;
+  min-width: var(--ds-space-12);
+}
+
+.ds-tabs .ds-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-secondary);
+  white-space: nowrap;
+  padding: var(--ds-space-2) var(--ds-space-2);
+}
+
+.ds-tabs .ds-trigger:disabled {
+  cursor: not-allowed;
+  opacity: var(--ds-opacity-disabled);
+}
+
+.ds-tabs .ds-trigger:hover:not(:disabled):not(.ds-trigger-active) {
+  color: var(--ds-color-text-primary);
+  background: var(--ds-color-action-secondary-bg-hover);
+}
+
+.ds-tabs .ds-trigger:active:not(:disabled) {
+  background: var(--ds-color-action-secondary-bg-pressed);
+}
+
+.ds-tabs .ds-trigger-active {
+  color: var(--ds-color-text-primary);
+}
+
+/* Single ink bar that slides between triggers. Position and size are
+   driven by inline style from JS (measured from the active trigger's
+   offset rect). The linear() multi-stop timing settles the slide with
+   a small bounce-back-toward-start, matching the slide-then-bounce
+   shape used by the toggle thumb (which is expressed as composed
+   keyframe animations rather than a transition). */
+/* Ink bar slides between active triggers using the shared slide-then-
+   bounce-back linear() multi-stop. Same shape as the Stepper connector
+   transition; pulls back ~6% then ~2% toward start before settling. */
+.ds-tabs .ds-ink-bar {
+  position: absolute;
+  background: var(--ds-color-action-primary-bg);
+  border-radius: var(--ds-radius-full);
+  pointer-events: none;
+  transition: transform var(--ds-motion-duration-medium) var(--ds-motion-bounce-md),
+  width var(--ds-motion-duration-medium) var(--ds-motion-bounce-md),
+  height var(--ds-motion-duration-medium) var(--ds-motion-bounce-md);
+}
+
+.ds-tabs.ds-orientation-horizontal .ds-ink-bar {
+  bottom: 0;
+  left: 0;
+  height: var(--ds-border-width-heavy);
+}
+
+.ds-tabs.ds-orientation-vertical .ds-ink-bar {
+  right: 0;
+  top: 0;
+  width: var(--ds-border-width-heavy);
+}
+
+.ds-tabs .ds-panel {
+  flex: 1;
+  font-size: var(--ds-font-size-base);
+  line-height: var(--ds-font-line-height-normal);
+}
+
+/* Horizontal: a gap above the panel for breathing room from the
+   tablist. Vertical: no top padding so panel content aligns with the
+   first trigger. */
+.ds-tabs.ds-orientation-horizontal .ds-panel {
+  padding-top: var(--ds-space-2);
+}
+
+/* Zero outer margins on the panel's first / last block-level child so
+   content's top edge aligns with the panel boundary instead of being
+   pushed down by default <p> / <h*> margins. */
+.ds-tabs .ds-panel > :first-child {
+  margin-top: 0;
+}
+
+.ds-tabs .ds-panel > :last-child {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-tabs .ds-ink-bar {
+    transition: none;
+  }
+}
+
+.ds-tabs .ds-trigger:focus-visible {
+  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+  outline-offset: calc(var(--ds-border-width-heavy) * -1);
+  border-radius: var(--ds-radius-sm);
+}

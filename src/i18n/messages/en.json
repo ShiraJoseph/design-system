@@ -1,0 +1,20 @@
+{
+  "modal.close": "Close dialog",
+  "input.errorPrefix": "Error:",
+  "iconButton.label": "Action",
+  "stepper.progress": "Progress",
+  "askAI.input.label": "Ask a question about the design system",
+  "demo.button.primary": "Save changes",
+  "demo.button.secondary": "Cancel",
+  "demo.button.danger": "Delete account",
+  "demo.input.email.label": "Email address",
+  "demo.input.email.placeholder": "you@example.com",
+  "demo.input.email.helper": "We will never share your email.",
+  "demo.toggle.notifications": "Email notifications",
+  "demo.modal.title": "Confirm deletion",
+  "demo.modal.body": "This action cannot be undone. Your account and all associated data will be permanently removed.",
+  "demo.modal.cancel": "Cancel",
+  "demo.modal.confirm": "Delete account",
+  "demo.card.title": "Quarterly report",
+  "demo.card.body": "Revenue is up 12 percent year over year, driven primarily by international expansion."
+}

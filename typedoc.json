@@ -1,0 +1,18 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "src/index.ts"
+  ],
+  "out": "docs",
+  "name": "design-system",
+  "readme": "README.md",
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "hideGenerator": true,
+  "navigationLinks": {
+    "Storybook": "../storybook/",
+    "GitHub": "https://github.com/ShiraJoseph/design-system"
+  },
+  "categorizeByGroup": true,
+  "skipErrorChecking": true
+}

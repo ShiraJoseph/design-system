@@ -1,0 +1,166 @@
+.ds-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-1);
+
+  font-family: var(--ds-font-family-sans), sans-serif;
+  font-weight: var(--ds-font-weight-bold);
+  letter-spacing: var(--ds-font-letter-spacing-tight);
+  line-height: 1;
+  white-space: nowrap;
+
+  border: var(--ds-border-width-thin) solid var(--ds-color-action-secondary-border, transparent);
+  border-radius: var(--ds-radius-xl);
+  cursor: pointer;
+  user-select: none;
+
+  background: var(--ds-color-action-secondary-bg);
+  color: var(--ds-color-action-secondary-fg);
+}
+
+.ds-button:hover:not(:disabled) {
+  box-shadow: var(--ds-shadow-md);
+}
+
+.ds-button:active:not(:disabled) {
+  animation: none;
+}
+
+/* Bounce magnitudes; the shared .ds-bouncing rule in animations.css
+   applies the animation. Per-component values plug into ds-bounce via
+   custom properties. */
+.ds-button.ds-bouncing {
+  --bounce-out: translateY(calc(var(--ds-motion-bounce-translate-out) * -1));
+  --bounce-out-2: translateY(calc(var(--ds-motion-bounce-translate-out-2) * -1));
+}
+
+.ds-button.ds-quiet,
+.ds-button.ds-quiet:active,
+.ds-button.ds-quiet:hover {
+  animation: none;
+}
+
+.ds-button:disabled {
+  cursor: not-allowed;
+  opacity: var(--ds-opacity-disabled);
+}
+
+.ds-button.ds-size-sm {
+  height: var(--ds-size-control-sm);
+  padding: 0 var(--ds-space-2);
+  font-size: var(--ds-font-size-sm);
+}
+
+.ds-button.ds-size-md {
+  height: var(--ds-size-control-md);
+  padding: 0 var(--ds-space-2);
+  font-size: var(--ds-font-size-base);
+}
+
+.ds-button.ds-size-lg {
+  height: var(--ds-size-control-lg);
+  padding: 0 var(--ds-space-3);
+  font-size: var(--ds-font-size-md);
+}
+
+@media (pointer: coarse) {
+  .ds-button.ds-size-sm {
+    min-height: var(--ds-size-tap-target-min);
+  }
+}
+
+.ds-button.ds-variant-primary {
+  background: var(--ds-color-action-primary-bg);
+  color: var(--ds-color-action-primary-fg);
+  border-color: transparent;
+}
+
+.ds-button.ds-variant-primary:hover:not(:disabled) {
+  background: var(--ds-color-action-primary-bg-hover);
+  box-shadow: var(--ds-shadow-md), var(--ds-dichroic-glow-soft);
+}
+
+.ds-button.ds-variant-primary:active:not(:disabled) {
+  background: var(--ds-color-action-primary-bg-pressed);
+}
+
+.ds-button.ds-variant-secondary {
+  background: var(--ds-color-action-secondary-bg);
+  color: var(--ds-color-action-secondary-fg);
+  border-color: var(--ds-color-action-secondary-border);
+}
+
+.ds-button.ds-variant-secondary:hover:not(:disabled) {
+  background: var(--ds-color-action-secondary-bg-hover);
+}
+
+.ds-button.ds-variant-secondary:active:not(:disabled) {
+  background: var(--ds-color-action-secondary-bg-pressed);
+}
+
+.ds-button.ds-variant-danger {
+  background: var(--ds-color-action-danger-bg);
+  color: var(--ds-color-action-danger-fg);
+  border-color: transparent;
+}
+
+.ds-button.ds-variant-danger:hover:not(:disabled) {
+  background: var(--ds-color-action-danger-bg-hover);
+  box-shadow: var(--ds-shadow-md);
+}
+
+.ds-button.ds-variant-danger:active:not(:disabled) {
+  background: var(--ds-color-action-danger-bg-pressed);
+}
+
+.ds-button.ds-variant-ghost {
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  border-color: transparent;
+}
+
+.ds-button.ds-variant-ghost:hover:not(:disabled) {
+  background: var(--ds-color-bg-surface);
+}
+
+.ds-button.ds-variant-ghost:active:not(:disabled) {
+  background: var(--ds-color-action-secondary-bg-pressed);
+}
+
+.ds-button.ds-full-width {
+  width: var(--ds-size-full);
+}
+
+.ds-button .ds-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-size-icon);
+  height: var(--ds-size-icon);
+  flex-shrink: 0;
+}
+
+.ds-button .ds-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-button .ds-label-loading {
+  visibility: hidden;
+}
+
+.ds-button.ds-loading {
+  pointer-events: none;
+}
+
+.ds-button .ds-spinner {
+  position: absolute;
+  width: var(--ds-size-icon);
+  height: var(--ds-size-icon);
+  border: var(--ds-border-width-thick) solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--ds-radius-full);
+  animation: ds-spin var(--ds-motion-duration-slow) linear infinite;
+}

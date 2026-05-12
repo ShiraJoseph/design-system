@@ -1,0 +1,20 @@
+{
+  "modal.close": "Cerrar diálogo",
+  "input.errorPrefix": "Error:",
+  "iconButton.label": "Acción",
+  "stepper.progress": "Progreso",
+  "askAI.input.label": "Haz una pregunta sobre el sistema de diseño",
+  "demo.button.primary": "Guardar cambios",
+  "demo.button.secondary": "Cancelar",
+  "demo.button.danger": "Eliminar cuenta",
+  "demo.input.email.label": "Correo electrónico",
+  "demo.input.email.placeholder": "tu@ejemplo.com",
+  "demo.input.email.helper": "Nunca compartiremos tu correo.",
+  "demo.toggle.notifications": "Notificaciones por correo",
+  "demo.modal.title": "Confirmar eliminación",
+  "demo.modal.body": "Esta acción no se puede deshacer. Tu cuenta y todos los datos asociados serán eliminados permanentemente.",
+  "demo.modal.cancel": "Cancelar",
+  "demo.modal.confirm": "Eliminar cuenta",
+  "demo.card.title": "Informe trimestral",
+  "demo.card.body": "Los ingresos aumentaron un 12 por ciento interanual, impulsados principalmente por la expansión internacional."
+}
