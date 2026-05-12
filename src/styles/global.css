@@ -1,0 +1,138 @@
+/**
+ * Global typography, focus ring, motion preferences, and a calm
+ * surface treatment. Imported once after `tokens.css`.
+ *
+ * Atkinson Hyperlegible was designed by the Braille Institute for low
+ * vision and dyslexia. We use it across the entire system as a single
+ * legible voice, varying only weight and size.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark light;
+}
+
+body {
+  font-family: var(--ds-font-family-sans), sans-serif;
+  font-size: var(--ds-font-size-base);
+  line-height: var(--ds-font-line-height-normal);
+  color: var(--ds-color-text-primary);
+  background: var(--ds-color-bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: var(--ds-size-viewport);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--ds-atmosphere-vignette-light);
+  pointer-events: none;
+}
+
+[data-theme='dark'] body::before {
+  background: var(--ds-atmosphere-vignette-dark);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--ds-font-family-display), sans-serif;
+  font-weight: var(--ds-font-weight-bold);
+  letter-spacing: var(--ds-font-letter-spacing-tight);
+  line-height: var(--ds-font-line-height-snug);
+  margin: 0;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--ds-font-family-mono), monospace;
+}
+
+:focus-visible {
+  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+  outline-offset: var(--ds-border-width-heavy);
+  border-radius: var(--ds-radius-sm);
+}
+
+/* Reduced-motion override. `!important` is required here because the
+   user's motion preference must beat every component-level animation /
+   transition rule; the canonical pattern is 0.01ms (effectively zero
+   but non-zero so animationend / transitionend still fire). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.ds-visually-hidden {
+  position: absolute;
+  width: var(--ds-border-width-thin);
+  height: var(--ds-border-width-thin);
+  padding: 0;
+  margin: calc(var(--ds-border-width-thin) * -1);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Storybook docs page: paint its prose chrome with theme-aware colors
+   so prose stays readable when Aurora (dark) is active. Targets the
+   classnames Storybook's docs renderer attaches to its containers and
+   typography. */
+[data-theme='dark'] .sbdocs,
+[data-theme='dark'] .sbdocs-wrapper,
+[data-theme='dark'] .sbdocs-content,
+[data-theme='dark'] .sbdocs-preview {
+  background: var(--ds-color-bg-page);
+  color: var(--ds-color-text-primary);
+}
+
+[data-theme='dark'] .sbdocs h1,
+[data-theme='dark'] .sbdocs h2,
+[data-theme='dark'] .sbdocs h3,
+[data-theme='dark'] .sbdocs h4,
+[data-theme='dark'] .sbdocs h5,
+[data-theme='dark'] .sbdocs h6,
+[data-theme='dark'] .sbdocs p,
+[data-theme='dark'] .sbdocs li,
+[data-theme='dark'] .sbdocs td,
+[data-theme='dark'] .sbdocs th {
+  color: var(--ds-color-text-primary);
+  border-color: var(--ds-color-border-subtle);
+}
+
+[data-theme='dark'] .sbdocs code,
+[data-theme='dark'] .sbdocs pre {
+  background: var(--ds-color-bg-surface-sunk);
+  color: var(--ds-color-text-primary);
+  border-color: var(--ds-color-border-subtle);
+}
+
+[data-theme='dark'] .sbdocs a {
+  color: var(--ds-color-text-accent);
+}
+
+[data-theme='dark'] .sbdocs hr {
+  border-color: var(--ds-color-border-subtle);
+}
+
+/* Story preview block inside docs: keep our theme-aware bg so the
+   embedded canvas matches its surroundings. */
+[data-theme='dark'] .sbdocs .docs-story {
+  background: var(--ds-color-bg-page);
+}

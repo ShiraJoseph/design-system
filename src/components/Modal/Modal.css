@@ -1,0 +1,78 @@
+.ds-modal {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  font-family: var(--ds-font-family-sans), sans-serif;
+  max-width: min(var(--ds-size-modal-max-width-vw), var(--ds-size-modal-max-width));
+  width: var(--ds-size-full);
+  margin: auto;
+}
+
+.ds-modal::backdrop {
+  background: var(--ds-color-bg-overlay);
+}
+
+/* Modal bounces in scale (a pop) using the shared ds-bounce. Scale-only;
+   no opacity or translateY, so it reads as a clean pop rather than a
+   compound slide-fade. */
+.ds-modal[open] {
+  --bounce-rest: scale(1);
+  --bounce-out: var(--ds-motion-bounce-scale-lg-out);
+  --bounce-out-2: var(--ds-motion-bounce-scale-lg-out-2);
+  animation: ds-bounce var(--ds-motion-duration-medium) linear both;
+}
+
+.ds-modal .ds-modal-card {
+  background: var(--ds-color-bg-modal);
+  border: var(--ds-border-width-thin) solid var(--ds-color-border-default);
+  border-radius: var(--ds-radius-2xl);
+  box-shadow: var(--ds-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  padding: var(--ds-space-3);
+  gap: var(--ds-space-2);
+  max-height: var(--ds-size-modal-max-height);
+  /* No overflow: hidden — child outlines (e.g., a focused button's
+     focus ring) need to extend past the card. The body element below
+     handles its own scroll-overflow. */
+}
+
+.ds-modal .ds-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-space-2);
+}
+
+.ds-modal .ds-modal-title {
+  margin: 0;
+  font-family: var(--ds-font-family-display), sans-serif;
+  font-size: var(--ds-font-size-xl);
+  font-weight: var(--ds-font-weight-bold);
+  line-height: var(--ds-font-line-height-snug);
+  letter-spacing: var(--ds-font-letter-spacing-tight);
+  color: var(--ds-color-text-primary);
+}
+
+.ds-modal .ds-modal-description {
+  margin: var(--ds-space-1) 0 0;
+  font-size: var(--ds-font-size-base);
+  color: var(--ds-color-text-secondary);
+  line-height: var(--ds-font-line-height-normal);
+}
+
+.ds-modal .ds-modal-body {
+  font-size: var(--ds-font-size-base);
+  line-height: var(--ds-font-line-height-normal);
+  color: var(--ds-color-text-primary);
+  overflow-y: auto;
+}
+
+.ds-modal .ds-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ds-space-1);
+  padding-top: var(--ds-space-1);
+}
