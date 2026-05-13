@@ -5,8 +5,8 @@
 [Chromatic library](https://www.chromatic.com/library?appId=6001c9de8087c400212eb48e)
 
 A small, deliberately-scoped React component library showcasing the design-system patterns I reach for in production
-work: design tokens with light and dark themes, react-intl for translation, WCAG 2.1 AA accessibility throughout, JSDoc
-on every public surface, and a streaming AI assistant that answers questions about the library itself.
+work: design tokens with multiple color themes, react-intl for translation, WCAG 2.1 AA accessibility throughout, JSDoc
+on every public surface, and a focus on consistency in animation and spacing.
 
 ## What's in here
 
@@ -53,9 +53,8 @@ reader announcement, significantly more reliable than rolling those by hand.
 `AskAIProvider` interface lets consumers swap implementations without touching the chat surface. The default static
 provider ships with the bundle and works offline.
 
-**AGENTS.md is a real file.** AI agents are now contributors to many design systems. Treating their conventions as a
-first-class artifact (next to a CONTRIBUTING.md for humans) is overdue. The file documents file structure, JSDoc
-requirements, accessibility checklist, and the catalog-update workflow.
+**AGENTS.md is a real file.** AI agents are now contributors to many design systems. The file documents file structure, JSDoc
+requirements, accessibility checklist, and the catalog-update workflow for future agents to draw context from.
 
 ## Repo layout
 
@@ -69,6 +68,7 @@ src/
 │   ├── Card/
 │   ├── Modal/
 │   └── AskAI/           ← chat UI + providers + catalog
+├── foundations/         ← stories demonstrating JSON tokens
 ├── tokens/              ← JSON source + generated CSS / TS
 ├── i18n/                ← provider + en.json + es.json
 ├── icons/               ← createIcon factory + custom SVG icons
