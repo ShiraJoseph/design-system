@@ -5,7 +5,7 @@ import { TextInput } from '../TextInput';
 import { ArrowRight, Close } from '../../icons';
 import { MiniMarkdown } from './miniMarkdown';
 import { type AskAIProvider, staticProvider } from './providers';
-import { useAskAIModel } from './AskAI.Model';
+import { useAskAIModel } from './AskAI.model';
 
 export interface AskAIProps {
   /**

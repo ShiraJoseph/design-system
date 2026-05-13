@@ -1,5 +1,5 @@
 import { type HTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useToolbarItemModel } from './ToolbarItem.Model';
+import { useToolbarItemModel } from './ToolbarItem.model';
 
 export interface ToolbarItemProps extends HTMLAttributes<HTMLButtonElement> {
   /** Item id, matched against `Toolbar.selectedItemId` for segmented mode. */

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useButtonModel } from './Button.Model';
+import { useFABModel } from './FAB.model';
 
 const originalMatchMedia = window.matchMedia;
 
@@ -21,39 +21,39 @@ afterEach(() => {
   window.matchMedia = originalMatchMedia;
 });
 
-describe('useButtonModel', () => {
+describe('useFABModel', () => {
   it('returns bouncing=false initially', () => {
-    const {result} = renderHook(() => useButtonModel({quiet: false}));
+    const {result} = renderHook(() => useFABModel({quiet: false}));
     expect(result.current.bouncing).toBe(false);
   });
 
   it('handleClick triggers the bounce when quiet is false', () => {
-    const {result} = renderHook(() => useButtonModel({quiet: false}));
+    const {result} = renderHook(() => useFABModel({quiet: false}));
     act(() => result.current.handleClick({} as never));
     expect(result.current.bouncing).toBe(true);
   });
 
   it('handleClick skips the bounce when quiet is true', () => {
-    const {result} = renderHook(() => useButtonModel({quiet: true}));
+    const {result} = renderHook(() => useFABModel({quiet: true}));
     act(() => result.current.handleClick({} as never));
     expect(result.current.bouncing).toBe(false);
   });
 
-  it('handleClick forwards to the consumer onClick when provided', () => {
+  it('handleClick forwards to onClick when provided', () => {
     const onClick = vi.fn();
-    const {result} = renderHook(() => useButtonModel({quiet: false, onClick}));
-    const event = {currentTarget: {}} as never;
+    const {result} = renderHook(() => useFABModel({quiet: false, onClick}));
+    const event = {} as never;
     act(() => result.current.handleClick(event));
     expect(onClick).toHaveBeenCalledWith(event);
   });
 
-  it('handleClick is a no-op for the consumer when onClick is omitted', () => {
-    const {result} = renderHook(() => useButtonModel({quiet: false}));
+  it('handleClick survives a missing onClick', () => {
+    const {result} = renderHook(() => useFABModel({quiet: false}));
     expect(() => act(() => result.current.handleClick({} as never))).not.toThrow();
   });
 
   it('handleAnimationEnd clears the bouncing flag on ds-bounce', () => {
-    const {result} = renderHook(() => useButtonModel({quiet: false}));
+    const {result} = renderHook(() => useFABModel({quiet: false}));
     act(() => result.current.handleClick({} as never));
     act(() => result.current.handleAnimationEnd({animationName: 'ds-bounce'} as never));
     expect(result.current.bouncing).toBe(false);

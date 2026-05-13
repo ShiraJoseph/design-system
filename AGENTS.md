@@ -9,10 +9,13 @@ stays internally consistent.
 ```
 src/
 ├── components/<Name>/
-│   ├── <Name>.tsx           # Component implementation (TS, forwarded ref, JSDoc)
-│   ├── <Name>.module.css    # CSS Modules, uses tokens, never raw values
-│   ├── <Name>.stories.tsx   # Storybook stories with i18n + a11y tags
-│   └── index.ts             # Re-exports the component + types
+│   ├── <Name>.tsx           # JSX + props interface. JSDoc on the component and every prop.
+│   ├── <Name>.model.ts      # Effects, state, and helpers. Exposed via use<Name>Model hook.
+│   ├── <Name>.css           # Plain CSS, uses tokens via var(--ds-*), never raw values.
+│   ├── <Name>.stories.tsx   # Storybook stories with i18n + a11y tags.
+│   ├── <Name>.test.tsx      # Component-level tests.
+│   ├── <Name>.model.test.ts # Model-level tests (one test per logic branch).
+│   └── index.ts             # Re-exports the component + types.
 ├── tokens/                  # Single source of truth for tokens
 │   ├── tokens.json          # Edit this; run `npm run tokens:build`
 │   ├── tokens.css           # GENERATED, do not edit
@@ -24,26 +27,32 @@ src/
 
 ## Hard rules, every component must follow
 
-1. **Forwarded refs.** Always wrap with `forwardRef`. Consumers compose; refs
-   should not break that.
-2. **JSDoc on the component and on every public prop.** Storybook autodocs
+1. **`ref` is a regular prop.** React 19 dropped the need for `forwardRef`.
+   Add `ref?: Ref<HTMLElementName>` to the props interface and pass it through
+   to the underlying DOM element. Do not wrap components in `forwardRef`.
+2. **Component logic lives in `<Name>.model.ts`.** All effects, state, helpers,
+   and non-Props type definitions go in the model file, exposed as a single
+   `use<Name>Model` hook. The `.tsx` file holds the JSX, the props interface,
+   and the JSDoc. Filename is lowercase `.model.ts` (or `.model.tsx` if JSX
+   is involved), NOT `.Model.ts`.
+3. **JSDoc on the component and on every public prop.** Storybook autodocs
    reads these. Missing JSDoc means the docs page is missing a column.
-3. **No raw colors, sizes, shadows, or fonts in CSS.** Use `var(--ds-*)` tokens
+4. **No raw colors, sizes, shadows, or fonts in CSS.** Use `var(--ds-*)` tokens
    exclusively. If a needed value isn't in `tokens.json`, add it there first.
-4. **CSS Modules only.** No styled-components, no inline styles for visuals
-   (one-off layout in stories is fine).
-5. **Native semantics over ARIA.** Prefer `<button>`, `<dialog>`, `<input>`.
+5. **Plain CSS with `ds-*` class names.** No CSS Modules, no styled-components,
+   no inline styles for visuals (one-off layout in stories is fine).
+6. **Native semantics over ARIA.** Prefer `<button>`, `<dialog>`, `<input>`.
    Add ARIA only when no native equivalent exists.
-6. **Accessible name on every interactive element.** Either a visible label, a
+7. **Accessible name on every interactive element.** Either a visible label, a
    `<label htmlFor>`, an `aria-label`, or `aria-labelledby`. No exceptions.
-7. **Honor `prefers-reduced-motion`.** Wrap any animation longer than 100ms in
+8. **Honor `prefers-reduced-motion`.** Wrap any animation longer than 100ms in
    the global rule, or scope it inside `@media (prefers-reduced-motion: ...)`.
-8. **Touch targets.** Controls must be ≥ 44 × 44 CSS pixels under
+9. **Touch targets.** Controls must be ≥ 44 × 44 CSS pixels under
    `@media (pointer: coarse)`. Use the `--ds-size-tap-target-min` token.
-9. **i18n any internal strings.** Component-internal copy (e.g, modal close
-   label, "Required" badge) goes through `react-intl`. Add keys to
-   `src/i18n/messages/en.json` AND `es.json` together.
-10. **Update the catalog.** After adding a component, append a `CatalogComponent`
+10. **i18n any internal strings.** Component-internal copy (e.g. modal close
+    label, "Required" badge) goes through `react-intl`. Add keys to
+    `src/i18n/messages/en.json` AND `es.json` together.
+11. **Update the catalog.** After adding a component, append a `CatalogComponent`
     entry to `src/components/AskAI/catalog.ts` so `AskAI` can answer questions
     about it.
 
@@ -51,46 +60,68 @@ src/
 
 ```tsx
 // src/components/<Name>/<Name>.tsx
-import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
-import styles from './<Name>.module.css';
+import { type HTMLAttributes, type ReactNode, type Ref } from 'react';
+import { use<Name>Model } from './<Name>.model';
+import './<Name>.css';
 
-export interface
+/** Visual treatment. Defaults to `'default'`. */
+export type <Name>Variant = 'default' | 'subtle';
 
-<Name>Props extends HTMLAttributes<HTMLDivElement> {
+export interface <Name>Props extends HTMLAttributes<HTMLDivElement> {
   /** One-line JSDoc per prop. Be specific about defaults. */
-  variant ? : 'default' | 'subtle';
+  variant?: <Name>Variant;
   children: ReactNode;
+  ref?: Ref<HTMLDivElement>;
 }
 
-  /**
-  * One paragraph: when does a consumer reach for this component?
-  *
-  * Accessibility:
-  * - List the guarantees this component bakes in.
-  */
-  export const <Name> = forwardRef<HTMLDivElement, <Name>Props>(function <Name>(
-    {variant = 'default', className, children, ...rest},
-    ref,
-    ) {
-      const classes = [styles.root, styles[`variant-${variant}`], className]
-      .filter(Boolean)
-      .join(' ');
-      return (
-      <div ref={ref} className={classes} {...rest}>
-    {children}
-  </div>
-    );
-    });
+/**
+ * One paragraph: when does a consumer reach for this component?
+ *
+ * Accessibility:
+ * - List the guarantees this component bakes in.
+ */
+export const <Name> = ({
+  variant = 'default',
+  className,
+  children,
+  ref,
+  ...rest
+}: <Name>Props) => {
+  const {/* derived state from the model hook */} = use<Name>Model();
+
+  const classes = ['ds-<name>', `ds-variant-${variant}`, className]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <div ref={ref} className={classes} {...rest}>
+      {children}
+    </div>
+  );
+};
+```
+
+```ts
+// src/components/<Name>/<Name>.model.ts
+/**
+ * Holds effects, state, and helpers for <Name>. The component file consumes
+ * this hook and stays focused on JSX. One test per logic branch lives in
+ * <Name>.model.test.ts.
+ */
+export const use<Name>Model = () => {
+  // useState / useEffect / event handlers go here.
+  return {};
+};
 ```
 
 ```css
-/* src/components/<Name>/<Name>.module.css */
-.root {
+/* src/components/<Name>/<Name>.css */
+.ds-<name> {
   font-family: var(--ds-font-family-sans);
   color: var(--ds-color-text-primary);
 }
 
-.variant-default {
+.ds-<name>.ds-variant-default {
   /* tokens only */
 }
 ```
@@ -98,32 +129,24 @@ export interface
 ```tsx
 // src/components/<Name>/<Name>.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
+import { <Name> } from './<Name>';
 
-<Name> } from './<Name>';
-
-  const meta = {
-    title: 'Components/<Name>',
-    component: <Name>,
-    parameters: {layout: 'padded'},
+const meta = {
+  title: 'Components/<Name>',
+  component: <Name>,
+  parameters: { layout: 'padded' },
   tags: ['autodocs'],
-  } satisfies Meta
-  <typeof<Name>>;
+} satisfies Meta<typeof <Name>>;
 
-    export default meta;
-    type Story = StoryObj
-    <typeof meta>;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-      export const Default: Story = {};
+export const Default: Story = {};
 ```
 
 ```ts
 // src/components/<Name>/index.ts
-export {
-<Name>, type < Name > Props
-}
-from
-'./<Name>';
+export { <Name>, type <Name>Props } from './<Name>';
 ```
 
 After scaffolding, also:

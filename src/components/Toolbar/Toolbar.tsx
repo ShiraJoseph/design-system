@@ -1,8 +1,8 @@
 import { type HTMLAttributes, type KeyboardEvent, type ReactNode, type Ref } from 'react';
-import { type ToolbarOrientation, useToolbarModel } from './Toolbar.Model';
+import { type ToolbarOrientation, useToolbarModel } from './Toolbar.model';
 import './Toolbar.css';
 
-export type { ToolbarOrientation } from './Toolbar.Model';
+export type { ToolbarOrientation } from './Toolbar.model';
 
 export interface ToolbarProps extends HTMLAttributes<HTMLDivElement> {
   orientation?: ToolbarOrientation;

@@ -15,7 +15,7 @@ on every public surface, and a focus on consistency in animation and spacing.
 | **Design tokens** (`src/tokens`) | Single JSON source of truth → generated CSS variables (light / dark) and typed TS references. Two-tier: primitives (color scales) plus semantic aliases (`text.primary`, `action.danger.bg-hover`).                                                                            |
 | **i18n** (`src/i18n`)            | `react-intl` provider with bundled English + Spanish catalogs. Storybook ships a locale toolbar; flip it and every component re-renders with the active locale.                                                                                                                |
 | **Accessibility**                | `@storybook/addon-a11y` runs axe on every story. Components lean on native semantics (native `<dialog>`, native checkbox with `role="switch"`, real `<label htmlFor>`), honor `prefers-reduced-motion`, and enforce 44 × 44 CSS pixel touch targets under `(pointer: coarse)`. |
-| **Components**                   | Button, IconButton, TextInput, Toggle, Card (with subcomponents), Modal, plus an embeddable AskAI chat panel. Every component is `forwardRef`-wrapped, JSDoc'd, and tokenized.                                                                                                 |
+| **Components**                   | Button, IconButton, FAB, TextInput, Toggle, Checkbox, Radio, Card (with subcomponents), Modal, Stepper, Tabs, Toolbar, plus an embeddable AskAI chat panel. Every component is JSDoc'd, tokenized, and accepts `ref` as a regular prop (React 19, no `forwardRef`).            |
 | **AskAI**                        | Provider-pluggable assistant that answers questions about the library. Default `staticProvider` matches keywords against the in-repo catalog; pass any AsyncIterable-yielding provider (Anthropic, OpenAI, on-device) to swap the backend.                                     |
 | **Documentation**                | Storybook autodocs for components (built off JSDoc + TS prop types). TypeDoc covers hooks, utilities, providers, and tokens. AGENTS.md teaches AI agents how to add new components consistently.                                                                               |
 
@@ -63,10 +63,16 @@ src/
 ├── components/
 │   ├── Button/
 │   ├── IconButton/
+│   ├── FAB/
 │   ├── TextInput/
 │   ├── Toggle/
+│   ├── Checkbox/
+│   ├── Radio/
 │   ├── Card/
 │   ├── Modal/
+│   ├── Stepper/
+│   ├── Tabs/
+│   ├── Toolbar/
 │   └── AskAI/           ← chat UI + providers + catalog
 ├── foundations/         ← stories demonstrating JSON tokens
 ├── tokens/              ← JSON source + generated CSS / TS

@@ -1,8 +1,8 @@
 import type { HTMLAttributes, Ref } from 'react';
-import { type TabDescriptor, type TabsOrientation, useTabsModel } from './Tabs.Model';
+import { type TabDescriptor, type TabsOrientation, useTabsModel } from './Tabs.model';
 import './Tabs.css';
 
-export type { TabDescriptor, TabsOrientation } from './Tabs.Model';
+export type { TabDescriptor, TabsOrientation } from './Tabs.model';
 
 export interface TabsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Optional ref to the root element. */

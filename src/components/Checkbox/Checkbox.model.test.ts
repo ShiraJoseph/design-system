@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useCheckboxModel } from './Checkbox.Model';
+import { useCheckboxModel } from './Checkbox.model';
 
 const originalMatchMedia = window.matchMedia;
 

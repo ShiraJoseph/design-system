@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useRadioModel } from './Radio.Model';
+import { useRadioModel } from './Radio.model';
 
 const originalMatchMedia = window.matchMedia;
 
