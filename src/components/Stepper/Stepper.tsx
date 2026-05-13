@@ -5,7 +5,7 @@ import { StepperConnector } from './StepperConnector';
 import { StepperTrailingConnector } from './StepperTrailingConnector';
 import { StepperCompletionMark } from './StepperCompletionMark';
 import { StepperPanel } from './StepperPanel';
-import { useStepperModel } from './Stepper.Model';
+import { useStepperModel } from './Stepper.model';
 
 export type StepperOrientation = 'horizontal' | 'vertical';
 

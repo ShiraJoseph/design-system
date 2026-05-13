@@ -1,5 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useIconButtonModel } from './IconButton.Model';
+import { useIconButtonModel } from './IconButton.model';
 import './IconButton.css';
 
 /** Visual treatment of the icon button. */

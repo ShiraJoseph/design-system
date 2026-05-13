@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useToolbarItemModel } from './ToolbarItem.Model';
+import { useToolbarItemModel } from './ToolbarItem.model';
 
 describe('useToolbarItemModel', () => {
   it('composes onSelect and onClick when both are provided', () => {

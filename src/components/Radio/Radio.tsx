@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useRadioModel } from './Radio.Model';
+import { useRadioModel } from './Radio.model';
 import './Radio.css';
 
 export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {

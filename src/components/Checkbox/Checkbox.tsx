@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useCheckboxModel } from './Checkbox.Model';
+import { useCheckboxModel } from './Checkbox.model';
 import './Checkbox.css';
 
 export type CheckboxSize = 'sm' | 'md';

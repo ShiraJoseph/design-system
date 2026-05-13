@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useTextInputModel } from './TextInput.Model';
+import { useTextInputModel } from './TextInput.model';
 import './TextInput.css';
 
 /** Control size, matches `Button` so the two align in a form row. */

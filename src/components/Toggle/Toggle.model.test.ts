@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useToggleModel } from './Toggle.Model';
+import { useToggleModel } from './Toggle.model';
 
 const originalMatchMedia = window.matchMedia;
 

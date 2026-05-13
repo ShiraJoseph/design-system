@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { IntlProvider } from '../../i18n';
-import { useStepperModel } from './Stepper.Model';
+import { useStepperModel } from './Stepper.model';
 import type { StepDescriptor } from './Stepper';
 
 const wrapper = ({children}: { children: React.ReactNode }) => (

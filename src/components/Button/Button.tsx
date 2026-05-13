@@ -1,5 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useButtonModel } from './Button.Model';
+import { useButtonModel } from './Button.model';
 import './Button.css';
 
 /** Visual treatment of the button. */

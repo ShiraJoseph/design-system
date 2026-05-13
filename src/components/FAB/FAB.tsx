@@ -1,5 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useFABModel } from './FAB.Model';
+import { useFABModel } from './FAB.model';
 import './FAB.css';
 
 export type FABSize = 'md' | 'lg';

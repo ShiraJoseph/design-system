@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 import { IntlProvider } from '../../i18n/IntlProvider';
-import { useModalModel } from './Modal.Model';
+import { useModalModel } from './Modal.model';
 
 const wrapper = ({children}: { children: React.ReactNode }) => (
   <IntlProvider locale="en">{children}</IntlProvider>

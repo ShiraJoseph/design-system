@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 import './Modal.css';
 import { IconButton } from '../IconButton';
 import { Close } from '../../icons';
-import { useModalModel } from './Modal.Model';
+import { useModalModel } from './Modal.model';
 
 export interface ModalProps {
   /** Controls whether the modal is open. */

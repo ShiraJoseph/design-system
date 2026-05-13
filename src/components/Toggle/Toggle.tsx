@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useToggleModel } from './Toggle.Model';
+import { useToggleModel } from './Toggle.model';
 import './Toggle.css';
 
 export type ToggleSize = 'sm' | 'md';
