@@ -398,6 +398,22 @@ export const Shadows: Story = {
 };
 
 /**
+ * Parse a CSS time token (`160ms`, `.16s`, `0.16s`) into milliseconds.
+ * The production build minifies `ms` values into the shorter `s` form,
+ * so reading a duration token with a bare `parseFloat` (which assumes
+ * ms) yields a sub-millisecond value and the animation finishes before
+ * it is ever visible.
+ */
+const cssDurationToMs = (raw: string, fallback: number): number => {
+  const value = raw.trim();
+  const parsed = parseFloat(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  if (value.endsWith('ms')) return parsed;
+  if (value.endsWith('s')) return parsed * 1000;
+  return parsed;
+};
+
+/**
  * Motion demo: the Play button itself is the moving element. Click
  * runs the button along its track using the named duration or pattern.
  * The token name sits above the track so the button never has to share
@@ -429,11 +445,11 @@ const MotionDemo = ({
     ];
 
     if (kind === 'duration') {
-      duration = parseFloat(styles.getPropertyValue(`--ds-motion-duration-${name}`)) || 300;
+      duration = cssDurationToMs(styles.getPropertyValue(`--ds-motion-duration-${name}`), 300);
     } else if (kind === 'pattern' && name === 'bounce') {
       /* Numbers come from the production button bounce (translateY -6 /
          -2 at 15% / 65%); without this anchor they'd read as arbitrary. */
-      duration = parseFloat(styles.getPropertyValue('--ds-motion-duration-medium')) || 260;
+      duration = cssDurationToMs(styles.getPropertyValue('--ds-motion-duration-medium'), 260);
       keyframes = [
         {transform: 'translateY(0)', offset: 0},
         {transform: 'translateY(-6px)', offset: 0.15},
