@@ -88,7 +88,7 @@ const Swatch = ({name, value}: { name: string; value: string }) => {
   );
 };
 
-const ScaleRow = ({name, value}: { name: string; value: string }) => {
+const ScaleRow = ({name, value, preview = 'bar'}: { name: string; value: string; preview?: 'bar' | 'opacity' }) => {
   const resolved =
     typeof document !== 'undefined' && name.startsWith('--')
       ? getComputedStyle(document.documentElement).getPropertyValue(name).trim()
@@ -109,12 +109,23 @@ const ScaleRow = ({name, value}: { name: string; value: string }) => {
     >
       <code style={{fontSize: 'var(--ds-font-size-sm)'}}>{name}</code>
       <div style={{display: 'flex', alignItems: 'center', height: '1.5rem'}}>
-        <div style={{
-          height: 'var(--ds-border-width-heavy)',
-          width: value,
-          background: 'var(--ds-color-action-primary-bg)',
-          borderRadius: 'var(--ds-radius-full)'
-        }}/>
+        {preview === 'opacity' ? (
+          <div style={{
+            width: '100%',
+            height: '1rem',
+            background: 'var(--ds-color-action-primary-bg)',
+            borderRadius: 'var(--ds-radius-sm)',
+            WebkitMaskImage: `linear-gradient(to right, #000, rgba(0, 0, 0, ${value}))`,
+            maskImage: `linear-gradient(to right, #000, rgba(0, 0, 0, ${value}))`,
+          }}/>
+        ) : (
+          <div style={{
+            height: 'var(--ds-border-width-heavy)',
+            width: value,
+            background: 'var(--ds-color-action-primary-bg)',
+            borderRadius: 'var(--ds-radius-full)'
+          }}/>
+        )}
       </div>
       <code style={{
         fontSize: 'var(--ds-font-size-xs)',
@@ -687,7 +698,7 @@ export const Utilities: Story = {
       }}>Opacity</h3>
       <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-05)'}}>
         {OPACITY_VALUES.map((op) => (
-          <ScaleRow key={op} name={`--ds-opacity-${op}`} value={`var(--ds-opacity-${op})`}/>
+          <ScaleRow key={op} name={`--ds-opacity-${op}`} value={`var(--ds-opacity-${op})`} preview="opacity"/>
         ))}
       </div>
       <h3 style={{
