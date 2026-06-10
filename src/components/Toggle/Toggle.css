@@ -1,129 +1,129 @@
 .ds-toggle {
   font-family: var(--ds-font-family-sans), sans-serif;
   color: var(--ds-color-text-primary);
-}
 
-.ds-toggle .ds-row {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: var(--ds-space-2);
-  cursor: pointer;
-  user-select: none;
-}
+  .ds-row {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--ds-space-2);
+    cursor: pointer;
+    user-select: none;
+  }
 
-.ds-toggle.ds-disabled .ds-row {
-  cursor: not-allowed;
-  opacity: var(--ds-opacity-disabled);
-}
+  &.ds-disabled .ds-row {
+    cursor: not-allowed;
+    opacity: var(--ds-opacity-disabled);
+  }
 
-.ds-toggle .ds-control {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-}
+  .ds-control {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
 
-.ds-toggle.ds-size-md .ds-track {
-  width: var(--ds-space-5);
-  height: var(--ds-space-3);
-  border-radius: var(--ds-radius-full);
-  --ds-toggle-thumb-size: var(--ds-space-2);
-  --ds-toggle-thumb-inset: var(--ds-space-05);
-  --ds-toggle-slide: var(--ds-space-2);
-}
+  &.ds-size-md .ds-track {
+    width: var(--ds-space-5);
+    height: var(--ds-space-3);
+    border-radius: var(--ds-radius-full);
+    --ds-toggle-thumb-size: var(--ds-space-2);
+    --ds-toggle-thumb-inset: var(--ds-space-05);
+    --ds-toggle-slide: var(--ds-space-2);
+  }
 
-.ds-toggle.ds-size-sm .ds-track {
-  width: var(--ds-space-4);
-  height: var(--ds-space-2);
-  border-radius: var(--ds-radius-full);
-  --ds-toggle-thumb-size: var(--ds-space-1);
-  --ds-toggle-thumb-inset: var(--ds-space-05);
-  --ds-toggle-slide: var(--ds-space-2);
-}
+  &.ds-size-sm .ds-track {
+    width: var(--ds-space-4);
+    height: var(--ds-space-2);
+    border-radius: var(--ds-radius-full);
+    --ds-toggle-thumb-size: var(--ds-space-1);
+    --ds-toggle-thumb-inset: var(--ds-space-05);
+    --ds-toggle-slide: var(--ds-space-2);
+  }
 
-.ds-toggle .ds-input {
-  position: absolute;
-  inset: 0;
-  width: var(--ds-size-full);
-  height: var(--ds-size-full);
-  margin: 0;
-  opacity: 0;
-  cursor: inherit;
-  z-index: var(--ds-z-raised);
-}
+  .ds-input {
+    position: absolute;
+    inset: 0;
+    width: var(--ds-size-full);
+    height: var(--ds-size-full);
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+    z-index: var(--ds-z-raised);
+  }
 
-/* Track state (bg + border) snaps instantly when :checked flips. The
-   only motion is the thumb's composed slide-then-bounce. */
-.ds-toggle .ds-track {
-  display: inline-flex;
-  background: var(--ds-color-action-secondary-bg);
-  border: var(--ds-border-width-thin) solid var(--ds-color-action-secondary-border);
-  position: relative;
-}
+  /* Track state (bg + border) snaps instantly when :checked flips. The
+     only motion is the thumb's composed slide-then-bounce. */
+  .ds-track {
+    display: inline-flex;
+    background: var(--ds-color-action-secondary-bg);
+    border: var(--ds-border-width-thin) solid var(--ds-color-action-secondary-border);
+    position: relative;
+  }
 
-/* Thumb resting state. The :checked variant below swaps the CSS
-   variables so the thumb sits at either end of the track. The bounce
-   animation reads these same variables so the slide direction and the
-   back-toward-start bounce magnitudes always match the post-change
-   state. Bounce direction is back TOWARD start, never past target. */
-.ds-toggle .ds-thumb {
-  position: absolute;
-  top: var(--ds-toggle-thumb-inset);
-  left: var(--ds-toggle-thumb-inset);
-  width: var(--ds-toggle-thumb-size);
-  height: var(--ds-toggle-thumb-size);
-  background: var(--ds-color-action-secondary-fg);
-  border-radius: var(--ds-radius-full);
-  box-shadow: var(--ds-shadow-sm);
-  --slide-from: translateX(var(--ds-toggle-slide));
-  --slide-to: translateX(0);
-  --bounce-out: translateX(var(--ds-motion-bounce-translate-out));
-  --bounce-out-2: translateX(var(--ds-motion-bounce-translate-out-2));
-  transform: var(--slide-to);
-}
+  /* Thumb resting state. The :checked variant below swaps the CSS
+     variables so the thumb sits at either end of the track. The bounce
+     animation reads these same variables so the slide direction and the
+     back-toward-start bounce magnitudes always match the post-change
+     state. Bounce direction is back TOWARD start, never past target. */
+  .ds-thumb {
+    position: absolute;
+    top: var(--ds-toggle-thumb-inset);
+    left: var(--ds-toggle-thumb-inset);
+    width: var(--ds-toggle-thumb-size);
+    height: var(--ds-toggle-thumb-size);
+    background: var(--ds-color-action-secondary-fg);
+    border-radius: var(--ds-radius-full);
+    box-shadow: var(--ds-shadow-sm);
+    --slide-from: translateX(var(--ds-toggle-slide));
+    --slide-to: translateX(0);
+    --bounce-out: translateX(var(--ds-motion-bounce-translate-out));
+    --bounce-out-2: translateX(var(--ds-motion-bounce-translate-out-2));
+    transform: var(--slide-to);
+  }
 
-.ds-toggle .ds-input:checked ~ .ds-track {
-  background: var(--ds-color-action-primary-bg);
-  border-color: transparent;
-}
+  .ds-input:checked ~ .ds-track {
+    background: var(--ds-color-action-primary-bg);
+    border-color: transparent;
+  }
 
-.ds-toggle .ds-input:checked ~ .ds-track .ds-thumb {
-  background: var(--ds-color-action-primary-fg);
-  --slide-from: translateX(0);
-  --slide-to: translateX(var(--ds-toggle-slide));
-  --bounce-out: translateX(calc(var(--ds-toggle-slide) - var(--ds-motion-bounce-translate-out)));
-  --bounce-out-2: translateX(calc(var(--ds-toggle-slide) - var(--ds-motion-bounce-translate-out-2)));
-}
+  .ds-input:checked ~ .ds-track .ds-thumb {
+    background: var(--ds-color-action-primary-fg);
+    --slide-from: translateX(0);
+    --slide-to: translateX(var(--ds-toggle-slide));
+    --bounce-out: translateX(calc(var(--ds-toggle-slide) - var(--ds-motion-bounce-translate-out)));
+    --bounce-out-2: translateX(calc(var(--ds-toggle-slide) - var(--ds-motion-bounce-translate-out-2)));
+  }
 
-/* Animation is JS-triggered: Toggle.tsx adds `ds-bouncing` on change
-   and removes it on animationend. The class toggle restarts the
-   animation, so a single keyframe name handles both directions. */
-.ds-toggle .ds-thumb.ds-bouncing {
-  animation: ds-slide-bounce var(--ds-motion-duration-medium) linear forwards;
-}
+  /* Animation is JS-triggered: Toggle.tsx adds `ds-bouncing` on change
+     and removes it on animationend. The class toggle restarts the
+     animation, so a single keyframe name handles both directions. */
+  .ds-thumb.ds-bouncing {
+    animation: ds-slide-bounce var(--ds-motion-duration-medium) linear forwards;
+  }
 
-.ds-toggle .ds-input:focus-visible ~ .ds-track {
-  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
-  outline-offset: var(--ds-border-width-heavy);
-}
+  .ds-input:focus-visible ~ .ds-track {
+    outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+    outline-offset: var(--ds-border-width-heavy);
+  }
 
-.ds-toggle .ds-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-025);
-}
+  .ds-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-025);
+  }
 
-.ds-toggle .ds-label {
-  font-size: var(--ds-font-size-base);
-  font-weight: var(--ds-font-weight-medium);
-  line-height: var(--ds-font-line-height-snug);
-}
+  .ds-label {
+    font-size: var(--ds-font-size-base);
+    font-weight: var(--ds-font-weight-medium);
+    line-height: var(--ds-font-line-height-snug);
+  }
 
-.ds-toggle.ds-size-sm .ds-label {
-  font-size: var(--ds-font-size-sm);
-}
+  &.ds-size-sm .ds-label {
+    font-size: var(--ds-font-size-sm);
+  }
 
-.ds-toggle .ds-description {
-  font-size: var(--ds-font-size-sm);
-  color: var(--ds-color-text-secondary);
-  line-height: var(--ds-font-line-height-snug);
+  .ds-description {
+    font-size: var(--ds-font-size-sm);
+    color: var(--ds-color-text-secondary);
+    line-height: var(--ds-font-line-height-snug);
+  }
 }

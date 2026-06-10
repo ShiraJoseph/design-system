@@ -4,126 +4,126 @@
   gap: var(--ds-space-05);
   font-family: var(--ds-font-family-sans), sans-serif;
   color: var(--ds-color-text-primary);
-}
 
-.ds-text-input .ds-label {
-  font-size: var(--ds-font-size-sm);
-  font-weight: var(--ds-font-weight-bold);
-  color: var(--ds-color-text-primary);
-}
+  .ds-label {
+    font-size: var(--ds-font-size-sm);
+    font-weight: var(--ds-font-weight-bold);
+    color: var(--ds-color-text-primary);
+  }
 
-/* Asterisk for required fields. Muted by default; flips to the danger
-   color when the wrapper enters the error state. */
-.ds-text-input .ds-required-mark {
-  margin-left: var(--ds-space-025);
-  color: var(--ds-color-text-muted);
-  font-weight: var(--ds-font-weight-bold);
-}
+  /* Asterisk for required fields. Muted by default; flips to the danger
+     color when the wrapper enters the error state. */
+  .ds-required-mark {
+    margin-left: var(--ds-space-025);
+    color: var(--ds-color-text-muted);
+    font-weight: var(--ds-font-weight-bold);
+  }
 
-.ds-text-input.ds-errored .ds-required-mark {
-  color: var(--ds-color-text-danger);
-}
+  &.ds-errored .ds-required-mark {
+    color: var(--ds-color-text-danger);
+  }
 
-.ds-text-input .ds-field {
-  display: flex;
-  align-items: center;
-  background: var(--ds-color-bg-surface);
-  border: var(--ds-border-width-thin) solid var(--ds-color-border-default);
-  border-radius: var(--ds-radius-lg);
-}
+  .ds-field {
+    display: flex;
+    align-items: center;
+    background: var(--ds-color-bg-surface);
+    border: var(--ds-border-width-thin) solid var(--ds-color-border-default);
+    border-radius: var(--ds-radius-lg);
+  }
 
-.ds-text-input .ds-field:hover:not(:focus-within) {
-  border-color: var(--ds-color-border-strong);
-}
+  .ds-field:hover:not(:focus-within) {
+    border-color: var(--ds-color-border-strong);
+  }
 
-.ds-text-input .ds-field:focus-within {
-  border-color: var(--ds-color-border-focus);
-}
+  .ds-field:focus-within {
+    border-color: var(--ds-color-border-focus);
+  }
 
-.ds-text-input.ds-size-sm .ds-field {
-  height: var(--ds-size-control-sm);
-}
+  &.ds-size-sm .ds-field {
+    height: var(--ds-size-control-sm);
+  }
 
-.ds-text-input.ds-size-md .ds-field {
-  height: var(--ds-size-control-md);
-}
+  &.ds-size-md .ds-field {
+    height: var(--ds-size-control-md);
+  }
 
-.ds-text-input.ds-size-lg .ds-field {
-  height: var(--ds-size-control-lg);
-}
+  &.ds-size-lg .ds-field {
+    height: var(--ds-size-control-lg);
+  }
 
-.ds-text-input .ds-input {
-  flex: 1;
-  width: var(--ds-size-full);
-  height: var(--ds-size-full);
-  padding: 0 var(--ds-space-2);
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: var(--ds-font-size-base);
-  outline: none;
-}
+  .ds-input {
+    flex: 1;
+    width: var(--ds-size-full);
+    height: var(--ds-size-full);
+    padding: 0 var(--ds-space-2);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: var(--ds-font-size-base);
+    outline: none;
+  }
 
-.ds-text-input .ds-input::placeholder {
-  color: var(--ds-color-text-muted);
-}
+  .ds-input::placeholder {
+    color: var(--ds-color-text-muted);
+  }
 
-.ds-text-input.ds-size-sm .ds-input {
-  font-size: var(--ds-font-size-sm);
-}
+  &.ds-size-sm .ds-input {
+    font-size: var(--ds-font-size-sm);
+  }
 
-.ds-text-input .ds-leading-icon,
-.ds-text-input .ds-trailing-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ds-color-text-muted);
-  width: var(--ds-size-control-md);
-  height: var(--ds-size-full);
-  flex-shrink: 0;
-}
+  .ds-leading-icon,
+  .ds-trailing-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ds-color-text-muted);
+    width: var(--ds-size-control-md);
+    height: var(--ds-size-full);
+    flex-shrink: 0;
+  }
 
-.ds-text-input .ds-leading-icon + .ds-input {
-  padding-left: 0;
-}
+  .ds-leading-icon + .ds-input {
+    padding-left: 0;
+  }
 
-.ds-text-input .ds-helper {
-  margin: 0;
-  font-size: var(--ds-font-size-xs);
-  color: var(--ds-color-text-secondary);
-  line-height: var(--ds-font-line-height-snug);
-}
+  .ds-helper {
+    margin: 0;
+    font-size: var(--ds-font-size-xs);
+    color: var(--ds-color-text-secondary);
+    line-height: var(--ds-font-line-height-snug);
+  }
 
-/* Error text bounces LEFT (the only horizontal use of the bounce-up
-   family). Same 5-stop shape as Button/Modal, mirrored across the X
-   axis instead of Y. Draws the eye toward the field that needs
-   attention. */
-.ds-text-input .ds-error {
-  margin: 0;
-  font-size: var(--ds-font-size-xs);
-  font-weight: var(--ds-font-weight-bold);
-  color: var(--ds-color-text-danger);
-  line-height: var(--ds-font-line-height-snug);
-  --bounce-rest: translateX(0);
-  --bounce-out: translateX(calc(var(--ds-motion-bounce-translate-out) * -1));
-  --bounce-out-2: translateX(calc(var(--ds-motion-bounce-translate-out-2) * -1));
-  animation: ds-bounce var(--ds-motion-duration-medium) linear both;
-}
+  /* Error text bounces LEFT (the only horizontal use of the bounce-up
+     family). Same 5-stop shape as Button/Modal, mirrored across the X
+     axis instead of Y. Draws the eye toward the field that needs
+     attention. */
+  .ds-error {
+    margin: 0;
+    font-size: var(--ds-font-size-xs);
+    font-weight: var(--ds-font-weight-bold);
+    color: var(--ds-color-text-danger);
+    line-height: var(--ds-font-line-height-snug);
+    --bounce-rest: translateX(0);
+    --bounce-out: translateX(calc(var(--ds-motion-bounce-translate-out) * -1));
+    --bounce-out-2: translateX(calc(var(--ds-motion-bounce-translate-out-2) * -1));
+    animation: ds-bounce var(--ds-motion-duration-medium) linear both;
+  }
 
-.ds-text-input.ds-errored .ds-field {
-  border-color: var(--ds-color-text-danger);
-}
+  &.ds-errored .ds-field {
+    border-color: var(--ds-color-text-danger);
+  }
 
-.ds-text-input.ds-disabled {
-  opacity: var(--ds-opacity-disabled);
-}
+  &.ds-disabled {
+    opacity: var(--ds-opacity-disabled);
+  }
 
-.ds-text-input.ds-disabled .ds-field {
-  cursor: not-allowed;
-  background: var(--ds-color-bg-surface-sunk);
-}
+  &.ds-disabled .ds-field {
+    cursor: not-allowed;
+    background: var(--ds-color-bg-surface-sunk);
+  }
 
-.ds-text-input.ds-disabled .ds-input {
-  cursor: not-allowed;
+  &.ds-disabled .ds-input {
+    cursor: not-allowed;
+  }
 }

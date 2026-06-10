@@ -4,315 +4,347 @@
   color: var(--ds-color-text-primary);
   width: var(--ds-size-full);
   gap: var(--ds-space-3);
-}
 
-.ds-stepper.ds-orientation-horizontal {
-  flex-direction: column;
-}
+  &.ds-orientation-horizontal {
+    flex-direction: column;
+  }
 
-.ds-stepper.ds-orientation-vertical {
-  flex-direction: row;
-  align-items: flex-start;
-}
+  &.ds-orientation-vertical {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 
-.ds-stepper .ds-navigation {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: var(--ds-space-1);
-}
+  .ds-navigation {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--ds-space-1);
+  }
 
-.ds-stepper.ds-orientation-horizontal .ds-navigation {
-  flex-direction: row;
-}
+  &.ds-orientation-horizontal .ds-navigation {
+    flex-direction: row;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-navigation {
-  flex-direction: column;
-  align-items: flex-start;
-}
+  &.ds-orientation-vertical .ds-navigation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.ds-stepper .ds-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-}
+  .ds-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
 
-.ds-stepper.ds-orientation-horizontal .ds-list {
-  flex-direction: row;
-}
+  &.ds-orientation-horizontal .ds-list {
+    flex-direction: row;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-list {
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: var(--ds-space-12);
-}
+  &.ds-orientation-vertical .ds-list {
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: var(--ds-space-12);
+  }
 
-.ds-stepper .ds-step {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ds-space-1);
-  flex-shrink: 0;
-  position: relative;
-}
+  .ds-step {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ds-space-1);
+    flex-shrink: 0;
+    position: relative;
+  }
 
-/* Horizontal: lock .ds-step width to the indicator hit target so connectors
-   anchor to the visible circle's edge, not to a wider container that
-   the label might cause. The label sits absolutely below the indicator
-   and is allowed to be wider than the step. */
-.ds-stepper.ds-orientation-horizontal .ds-step {
-  flex-direction: column;
-  width: var(--ds-size-tap-target-min);
-}
+  /* Horizontal: lock .ds-step width to the indicator hit target so connectors
+     anchor to the visible circle's edge, not to a wider container that
+     the label might cause. The label sits absolutely below the indicator
+     and is allowed to be wider than the step. */
+  &.ds-orientation-horizontal .ds-step {
+    flex-direction: column;
+    width: var(--ds-size-tap-target-min);
+  }
 
-/* Label flows in-place under the indicator. Width matches the step so
-   it never extends past either side. Long descriptions wrap to
-   multiple lines. */
-.ds-stepper.ds-orientation-horizontal .ds-text {
-  width: var(--ds-size-tap-target-min);
-  text-align: center;
-}
+  /* Label flows in-place under the indicator. Width matches the step so
+     it never extends past either side. Long descriptions wrap to
+     multiple lines. */
+  &.ds-orientation-horizontal .ds-text {
+    width: var(--ds-size-tap-target-min);
+    text-align: center;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-step {
-  flex-direction: row;
-}
+  &.ds-orientation-vertical .ds-step {
+    flex-direction: row;
+  }
 
-/* Indicator: 44x44 hit target, 32x32 visible circle so the click area
-   extends generously beyond the visual. WCAG 2.5.5 AAA target size. */
-.ds-stepper .ds-indicator {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ds-size-tap-target-min);
-  height: var(--ds-size-tap-target-min);
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: default;
-  font-size: var(--ds-font-size-base);
-  font-weight: var(--ds-font-weight-bold);
-  font-family: var(--ds-font-family-mono), monospace;
-  color: var(--ds-color-text-secondary);
-}
+  /* Indicator: 44x44 hit target, 32x32 visible circle so the click area
+     extends generously beyond the visual. WCAG 2.5.5 AAA target size. */
+  .ds-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ds-size-tap-target-min);
+    height: var(--ds-size-tap-target-min);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: default;
+    font-size: var(--ds-font-size-base);
+    font-weight: var(--ds-font-weight-bold);
+    font-family: var(--ds-font-family-mono), monospace;
+    color: var(--ds-color-text-secondary);
+  }
 
-.ds-stepper button.ds-indicator {
-  cursor: pointer;
-}
+  button.ds-indicator {
+    cursor: pointer;
+  }
 
-.ds-stepper button.ds-indicator:focus-visible {
-  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
-  outline-offset: calc(var(--ds-border-width-heavy) * -1);
-  border-radius: var(--ds-radius-full);
-}
+  button.ds-indicator:focus-visible {
+    outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+    outline-offset: calc(var(--ds-border-width-heavy) * -1);
+    border-radius: var(--ds-radius-full);
+  }
 
-.ds-stepper .ds-indicator-inner {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ds-space-5);
-  height: var(--ds-space-5);
-  border-radius: var(--ds-radius-full);
-  background: var(--ds-color-bg-surface);
-  border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
-  box-sizing: border-box;
-}
+  .ds-indicator-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ds-space-5);
+    height: var(--ds-space-5);
+    border-radius: var(--ds-radius-full);
+    background: var(--ds-color-bg-surface);
+    border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
+    box-sizing: border-box;
+  }
 
-.ds-stepper .ds-indicator-number {
-  display: inline-block;
-}
+  .ds-indicator-number {
+    display: inline-block;
+  }
 
-.ds-stepper .ds-step[data-status='current'] .ds-indicator-inner {
-  border-color: var(--ds-color-action-primary-bg);
-  background: var(--ds-color-action-primary-bg);
-}
+  .ds-step[data-status='current'] .ds-indicator-inner {
+    border-color: var(--ds-color-action-primary-bg);
+    background: var(--ds-color-action-primary-bg);
+  }
 
-.ds-stepper .ds-step[data-status='current'] .ds-indicator {
-  color: var(--ds-color-action-primary-fg);
-}
+  .ds-step[data-status='current'] .ds-indicator {
+    color: var(--ds-color-action-primary-fg);
+  }
 
-.ds-stepper .ds-step[data-status='complete'] .ds-indicator-inner {
-  background: var(--ds-color-action-primary-bg);
-  border-color: var(--ds-color-action-primary-bg);
-}
+  .ds-step[data-status='complete'] .ds-indicator-inner {
+    background: var(--ds-color-action-primary-bg);
+    border-color: var(--ds-color-action-primary-bg);
+  }
 
-.ds-stepper .ds-step[data-status='complete'] .ds-indicator {
-  color: var(--ds-color-action-primary-fg);
-}
+  .ds-step[data-status='complete'] .ds-indicator {
+    color: var(--ds-color-action-primary-fg);
+  }
 
-.ds-stepper .ds-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-025);
-}
+  .ds-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-025);
+  }
 
-.ds-stepper.ds-orientation-horizontal .ds-text {
-  text-align: center;
-  align-items: center;
-}
+  &.ds-orientation-horizontal .ds-text {
+    text-align: center;
+    align-items: center;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-text {
-  text-align: left;
-  padding-block: var(--ds-space-025);
-}
+  &.ds-orientation-vertical .ds-text {
+    text-align: left;
+    padding-block: var(--ds-space-025);
+  }
 
-.ds-stepper .ds-label {
-  font-size: var(--ds-font-size-sm);
-  font-weight: var(--ds-font-weight-medium);
-  line-height: var(--ds-font-line-height-snug);
-}
+  .ds-label {
+    font-size: var(--ds-font-size-sm);
+    font-weight: var(--ds-font-weight-medium);
+    line-height: var(--ds-font-line-height-snug);
+  }
 
-.ds-stepper .ds-step[data-status='current'] .ds-label {
-  color: var(--ds-color-text-primary);
-}
+  .ds-step[data-status='current'] .ds-label {
+    color: var(--ds-color-text-primary);
+  }
 
-.ds-stepper .ds-step[data-status='upcoming'] .ds-label {
-  color: var(--ds-color-text-muted);
-}
+  .ds-step[data-status='upcoming'] .ds-label {
+    color: var(--ds-color-text-muted);
+  }
 
-.ds-stepper .ds-description {
-  font-size: var(--ds-font-size-xs);
-  color: var(--ds-color-text-secondary);
-  line-height: var(--ds-font-line-height-snug);
-}
+  .ds-description {
+    font-size: var(--ds-font-size-xs);
+    color: var(--ds-color-text-secondary);
+    line-height: var(--ds-font-line-height-snug);
+  }
 
-/* Connectors flex-grow based on position relative to the active step.
-   The connector immediately AFTER the active step (i.e., the one
-   connecting active to the next step) expands; all others shrink. */
-.ds-stepper .ds-connector {
-  flex-grow: 1;
-  background: var(--ds-color-border-default);
-  transition: flex-grow var(--ds-motion-duration-medium) var(--ds-motion-bounce);
-}
+  /* Connectors flex-grow based on position relative to the active step.
+     The connector immediately AFTER the active step (i.e., the one
+     connecting active to the next step) expands; all others shrink. */
+  .ds-connector {
+    flex-grow: 1;
+    background: var(--ds-color-border-default);
+    transition: flex-grow var(--ds-motion-duration-medium) var(--ds-motion-bounce);
+  }
 
-.ds-stepper .ds-connector[data-position='expanded'] {
-  flex-grow: 3;
-}
+  .ds-connector[data-position='expanded'] {
+    flex-grow: 3;
+  }
 
-.ds-stepper .ds-connector[data-position='normal'] {
-  flex-grow: 0.6;
-}
+  .ds-connector[data-position='normal'] {
+    flex-grow: 0.6;
+  }
 
-.ds-stepper .ds-connector[data-status='complete'] {
-  background: var(--ds-color-action-primary-bg);
-}
+  .ds-connector[data-status='complete'] {
+    background: var(--ds-color-action-primary-bg);
+  }
 
-/* Negative side-margins pull the connector under the .ds-step's hit-area
-   padding so the visible line runs continuously into the indicator
-   circle. The indicator paints on top via DOM order. The half-margin
-   is the gap between the .ds-step's edge and the visible indicator
-   circle (2 px on each side for md). */
-.ds-stepper.ds-orientation-horizontal .ds-connector {
-  height: var(--ds-border-width-thick);
-  align-self: flex-start;
-  margin: 0 calc((var(--ds-size-tap-target-min) - var(--ds-space-5)) / -2);
-  margin-top: calc(var(--ds-size-tap-target-min) / 2);
-  position: relative;
-  z-index: var(--ds-z-base);
-}
+  /* Negative side-margins pull the connector under the .ds-step's hit-area
+     padding so the visible line runs continuously into the indicator
+     circle. The indicator paints on top via DOM order. The half-margin
+     is the gap between the .ds-step's edge and the visible indicator
+     circle (2 px on each side for md). */
+  &.ds-orientation-horizontal .ds-connector {
+    height: var(--ds-border-width-thick);
+    align-self: flex-start;
+    margin: 0 calc((var(--ds-size-tap-target-min) - var(--ds-space-5)) / -2);
+    margin-top: calc(var(--ds-size-tap-target-min) / 2);
+    position: relative;
+    z-index: var(--ds-z-base);
+  }
 
-/* Vertical connector heights live as local custom properties so the
-   conservation invariant `trailing-expanded = expanded - normal` can
-   be enforced via calc() rather than a hand-maintained literal. Sized
-   for slide-then-bounce-back travel to be readable; the earlier
-   space-3 / space-6 values were too short to register the bounce. */
-.ds-stepper.ds-orientation-vertical {
-  --ds-stepper-connector-height-normal: 4rem;
-  --ds-stepper-connector-height-expanded: 12rem;
-}
+  /* Vertical connector heights live as local custom properties so the
+     conservation invariant `trailing-expanded = expanded - normal` can
+     be enforced via calc() rather than a hand-maintained literal. Sized
+     for slide-then-bounce-back travel to be readable; the earlier
+     space-3 / space-6 values were too short to register the bounce. */
+  &.ds-orientation-vertical {
+    --ds-stepper-connector-height-normal: 4rem;
+    --ds-stepper-connector-height-expanded: 12rem;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-connector {
-  width: var(--ds-border-width-thick);
-  height: var(--ds-stepper-connector-height-normal);
-  margin: calc((var(--ds-size-tap-target-min) - var(--ds-space-5)) / -2) 0;
-  margin-left: calc(var(--ds-size-tap-target-min) / 2);
-  position: relative;
-  z-index: var(--ds-z-base);
-  transition: height var(--ds-motion-duration-medium) var(--ds-motion-bounce);
-}
+  &.ds-orientation-vertical .ds-connector {
+    width: var(--ds-border-width-thick);
+    height: var(--ds-stepper-connector-height-normal);
+    margin: calc((var(--ds-size-tap-target-min) - var(--ds-space-5)) / -2) 0;
+    margin-left: calc(var(--ds-size-tap-target-min) / 2);
+    position: relative;
+    z-index: var(--ds-z-base);
+    transition: height var(--ds-motion-duration-medium) var(--ds-motion-bounce);
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-connector[data-position='expanded'] {
-  height: var(--ds-stepper-connector-height-expanded);
-}
+  &.ds-orientation-vertical .ds-connector[data-position='expanded'] {
+    height: var(--ds-stepper-connector-height-expanded);
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-connector[data-position='normal'] {
-  height: var(--ds-stepper-connector-height-normal);
-}
+  &.ds-orientation-vertical .ds-connector[data-position='normal'] {
+    height: var(--ds-stepper-connector-height-normal);
+  }
 
-/* Trailing connector. Width 0 (flex-grow: 0) when the active step isn't
-   the last one; expands to flex-grow 2.4 when it is. The 2.4 keeps the
-   total flex-grow constant across the transition: the in-between
-   connector that just lost "expanded" state goes 3 -> 0.6 (loses 2.4),
-   the trailing gains 0 -> 2.4. Net change: 0. The relationship is
-   trailing-expanded = connector-expanded - connector-normal. */
-.ds-stepper .ds-trailing-connector {
-  background: var(--ds-color-border-default);
-  flex-grow: 0;
-  transition: flex-grow var(--ds-motion-duration-medium) var(--ds-motion-bounce);
-}
+  /* Trailing connector. Width 0 (flex-grow: 0) when the active step isn't
+     the last one; expands to flex-grow 2.4 when it is. The 2.4 keeps the
+     total flex-grow constant across the transition: the in-between
+     connector that just lost "expanded" state goes 3 -> 0.6 (loses 2.4),
+     the trailing gains 0 -> 2.4. Net change: 0. The relationship is
+     trailing-expanded = connector-expanded - connector-normal. */
+  .ds-trailing-connector {
+    background: var(--ds-color-border-default);
+    flex-grow: 0;
+    transition: flex-grow var(--ds-motion-duration-medium) var(--ds-motion-bounce);
+  }
 
-.ds-stepper .ds-trailing-connector[data-position='expanded'] {
-  flex-grow: 2.4;
-}
+  .ds-trailing-connector[data-position='expanded'] {
+    flex-grow: 2.4;
+  }
 
-.ds-stepper .ds-trailing-connector[data-status='complete'] {
-  background: var(--ds-color-action-primary-bg);
-}
+  .ds-trailing-connector[data-status='complete'] {
+    background: var(--ds-color-action-primary-bg);
+  }
 
-.ds-stepper.ds-orientation-horizontal .ds-trailing-connector {
-  height: var(--ds-border-width-thick);
-  margin-top: calc(var(--ds-size-tap-target-min) / 2);
-  align-self: flex-start;
-}
+  &.ds-orientation-horizontal .ds-trailing-connector {
+    height: var(--ds-border-width-thick);
+    margin-top: calc(var(--ds-size-tap-target-min) / 2);
+    align-self: flex-start;
+  }
 
-.ds-stepper.ds-orientation-vertical .ds-trailing-connector {
-  width: var(--ds-border-width-thick);
-  height: 0;
-  margin-left: calc(var(--ds-size-tap-target-min) / 2);
-  transition: height var(--ds-motion-duration-medium) var(--ds-motion-bounce);
-}
+  &.ds-orientation-vertical .ds-trailing-connector {
+    width: var(--ds-border-width-thick);
+    height: 0;
+    margin-left: calc(var(--ds-size-tap-target-min) / 2);
+    transition: height var(--ds-motion-duration-medium) var(--ds-motion-bounce);
+  }
 
-/* Conservation: trailing-expanded = connector-expanded - connector-normal,
-   so reaching the last step doesn't make the column taller. Expressed
-   as a calc() so adjusting either height keeps the invariant intact. */
-.ds-stepper.ds-orientation-vertical .ds-trailing-connector[data-position='expanded'] {
-  height: calc(var(--ds-stepper-connector-height-expanded) - var(--ds-stepper-connector-height-normal));
-}
+  /* Conservation: trailing-expanded = connector-expanded - connector-normal,
+     so reaching the last step doesn't make the column taller. Expressed
+     as a calc() so adjusting either height keeps the invariant intact. */
+  &.ds-orientation-vertical .ds-trailing-connector[data-position='expanded'] {
+    height: calc(var(--ds-stepper-connector-height-expanded) - var(--ds-stepper-connector-height-normal));
+  }
 
-/* Completion mark sits as a flex sibling of the <ol>, NOT inside the
-   trailing connector. The gap between the ol and the mark is the
-   navigation flex gap; both the gap and the mark are outside the
-   indicators-and-connectors flex pool, so they don't affect step
-   positions. */
-.ds-stepper .ds-completion-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--ds-space-3);
-  height: var(--ds-space-3);
-  border-radius: var(--ds-radius-full);
-  color: var(--ds-color-text-success);
-  flex-shrink: 0;
-  visibility: hidden;
-  align-self: flex-start;
-}
+  /* Completion mark sits as a flex sibling of the <ol>, NOT inside the
+     trailing connector. The gap between the ol and the mark is the
+     navigation flex gap; both the gap and the mark are outside the
+     indicators-and-connectors flex pool, so they don't affect step
+     positions. */
+  .ds-completion-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ds-space-3);
+    height: var(--ds-space-3);
+    border-radius: var(--ds-radius-full);
+    color: var(--ds-color-text-success);
+    flex-shrink: 0;
+    visibility: hidden;
+    align-self: flex-start;
+  }
 
-/* Horizontal: align mark center with the indicator centerline (which
-   sits at tap-target-min / 2 from ol's top), not with the ol's full
-   height (labels make it taller). */
-.ds-stepper.ds-orientation-horizontal .ds-completion-mark {
-  margin-top: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
-}
+  /* Horizontal: align mark center with the indicator centerline (which
+     sits at tap-target-min / 2 from ol's top), not with the ol's full
+     height (labels make it taller). */
+  &.ds-orientation-horizontal .ds-completion-mark {
+    margin-top: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
+  }
 
-/* Vertical: align mark center with the indicator column (indicator
-   center at tap-target-min / 2 from ol's left). */
-.ds-stepper.ds-orientation-vertical .ds-completion-mark {
-  margin-left: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
-}
+  /* Vertical: align mark center with the indicator column (indicator
+     center at tap-target-min / 2 from ol's left). */
+  &.ds-orientation-vertical .ds-completion-mark {
+    margin-left: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
+  }
 
-.ds-stepper .ds-completion-mark[data-visible='true'] {
-  visibility: visible;
+  .ds-completion-mark[data-visible='true'] {
+    visibility: visible;
+  }
+
+  /* Panel viewport hides the panel's overflow during slide entrance. The
+     block-axis padding gives a comfortable gap between nav and panel in
+     horizontal layout; in vertical the gap belongs to the .ds-stepper's flex
+     gap, so the padding is zeroed below. */
+  .ds-panel-viewport {
+    flex: 1;
+    overflow: hidden;
+    padding: var(--ds-space-2) 0;
+  }
+
+  &.ds-orientation-vertical .ds-panel-viewport {
+    padding: 0;
+  }
+
+  .ds-panel {
+    font-size: var(--ds-font-size-base);
+    line-height: var(--ds-font-line-height-normal);
+    color: var(--ds-color-text-primary);
+  }
+
+  /* Zero outer margins on the panel's first / last block-level child so
+     content's top edge aligns with the panel viewport top (in vertical
+     orientation, with the first indicator) instead of getting pushed
+     down by default <p> / <h*> margins. */
+  .ds-panel > :first-child {
+    margin-top: 0;
+  }
+
+  .ds-panel > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -320,38 +352,6 @@
   .ds-stepper .ds-trailing-connector {
     transition: none;
   }
-}
-
-/* Panel viewport hides the panel's overflow during slide entrance. The
-   block-axis padding gives a comfortable gap between nav and panel in
-   horizontal layout; in vertical the gap belongs to the .ds-stepper's flex
-   gap, so the padding is zeroed below. */
-.ds-stepper .ds-panel-viewport {
-  flex: 1;
-  overflow: hidden;
-  padding: var(--ds-space-2) 0;
-}
-
-.ds-stepper.ds-orientation-vertical .ds-panel-viewport {
-  padding: 0;
-}
-
-.ds-stepper .ds-panel {
-  font-size: var(--ds-font-size-base);
-  line-height: var(--ds-font-line-height-normal);
-  color: var(--ds-color-text-primary);
-}
-
-/* Zero outer margins on the panel's first / last block-level child so
-   content's top edge aligns with the panel viewport top (in vertical
-   orientation, with the first indicator) instead of getting pushed
-   down by default <p> / <h*> margins. */
-.ds-stepper .ds-panel > :first-child {
-  margin-top: 0;
-}
-
-.ds-stepper .ds-panel > :last-child {
-  margin-bottom: 0;
 }
 
 /* Stepper panel content is text and gets no animation per the
