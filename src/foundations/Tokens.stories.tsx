@@ -111,12 +111,11 @@ const ScaleRow = ({name, value, preview = 'bar'}: { name: string; value: string;
       <div style={{display: 'flex', alignItems: 'center', height: '1.5rem'}}>
         {preview === 'opacity' ? (
           <div style={{
-            width: '100%',
-            height: '1rem',
+            width: '6rem',
+            height: 'var(--ds-border-width-heavy)',
             background: 'var(--ds-color-action-primary-bg)',
-            borderRadius: 'var(--ds-radius-sm)',
-            WebkitMaskImage: `linear-gradient(to right, #000, rgba(0, 0, 0, ${value}))`,
-            maskImage: `linear-gradient(to right, #000, rgba(0, 0, 0, ${value}))`,
+            borderRadius: 'var(--ds-radius-full)',
+            opacity: value,
           }}/>
         ) : (
           <div style={{
