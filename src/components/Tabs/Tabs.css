@@ -42,7 +42,7 @@
     cursor: pointer;
     font: inherit;
     font-size: var(--ds-font-size-sm);
-    font-weight: var(--ds-font-weight-medium);
+    font-weight: var(--ds-font-weight-regular);
     color: var(--ds-color-text-secondary);
     white-space: nowrap;
     padding: var(--ds-space-2) var(--ds-space-2);

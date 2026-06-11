@@ -27,7 +27,7 @@ const sectionStyle: React.CSSProperties = {
 const sectionTitleStyle: React.CSSProperties = {
   fontFamily: 'var(--ds-font-family-display), sans-serif',
   fontSize: 'var(--ds-font-size-xl)',
-  fontWeight: 'var(--ds-font-weight-bold)',
+  fontWeight: 'var(--ds-font-weight-semibold)',
   letterSpacing: 'var(--ds-font-letter-spacing-tight)',
   margin: 0,
 };
@@ -81,7 +81,7 @@ const Swatch = ({name, value}: { name: string; value: string }) => {
         {!isColor && value}
       </div>
       <div style={{fontFamily: 'var(--ds-font-family-mono), monospace', fontSize: 'var(--ds-font-size-xs)'}}>
-        <div style={{fontWeight: 'var(--ds-font-weight-bold)', wordBreak: 'break-all'}}>{name}</div>
+        <div style={{fontWeight: 'var(--ds-font-weight-semibold)', wordBreak: 'break-all'}}>{name}</div>
         <div style={{color: 'var(--ds-color-text-muted)'}}>{resolved || value}</div>
       </div>
     </div>
@@ -217,10 +217,10 @@ const COLOR_SEMANTIC_GROUPS: Array<[string, string[]]> = [
 const SPACE_SCALE = ['025', '05', '075', '1', '2', '3', '4', '5', '6', '8', '12'];
 const RADIUS_SCALE = ['sm', 'md', 'lg', 'xl', '2xl', 'full'];
 const FONT_SIZES = ['xs', 'sm', 'base', 'md', 'lg', 'xl'];
-const FONT_WEIGHTS = ['regular', 'medium', 'semibold', 'bold'];
+const FONT_WEIGHTS = ['regular', 'semibold'];
 const FONT_FAMILIES: Array<[string, string]> = [
   ['sans', 'Atkinson Hyperlegible'],
-  ['display', 'Atkinson Hyperlegible (display weight)'],
+  ['display', 'Bricolage Grotesque'],
   ['mono', 'JetBrains Mono'],
 ];
 const SHADOWS = ['sm', 'md', 'lg'];
@@ -489,7 +489,7 @@ const MotionDemo = ({
       }}
     >
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 'var(--ds-space-2)'}}>
-        <code style={{fontSize: 'var(--ds-font-size-sm)', fontWeight: 'var(--ds-font-weight-bold)'}}>
+        <code style={{fontSize: 'var(--ds-font-size-sm)', fontWeight: 'var(--ds-font-weight-semibold)'}}>
           {kind === 'pattern' ? `pattern · ${name}` : `--ds-motion-${kind}-${name}`}
         </code>
         {description && (
@@ -519,7 +519,7 @@ const MotionDemo = ({
             borderRadius: 'var(--ds-radius-md)',
             font: 'inherit',
             fontSize: 'var(--ds-font-size-sm)',
-            fontWeight: 'var(--ds-font-weight-bold)',
+            fontWeight: 'var(--ds-font-weight-semibold)',
             cursor: 'pointer',
           }}
         >

@@ -24,7 +24,7 @@
     margin: 0;
     font-family: var(--ds-font-family-display), sans-serif;
     font-size: var(--ds-font-size-lg);
-    font-weight: var(--ds-font-weight-bold);
+    font-weight: var(--ds-font-weight-semibold);
     letter-spacing: var(--ds-font-letter-spacing-tight);
     line-height: var(--ds-font-line-height-snug);
   }
@@ -61,7 +61,7 @@
     margin: 0;
     font-family: var(--ds-font-family-display), sans-serif;
     font-size: var(--ds-font-size-md);
-    font-weight: var(--ds-font-weight-bold);
+    font-weight: var(--ds-font-weight-semibold);
     color: var(--ds-color-text-secondary);
   }
 
@@ -125,7 +125,7 @@
 
     strong {
       color: var(--ds-color-text-primary);
-      font-weight: var(--ds-font-weight-bold);
+      font-weight: var(--ds-font-weight-semibold);
     }
 
     em {

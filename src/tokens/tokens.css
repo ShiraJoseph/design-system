@@ -54,7 +54,7 @@
   --ds-radius-2xl: 1.75rem;
   --ds-radius-full: 9999px;
   --ds-font-family-sans: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --ds-font-family-display: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ds-font-family-display: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --ds-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --ds-font-size-xs: 0.75rem;
   --ds-font-size-sm: 0.875rem;
@@ -63,9 +63,7 @@
   --ds-font-size-lg: 1.25rem;
   --ds-font-size-xl: 1.5rem;
   --ds-font-weight-regular: 400;
-  --ds-font-weight-medium: 500;
   --ds-font-weight-semibold: 600;
-  --ds-font-weight-bold: 700;
   --ds-font-line-height-snug: 1.25;
   --ds-font-line-height-normal: 1.5;
   --ds-font-letter-spacing-tight: -0.015em;

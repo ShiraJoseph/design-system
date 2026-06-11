@@ -48,7 +48,7 @@
     margin: 0;
     font-family: var(--ds-font-family-display), sans-serif;
     font-size: var(--ds-font-size-xl);
-    font-weight: var(--ds-font-weight-bold);
+    font-weight: var(--ds-font-weight-semibold);
     line-height: var(--ds-font-line-height-snug);
     letter-spacing: var(--ds-font-letter-spacing-tight);
     color: var(--ds-color-text-primary);

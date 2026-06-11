@@ -128,7 +128,7 @@
 
   .ds-label {
     font-size: var(--ds-font-size-base);
-    font-weight: var(--ds-font-weight-medium);
+    font-weight: var(--ds-font-weight-regular);
     line-height: var(--ds-font-line-height-snug);
   }
 

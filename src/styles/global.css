@@ -7,7 +7,7 @@
  * legible voice, varying only weight and size.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Bricolage+Grotesque:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -45,7 +45,7 @@ body::before {
 
 h1, h2, h3, h4, h5 {
   font-family: var(--ds-font-family-display), sans-serif;
-  font-weight: var(--ds-font-weight-bold);
+  font-weight: var(--ds-font-weight-semibold);
   letter-spacing: var(--ds-font-letter-spacing-tight);
   line-height: var(--ds-font-line-height-snug);
   margin: 0;
