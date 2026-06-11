@@ -1,9 +1,18 @@
 .ds-stepper {
+  /* Calibrated size for the completed-step check glyph (shared
+     CheckBold icon). Named per CODE_STYLE rather than a bare literal. */
+  --ds-stepper-check-size: 1.25rem;
+
   display: flex;
   font-family: var(--ds-font-family-sans), sans-serif;
   color: var(--ds-color-text-primary);
   width: var(--ds-size-full);
   gap: var(--ds-space-3);
+
+  .ds-stepper-check {
+    width: var(--ds-stepper-check-size);
+    height: var(--ds-stepper-check-size);
+  }
 
   &.ds-orientation-horizontal {
     flex-direction: column;

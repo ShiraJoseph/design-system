@@ -29,6 +29,7 @@ export const tokens = {
   "sizeFull": 'var(--ds-size-full)',
   "sizeViewport": 'var(--ds-size-viewport)',
   "sizeIcon": 'var(--ds-size-icon)',
+  "sizeIconLg": 'var(--ds-size-icon-lg)',
   "sizeModalMaxWidth": 'var(--ds-size-modal-max-width)',
   "sizeModalMaxWidthVw": 'var(--ds-size-modal-max-width-vw)',
   "sizeModalMaxHeight": 'var(--ds-size-modal-max-height)',

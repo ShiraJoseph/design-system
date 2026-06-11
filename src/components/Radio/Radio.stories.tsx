@@ -22,7 +22,7 @@ export const Group: Story = {
     const [value, setValue] = useState('email');
 
     return (
-      <div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
+      <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-2)'}}>
         <Radio
           name="contact"
           value="email"

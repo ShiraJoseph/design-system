@@ -1,4 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
+import { CheckBold } from '../../icons';
 import { useCheckboxModel } from './Checkbox.model';
 import './Checkbox.css';
 
@@ -93,15 +94,7 @@ export const Checkbox = ({
             aria-hidden="true"
             onAnimationEnd={handleBoxAnimationEnd}
           >
-            <svg className="ds-check" viewBox="0 0 16 16" fill="none">
-              <path
-                d="m3.5 8.5 3 3 6-7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <CheckBold className="ds-check"/>
             <span className="ds-dash"/>
           </span>
         </span>

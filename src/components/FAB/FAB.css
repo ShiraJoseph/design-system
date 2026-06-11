@@ -89,8 +89,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.25em;
-    height: 1.25em;
+    width: var(--ds-size-icon-lg);
+    height: var(--ds-size-icon-lg);
     flex-shrink: 0;
   }
 
