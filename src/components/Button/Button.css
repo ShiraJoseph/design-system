@@ -5,7 +5,7 @@
   justify-content: center;
   gap: var(--ds-space-1);
 
-  font-family: var(--ds-font-family-sans), sans-serif;
+  font-family: var(--ds-font-family-display), sans-serif;
   font-weight: var(--ds-font-weight-semibold);
   letter-spacing: var(--ds-font-letter-spacing-tight);
   line-height: 1;
