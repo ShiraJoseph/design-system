@@ -7,7 +7,6 @@
   cursor: pointer;
   font-family: var(--ds-font-family-display), sans-serif;
   font-weight: var(--ds-font-weight-semibold);
-  letter-spacing: var(--ds-font-letter-spacing-tight);
   border-radius: var(--ds-radius-full);
   box-shadow: var(--ds-shadow-lg);
 

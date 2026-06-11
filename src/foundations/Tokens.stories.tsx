@@ -28,7 +28,6 @@ const sectionTitleStyle: React.CSSProperties = {
   fontFamily: 'var(--ds-font-family-display), sans-serif',
   fontSize: 'var(--ds-font-size-xl)',
   fontWeight: 'var(--ds-font-weight-semibold)',
-  letterSpacing: 'var(--ds-font-letter-spacing-tight)',
   margin: 0,
 };
 

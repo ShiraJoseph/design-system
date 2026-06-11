@@ -25,7 +25,6 @@
     font-family: var(--ds-font-family-display), sans-serif;
     font-size: var(--ds-font-size-lg);
     font-weight: var(--ds-font-weight-semibold);
-    letter-spacing: var(--ds-font-letter-spacing-tight);
     line-height: var(--ds-font-line-height-snug);
   }
 
@@ -33,7 +32,6 @@
     margin: var(--ds-space-025) 0 0;
     font-size: var(--ds-font-size-xs);
     color: var(--ds-color-text-muted);
-    letter-spacing: var(--ds-font-letter-spacing-wide);
     font-family: var(--ds-font-family-mono), monospace;
   }
 
@@ -132,7 +130,6 @@
       color: var(--ds-color-text-muted);
       font-style: normal;
       font-size: var(--ds-font-size-xs);
-      letter-spacing: var(--ds-font-letter-spacing-wide);
       text-transform: uppercase;
       font-family: var(--ds-font-family-mono), monospace;
       display: block;

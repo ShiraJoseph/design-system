@@ -66,8 +66,6 @@ export const tokens = {
   "fontWeightSemibold": 'var(--ds-font-weight-semibold)',
   "fontLineHeightSnug": 'var(--ds-font-line-height-snug)',
   "fontLineHeightNormal": 'var(--ds-font-line-height-normal)',
-  "fontLetterSpacingTight": 'var(--ds-font-letter-spacing-tight)',
-  "fontLetterSpacingWide": 'var(--ds-font-letter-spacing-wide)',
   "motionDurationFast": 'var(--ds-motion-duration-fast)',
   "motionDurationMedium": 'var(--ds-motion-duration-medium)',
   "motionDurationSlow": 'var(--ds-motion-duration-slow)',

@@ -66,8 +66,6 @@
   --ds-font-weight-semibold: 600;
   --ds-font-line-height-snug: 1.25;
   --ds-font-line-height-normal: 1.5;
-  --ds-font-letter-spacing-tight: -0.015em;
-  --ds-font-letter-spacing-wide: 0.04em;
   --ds-motion-duration-fast: 160ms;
   --ds-motion-duration-medium: 260ms;
   --ds-motion-duration-slow: 640ms;
