@@ -1,5 +1,6 @@
 import './AskAI.css';
 import { Button } from '../Button';
+import { Card } from '../Card';
 import { IconButton } from '../IconButton';
 import { TextInput } from '../TextInput';
 import { ArrowRight, Close } from '../../icons';
@@ -70,10 +71,13 @@ export const AskAI = ({
   const heading = title ?? 'Ask the design system';
 
   return (
-    <section
+    <Card
       className={['ds-ask-ai', className].filter(Boolean).join(' ')}
-      style={{maxHeight: maxHeight ?? 'min(560px, 70vh)'}}
+      elevation="raised"
+      padding="lg"
+      role="region"
       aria-label={heading}
+      style={maxHeight ? {maxHeight} : undefined}
     >
       <header className="ds-header">
         <div>
@@ -177,6 +181,6 @@ export const AskAI = ({
           </Button>
         )}
       </form>
-    </section>
+    </Card>
   );
 };

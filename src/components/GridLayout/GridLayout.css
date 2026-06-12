@@ -1,0 +1,18 @@
+.ds-grid-layout {
+  display: grid;
+  /* One gap for every size, so grids of different `size` on the same page
+     align to a shared rhythm and the column math stays predictable. */
+  gap: var(--ds-space-3);
+
+  &.ds-grid-layout-size-sm {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-sm), 100%), 1fr));
+  }
+
+  &.ds-grid-layout-size-md {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-md), 100%), 1fr));
+  }
+
+  &.ds-grid-layout-size-lg {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-lg), 100%), 1fr));
+  }
+}

@@ -94,10 +94,12 @@ describe('AskAI', () => {
     expect(document.querySelector('.ds-cite')).toBeInTheDocument();
   });
 
-  it('renders the supplied className on the section', () => {
+  it('renders as a Card region with the supplied className', () => {
     renderWithIntl(<AskAI provider={makeStubProvider('hi')} className="extra"/>);
-    const section = document.querySelector('section.ds-ask-ai');
-    expect(section?.className).toMatch(/extra/);
+    const region = document.querySelector('.ds-ask-ai.ds-card');
+    expect(region).not.toBeNull();
+    expect(region?.getAttribute('role')).toBe('region');
+    expect(region?.className).toMatch(/extra/);
   });
 });
 

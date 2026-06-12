@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Card, CardHeader, CardBody } from '../components/Card';
+import { Card } from '../components/Card';
+import { GridLayout } from '../components/GridLayout';
 import { Button } from '../components/Button';
 
 const meta = {
@@ -18,44 +19,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const sectionStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.75rem', // 0.75rem: no token (space-075 = 0.375rem)
-  marginBottom: 'var(--ds-space-4)',
-};
-
-const sectionTitleStyle: React.CSSProperties = {
-  fontFamily: 'var(--ds-font-family-display), sans-serif',
-  fontSize: 'var(--ds-font-size-xl)',
-  fontWeight: 'var(--ds-font-weight-semibold)',
-  margin: 0,
-};
-
-const sectionLeadStyle: React.CSSProperties = {
-  fontSize: 'var(--ds-font-size-sm)',
-  color: 'var(--ds-color-text-secondary)',
-  margin: 0,
-  maxWidth: '60ch', // 60ch: character-based measure, no token
-};
-
-const swatchGridStyle: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', // 140px: no token at this min-card width
-  gap: 'var(--ds-space-1)',
-};
-
-const subheadingStyle: React.CSSProperties = {
-  fontSize: 'var(--ds-font-size-md)',
-  fontWeight: 'var(--ds-font-weight-semibold)',
-  margin: 'var(--ds-space-3) 0 var(--ds-space-1)',
-};
-
-const subheading = (top: React.CSSProperties['marginTop']): React.CSSProperties => ({
-  ...subheadingStyle,
-  marginTop: top,
-});
 
 const Swatch = ({name, value}: { name: string; value: string }) => {
   const isColor = /^(#|rgb|var|hsl)/i.test(value) || value.includes('color');
@@ -105,40 +68,37 @@ const ScaleRow = ({name, value, preview = 'bar'}: { name: string; value: string;
       : '';
 
   return (
-    <Card
-      elevation="flat"
-      padding="sm"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '18rem 1fr var(--ds-space-12)', // 18rem: label column, no token
-        alignItems: 'center',
-        gap: 'var(--ds-space-2)',
-      }}
-    >
-      <code style={{fontSize: 'var(--ds-font-size-sm)'}}>{name}</code>
-      <div style={{display: 'flex', alignItems: 'center', height: 'var(--ds-space-3)'}}>
-        {preview === 'opacity' ? (
-          <div style={{
-            width: '6rem',
-            height: 'var(--ds-border-width-heavy)',
-            background: 'var(--ds-color-action-primary-bg)',
-            borderRadius: 'var(--ds-radius-full)',
-            opacity: value,
-          }}/>
-        ) : (
-          <div style={{
-            height: 'var(--ds-border-width-heavy)',
-            width: value,
-            background: 'var(--ds-color-action-primary-bg)',
-            borderRadius: 'var(--ds-radius-full)'
-          }}/>
-        )}
-      </div>
-      <code style={{
-        fontSize: 'var(--ds-font-size-xs)',
-        color: 'var(--ds-color-text-muted)',
-        textAlign: 'right'
-      }}>{resolved || value}</code>
+    <Card elevation="flat" padding="sm">
+      <GridLayout size="sm">
+        <code style={{fontSize: 'var(--ds-font-size-sm)', alignSelf: 'center', minWidth: 0}}>{name}</code>
+        <div style={{display: 'flex', alignItems: 'center', height: 'var(--ds-space-3)', minWidth: 0}}>
+          {preview === 'opacity' ? (
+            <div style={{
+              width: 'var(--ds-space-12)',
+              maxWidth: '100%',
+              height: 'var(--ds-border-width-heavy)',
+              background: 'var(--ds-color-action-primary-bg)',
+              borderRadius: 'var(--ds-radius-full)',
+              opacity: value,
+            }}/>
+          ) : (
+            <div style={{
+              height: 'var(--ds-border-width-heavy)',
+              width: value,
+              maxWidth: '100%',
+              background: 'var(--ds-color-action-primary-bg)',
+              borderRadius: 'var(--ds-radius-full)'
+            }}/>
+          )}
+        </div>
+        <code style={{
+          fontSize: 'var(--ds-font-size-xs)',
+          color: 'var(--ds-color-text-muted)',
+          alignSelf: 'center',
+          textAlign: 'right',
+          whiteSpace: 'nowrap'
+        }}>{resolved || value}</code>
+      </GridLayout>
     </Card>
   );
 };
@@ -150,24 +110,19 @@ const TypeRow = ({name, sample}: { name: string; sample: React.ReactNode }) => {
       : '';
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '18rem 1fr auto',
-        alignItems: 'baseline',
-        gap: 'var(--ds-space-2)',
-        padding: 'var(--ds-space-05) 0',
-        borderBottom: 'var(--ds-border-width-thin) solid var(--ds-color-border-subtle)',
-      }}
-    >
-      <code style={{fontSize: 'var(--ds-font-size-xs)', color: 'var(--ds-color-text-muted)'}}>{name}</code>
-      {sample}
-      <code style={{
-        fontSize: 'var(--ds-font-size-xs)',
-        color: 'var(--ds-color-text-muted)',
-        textAlign: 'right'
-      }}>{resolved}</code>
-    </div>
+    <Card elevation="flat" padding="sm">
+      <GridLayout size="sm">
+        <code style={{fontSize: 'var(--ds-font-size-xs)', color: 'var(--ds-color-text-muted)', alignSelf: 'center', minWidth: 0}}>{name}</code>
+        {sample}
+        <code style={{
+          fontSize: 'var(--ds-font-size-xs)',
+          color: 'var(--ds-color-text-muted)',
+          alignSelf: 'center',
+          textAlign: 'right',
+          minWidth: 0
+        }}>{resolved}</code>
+      </GridLayout>
+    </Card>
   );
 };
 
@@ -239,22 +194,22 @@ const SIZE_CONTROL = ['sm', 'md', 'lg'];
 
 export const ColorPrimitives: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Color · Primitives</h2>
-      <p style={sectionLeadStyle}>
+    <div className="story-section">
+      <h2 className="story-section-title">Color · Primitives</h2>
+      <p className="story-section-lead">
         Base palettes the semantic tokens reference. Avoid using these directly in components — reach for a semantic
         alias instead.
       </p>
       {COLOR_PRIMITIVES.map(([family, shades]) => (
         <div key={family} style={{marginTop: 'var(--ds-space-2)'}}>
-          <h3 style={subheading(0)}>{family}</h3>
-          <div style={swatchGridStyle}>
+          <h3 className="story-subheading">{family}</h3>
+          <GridLayout size="sm">
             {shades.map((shade) => {
               const name = `--ds-primitive-color-${family.toLowerCase()}-${shade}`;
 
               return <Swatch key={shade} name={name} value={`var(${name})`}/>;
             })}
-          </div>
+          </GridLayout>
         </div>
       ))}
     </div>
@@ -263,18 +218,18 @@ export const ColorPrimitives: Story = {
 
 export const ColorSemantic: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Color · Semantic</h2>
-      <p style={sectionLeadStyle}>
+    <div className="story-section">
+      <h2 className="story-section-title">Color · Semantic</h2>
+      <p className="story-section-lead">
         The right alias to reach for in component code. They re-target between light and dark themes. Grouped by purpose
         so you can scan to the row you need.
       </p>
       {COLOR_SEMANTIC_GROUPS.map(([group, names]) => (
         <div key={group} style={{marginTop: 'var(--ds-space-3)'}}>
-          <h3 style={subheading(0)}>{group}</h3>
-          <div style={swatchGridStyle}>
+          <h3 className="story-subheading">{group}</h3>
+          <GridLayout size="sm">
             {names.map((name) => <Swatch key={name} name={name} value={`var(${name})`}/>)}
-          </div>
+          </GridLayout>
         </div>
       ))}
     </div>
@@ -283,9 +238,9 @@ export const ColorSemantic: Story = {
 
 export const Spacing: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Spacing scale</h2>
-      <p style={sectionLeadStyle}>4 px base. Every component padding, margin, and gap reaches into this scale.</p>
+    <div className="story-section">
+      <h2 className="story-section-title">Spacing scale</h2>
+      <p className="story-section-lead">4 px base. Every component padding, margin, and gap reaches into this scale.</p>
       <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-05)'}}>
         {SPACE_SCALE.map((step) => {
           const name = `--ds-space-${step}`;
@@ -299,8 +254,8 @@ export const Spacing: Story = {
 
 export const Radii: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Border radius</h2>
+    <div className="story-section">
+      <h2 className="story-section-title">Border radius</h2>
       <div style={{display: 'flex', gap: 'var(--ds-space-2)', flexWrap: 'wrap'}}>
         {RADIUS_SCALE.map((step) => {
           const name = `--ds-radius-${step}`;
@@ -327,40 +282,46 @@ export const Radii: Story = {
 
 export const Typography: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Typography</h2>
-      <p style={sectionLeadStyle}>
+    <div className="story-section">
+      <h2 className="story-section-title">Typography</h2>
+      <p className="story-section-lead">
         Atkinson Hyperlegible across the system. Sizes are rem-based so text scales with the user's browser font-size
         preference.
       </p>
       <div>
-        <h3 style={subheading('var(--ds-space-2)')}>Families</h3>
-        {FONT_FAMILIES.map(([key, label]) => (
-          <TypeRow key={key} name={`--ds-font-family-${key}`} sample={
-            <span style={{
-              fontFamily: `var(--ds-font-family-${key}), ${key === 'mono' ? 'monospace' : 'sans-serif'}`,
-              fontSize: 'var(--ds-font-size-md)'
-            }}>
-              The quick brown fox · {label}
-            </span>
-          }/>
-        ))}
+        <h3 className="story-subheading">Families</h3>
+        <div className="story-scale-list">
+          {FONT_FAMILIES.map(([key, label]) => (
+            <TypeRow key={key} name={`--ds-font-family-${key}`} sample={
+              <span style={{
+                fontFamily: `var(--ds-font-family-${key}), ${key === 'mono' ? 'monospace' : 'sans-serif'}`,
+                fontSize: 'var(--ds-font-size-md)'
+              }}>
+                The quick brown fox · {label}
+              </span>
+            }/>
+          ))}
+        </div>
       </div>
       <div>
-        <h3 style={subheadingStyle}>Sizes</h3>
-        {FONT_SIZES.map((size) => (
-          <TypeRow key={size} name={`--ds-font-size-${size}`} sample={
-            <span style={{fontSize: `var(--ds-font-size-${size})`}}>The quick brown fox</span>
-          }/>
-        ))}
+        <h3 className="story-subheading">Sizes</h3>
+        <div className="story-scale-list">
+          {FONT_SIZES.map((size) => (
+            <TypeRow key={size} name={`--ds-font-size-${size}`} sample={
+              <span style={{fontSize: `var(--ds-font-size-${size})`}}>The quick brown fox</span>
+            }/>
+          ))}
+        </div>
       </div>
       <div>
-        <h3 style={subheadingStyle}>Weights</h3>
-        {FONT_WEIGHTS.map((weight) => (
-          <TypeRow key={weight} name={`--ds-font-weight-${weight}`} sample={
-            <span style={{fontWeight: `var(--ds-font-weight-${weight})`, fontSize: 'var(--ds-font-size-md)'}}>The quick brown fox</span>
-          }/>
-        ))}
+        <h3 className="story-subheading">Weights</h3>
+        <div className="story-scale-list">
+          {FONT_WEIGHTS.map((weight) => (
+            <TypeRow key={weight} name={`--ds-font-weight-${weight}`} sample={
+              <span style={{fontWeight: `var(--ds-font-weight-${weight})`, fontSize: 'var(--ds-font-size-md)'}}>The quick brown fox</span>
+            }/>
+          ))}
+        </div>
       </div>
     </div>
   ),
@@ -368,15 +329,14 @@ export const Typography: Story = {
 
 export const Shadows: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Shadows</h2>
-      <div style={{display: 'flex', gap: 'var(--ds-space-3)', flexWrap: 'wrap', padding: 'var(--ds-space-2)'}}>
+    <div className="story-section">
+      <h2 className="story-section-title">Shadows</h2>
+      <GridLayout size="sm">
         {SHADOWS.map((shadow) => (
           <div
             key={shadow}
             style={{
-              width: '8rem', // 8rem / 5rem: demo tile size, no token
-              height: '5rem',
+              minHeight: 'var(--ds-space-12)',
               background: 'var(--ds-color-bg-surface)',
               borderRadius: 'var(--ds-radius-md)',
               boxShadow: `var(--ds-shadow-${shadow})`,
@@ -390,7 +350,7 @@ export const Shadows: Story = {
             {shadow}
           </div>
         ))}
-      </div>
+      </GridLayout>
     </div>
   ),
 };
@@ -435,10 +395,20 @@ const MotionDemo = ({
     if (!node) return;
     const styles = getComputedStyle(document.documentElement);
 
+    // Travel one length token, capped to the track so the button never crosses
+    // the right edge on a narrow screen: min(token, track width − button width).
+    // (A CSS `translateX(min(token, 100%))` can't do this — transform `%` is
+    // relative to the moving element, not the track.)
+    const rootFontPx = parseFloat(styles.fontSize) || 16;
+    const trackRaw = styles.getPropertyValue('--ds-size-surface-sm').trim();
+    const trackTokenPx = trackRaw.endsWith('rem') ? parseFloat(trackRaw) * rootFontPx : parseFloat(trackRaw);
+    const maxTravel = Math.max(0, (node.parentElement?.clientWidth ?? 0) - node.offsetWidth);
+    const travel = Math.min(trackTokenPx, maxTravel);
+
     let duration = 300;
     let keyframes: Keyframe[] = [
       {transform: 'translateX(0)'},
-      {transform: 'translateX(260px)'},
+      {transform: `translateX(${travel}px)`},
       {transform: 'translateX(0)'},
     ];
 
@@ -487,8 +457,7 @@ const MotionDemo = ({
       <div
         style={{
           position: 'relative',
-          minHeight: '2.25rem', // 2.25rem: track height matching button, no token
-          padding: '0',
+          minHeight: 'var(--ds-size-control-md)',
         }}
       >
         <Button variant="primary" size="sm" ref={buttonRef} onClick={play} style={{position: 'absolute', top: 0, left: 0}}>▸ Play</Button>
@@ -505,9 +474,9 @@ const MOTION_DURATION_DESC: Record<string, string> = {
 
 export const Motion: Story = {
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Motion</h2>
-      <p style={sectionLeadStyle}>
+    <div className="story-section">
+      <h2 className="story-section-title">Motion</h2>
+      <p className="story-section-lead">
         Click any Play button to run the button itself along its track using that exact token. The duration cards travel
         out and back so you can feel each timing value; the pattern card plays the real button-bounce keyframe used
         across the system (linear travel out, linear bounce-back toward start, linear settle, smaller bounce-back,
@@ -527,112 +496,28 @@ export const Motion: Story = {
   ),
 };
 
-const DemoCard = ({title, body}: { title: string; body: string }) => (
-  <Card>
-    <CardHeader><h4>{title}</h4></CardHeader>
-    <CardBody>{body}</CardBody>
-  </Card>
-);
-
-const LAYOUT_DEMO_CARDS = [
-  {title: 'Daily summary', body: 'Yesterday you closed 14 tasks and merged 2 PRs. Streak: 12 days.'},
-  {title: 'Reading queue', body: 'Three articles you saved this week. Estimated total: 22 minutes.'},
-  {title: 'Inbox health', body: 'Inbox at 7 unread, all routed. Two items waiting on responses.'},
-  {title: 'Calendar', body: '3 meetings today: standup, design crit, 1:1 with Pat at 4pm.'},
-  {title: 'Open questions', body: '5 threads where you owe a reply. Oldest is 36 hours old.'},
-  {title: 'Health check', body: 'All services nominal. Last incident: 11 days ago.'},
-];
-
-export const LayoutPatterns: Story = {
-  name: 'Layout · responsive patterns',
-  render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Layout · responsive card grid</h2>
-      <p style={sectionLeadStyle}>
-        Resize the Storybook canvas (or your browser) to see the columns reflow. The demo uses
-        <code style={{margin: '0 var(--ds-space-05)', fontFamily: 'var(--ds-font-family-mono), monospace'}}>display: grid</code>
-        with
-        <code style={{margin: '0 var(--ds-space-05)', fontFamily: 'var(--ds-font-family-mono), monospace'}}>grid-template-columns:
-          repeat(auto-fit, minmax(16rem, 1fr))</code>
-        and a gap pulled from the token scale. Below ~640px you get one column; medium widths give two; wider canvases
-        give three or more.
-      </p>
-
-      <h3 style={subheadingStyle}>
-        Default gap (--ds-space-3 = 1.5rem)
-      </h3>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))', // 16rem: min card width, no token
-          gap: 'var(--ds-space-3)',
-        }}
-      >
-        {LAYOUT_DEMO_CARDS.map((card) => <DemoCard key={card.title} {...card} />)}
-      </div>
-
-      <h3 style={subheading('var(--ds-space-4)')}>
-        Tighter gap (--ds-space-2 = 1rem)
-      </h3>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))', // 16rem: min card width, no token
-          gap: 'var(--ds-space-2)',
-        }}
-      >
-        {LAYOUT_DEMO_CARDS.slice(0, 4).map((card) => <DemoCard key={card.title} {...card} />)}
-      </div>
-
-      <h3 style={subheading('var(--ds-space-4)')}>
-        Generous gap (--ds-space-4 = 2rem) and larger cards (minmax(20rem, 1fr))
-      </h3>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(20rem, 1fr))', // 20rem: larger min card width, no token
-          gap: 'var(--ds-space-4)',
-        }}
-      >
-        {LAYOUT_DEMO_CARDS.slice(0, 3).map((card) => <DemoCard key={card.title} {...card} />)}
-      </div>
-
-      <p style={{
-        marginTop: 'var(--ds-space-3)',
-        fontSize: 'var(--ds-font-size-sm)',
-        color: 'var(--ds-color-text-secondary)'
-      }}>
-        Recipe in components: pick a comfortable minimum card width (16rem default, 20rem for content-heavy), pair with
-        one of <code>--ds-space-2</code>, <code>--ds-space-3</code>, or <code>--ds-space-4</code> as the gap, let the
-        browser fill in. No media queries needed for this pattern; column count is implicit from min-card-width vs.
-        container width.
-      </p>
-    </div>
-  ),
-};
-
 export const Utilities: Story = {
   name: 'Utilities · borders, opacity, sizes',
   render: () => (
-    <div style={sectionStyle}>
-      <h2 style={sectionTitleStyle}>Utility scales · borders, opacity, sizes</h2>
-      <p style={sectionLeadStyle}>
+    <div className="story-section">
+      <h2 className="story-section-title">Utility scales · borders, opacity, sizes</h2>
+      <p className="story-section-lead">
         The smaller utility scales: border thicknesses, opacity steps for muted/disabled states, and the named control
         sizes that Button / TextInput / Toggle / Radio share.
       </p>
-      <h3 style={subheading('var(--ds-space-2)')}>Border widths</h3>
+      <h3 className="story-subheading">Border widths</h3>
       <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-05)'}}>
         {BORDER_WIDTHS.map((width) => (
           <ScaleRow key={width} name={`--ds-border-width-${width}`} value={`var(--ds-border-width-${width})`}/>
         ))}
       </div>
-      <h3 style={subheadingStyle}>Opacity</h3>
+      <h3 className="story-subheading">Opacity</h3>
       <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-05)'}}>
         {OPACITY_VALUES.map((op) => (
           <ScaleRow key={op} name={`--ds-opacity-${op}`} value={`var(--ds-opacity-${op})`} preview="opacity"/>
         ))}
       </div>
-      <h3 style={subheadingStyle}>Control sizes</h3>
+      <h3 className="story-subheading">Control sizes</h3>
       <div style={{display: 'flex', flexDirection: 'column', gap: 'var(--ds-space-05)'}}>
         {SIZE_CONTROL.map((size) => (
           <ScaleRow key={size} name={`--ds-size-control-${size}`} value={`var(--ds-size-control-${size})`}/>

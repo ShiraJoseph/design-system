@@ -15,6 +15,7 @@ export * from './components/IconButton';
 export * from './components/TextInput';
 export * from './components/Toggle';
 export * from './components/Card';
+export * from './components/GridLayout';
 export * from './components/Modal';
 export * from './components/AskAI';
 export * from './components/Checkbox';

@@ -37,7 +37,7 @@ export const Default: Story = {};
 
 export const Variants: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '0.5rem'}}>
+    <div className="story-row">
       <IconButton aria-label="Settings" icon={<Settings/>} variant="primary"/>
       <IconButton aria-label="Settings" icon={<Settings/>} variant="secondary"/>
       <IconButton aria-label="Delete" icon={<Trash/>} variant="danger"/>
@@ -48,7 +48,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+    <div className="story-row">
       <IconButton aria-label="Close" icon={<Close/>} size="sm"/>
       <IconButton aria-label="Close" icon={<Close/>} size="md"/>
       <IconButton aria-label="Close" icon={<Close/>} size="lg"/>
@@ -58,7 +58,7 @@ export const Sizes: Story = {
 
 export const Circles: Story = {
   render: () => (
-    <div style={{display: 'flex', gap: '0.5rem'}}>
+    <div className="story-row">
       <IconButton aria-label="Settings" icon={<Settings/>} shape="circle" variant="primary"/>
       <IconButton aria-label="Settings" icon={<Settings/>} shape="circle" variant="secondary"/>
       <IconButton aria-label="Delete" icon={<Trash/>} shape="circle" variant="danger"/>

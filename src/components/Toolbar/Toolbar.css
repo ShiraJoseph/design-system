@@ -1,13 +1,10 @@
+/* Renders as a Card (raised elevation, sm padding for an 8px gutter) —
+   background, border, radius, shadow, and padding all come from Card. Only the
+   toolbar's layout lives here. */
 .ds-toolbar {
   display: inline-flex;
   align-items: center;
   gap: var(--ds-space-05);
-  padding: var(--ds-space-05);
-  background: var(--ds-color-bg-surface);
-  border: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
-  border-radius: var(--ds-radius-lg);
-  box-shadow: var(--ds-shadow-sm);
-  font-family: var(--ds-font-family-sans), sans-serif;
 
   &.ds-orientation-horizontal {
     flex-direction: row;

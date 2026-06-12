@@ -1,0 +1,86 @@
+/**
+ * Layout helpers for Storybook demos only — NOT part of the shipped
+ * component surface, hence the `story-` prefix rather than `ds-`. Imported
+ * once from .storybook/preview.tsx. Every value comes from a token.
+ */
+
+/* A wrapping row of demo items. */
+.story-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-space-1);
+}
+
+/* A row of actions pushed to the trailing edge (e.g. Back / Next). */
+.story-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ds-space-1);
+}
+
+/* A stacked column of demo items. */
+.story-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+}
+
+/* A tight vertical stack of token-scale rows (each row is a flat Card). */
+.story-scale-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-05);
+}
+
+/* A token-reference section: title, lead, and content stacked. */
+.story-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-1);
+  margin-bottom: var(--ds-space-4);
+}
+
+.story-section-title {
+  font-family: var(--ds-font-family-display), sans-serif;
+  font-size: var(--ds-font-size-xl);
+  font-weight: var(--ds-font-weight-semibold);
+  margin: 0;
+}
+
+.story-section-lead {
+  font-size: var(--ds-font-size-sm);
+  color: var(--ds-color-text-secondary);
+  margin: 0;
+}
+
+.story-subheading {
+  font-size: var(--ds-font-size-md);
+  font-weight: var(--ds-font-weight-semibold);
+  margin: var(--ds-space-3) 0 var(--ds-space-1);
+}
+
+/* Frame a single-component demo to a narrow surface width. */
+.story-frame-sm {
+  max-width: var(--ds-size-surface-sm);
+}
+
+/* Frame a demo to the wide surface width. */
+.story-frame-lg {
+  max-width: var(--ds-size-surface-lg);
+}
+
+/* Stepper demo wrapper: a capped column. */
+.story-stepper-frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+  max-width: var(--ds-size-surface-lg);
+}
+
+/* Vertical orientation reserves a min height so the Back/Next buttons stay
+   put when the trailing connector expands on the last step. */
+.story-stepper-frame--vertical {
+  min-height: var(--ds-size-surface-sm);
+  justify-content: space-between;
+}

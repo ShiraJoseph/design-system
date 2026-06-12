@@ -1,17 +1,16 @@
 .ds-stepper {
-  /* Calibrated size for the completed-step check glyph (shared
-     CheckBold icon). Named per CODE_STYLE rather than a bare literal. */
-  --ds-stepper-check-size: 1.25rem;
-
   display: flex;
   font-family: var(--ds-font-family-sans), sans-serif;
   color: var(--ds-color-text-primary);
   width: var(--ds-size-full);
   gap: var(--ds-space-3);
 
+  /* Completed-step check: sized by font-size off the standard scale, like
+     every other icon (width/height = --ds-size-icon = 1em). */
   .ds-stepper-check {
-    width: var(--ds-stepper-check-size);
-    height: var(--ds-stepper-check-size);
+    width: var(--ds-size-icon);
+    height: var(--ds-size-icon);
+    font-size: var(--ds-font-size-lg);
   }
 
   &.ds-orientation-horizontal {
@@ -226,8 +225,8 @@
      for slide-then-bounce-back travel to be readable; the earlier
      space-3 / space-6 values were too short to register the bounce. */
   &.ds-orientation-vertical {
-    --ds-stepper-connector-height-normal: 4rem;
-    --ds-stepper-connector-height-expanded: 12rem;
+    --ds-stepper-connector-height-normal: var(--ds-space-8);
+    --ds-stepper-connector-height-expanded: calc(var(--ds-space-12) * 2);
   }
 
   &.ds-orientation-vertical .ds-connector {

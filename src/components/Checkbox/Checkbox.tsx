@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { CheckBold } from '../../icons';
+import { Check, Minus } from '../../icons';
 import { useCheckboxModel } from './Checkbox.model';
 import './Checkbox.css';
 
@@ -94,8 +94,8 @@ export const Checkbox = ({
             aria-hidden="true"
             onAnimationEnd={handleBoxAnimationEnd}
           >
-            <CheckBold className="ds-check"/>
-            <span className="ds-dash"/>
+            <Check className="ds-check"/>
+            <Minus className="ds-dash"/>
           </span>
         </span>
         <span className="ds-text">

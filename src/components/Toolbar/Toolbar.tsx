@@ -1,5 +1,6 @@
 import { type HTMLAttributes, type KeyboardEvent, type ReactNode, type Ref } from 'react';
 import { type ToolbarOrientation, useToolbarModel } from './Toolbar.model';
+import { Card } from '../Card';
 import './Toolbar.css';
 
 export type { ToolbarOrientation } from './Toolbar.model';
@@ -67,8 +68,10 @@ export const Toolbar = ({
     .join(' ');
 
   return (
-    <div
+    <Card
       ref={setMergedRef}
+      elevation="raised"
+      padding="sm"
       role="toolbar"
       aria-label={ariaLabel}
       aria-orientation={orientation}
@@ -78,6 +81,6 @@ export const Toolbar = ({
       {...rest}
     >
       {children}
-    </div>
+    </Card>
   );
 };

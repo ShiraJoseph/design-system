@@ -40,6 +40,11 @@
     border-radius: var(--ds-radius-sm);
   }
 
+  &.ds-size-sm .ds-check,
+  &.ds-size-sm .ds-dash {
+    font-size: var(--ds-font-size-xs);
+  }
+
   .ds-input {
     position: absolute;
     inset: 0;
@@ -52,7 +57,8 @@
   }
 
   /* State changes (border + bg) snap instantly. The only motion is the
-     .ds-bouncing scale pop applied via the shared rule. */
+     .ds-bouncing scale pop applied via the shared rule, which scales the
+     whole box (border + check) together. */
   .ds-box {
     position: relative;
     display: inline-flex;
@@ -62,24 +68,30 @@
     border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
   }
 
-  /* Check + dash appear / disappear instantly via opacity. The bounce
-     lives on the parent .ds-box so the entire check-and-border unit
-     scales together. translateZ(0) keeps the SVG on its own compositor
-     layer so its stroke stays sub-pixel stable across the bounce. */
+  /* Check + dash appear / disappear instantly via opacity. The bounce on
+     the parent .ds-box scales the check along with the border. Sized by
+     font-size off the standard scale like every other icon
+     (width/height = --ds-size-icon = 1em); the glyph is inset within its
+     viewBox so it keeps a gap from the border. */
   .ds-check {
-    width: 75%;
-    height: 75%;
+    width: var(--ds-size-icon);
+    height: var(--ds-size-icon);
+    font-size: var(--ds-font-size-base);
     color: var(--ds-color-action-primary-bg);
     opacity: 0;
-    transform: translateZ(0);
   }
 
+  /* Indeterminate mark: the Minus icon, sized by font-size like .ds-check.
+     Absolutely centered so it overlays the (hidden) check without affecting
+     the box layout. */
   .ds-dash {
     position: absolute;
-    width: 70%;
-    height: var(--ds-border-width-heavy);
-    background: var(--ds-color-action-primary-bg);
-    border-radius: var(--ds-radius-sm);
+    inset: 0;
+    margin: auto;
+    width: var(--ds-size-icon);
+    height: var(--ds-size-icon);
+    font-size: var(--ds-font-size-base);
+    color: var(--ds-color-action-primary-bg);
     opacity: 0;
   }
 

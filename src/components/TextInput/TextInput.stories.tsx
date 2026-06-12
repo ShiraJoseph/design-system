@@ -28,7 +28,7 @@ const meta = {
     size: 'md',
   },
   decorators: [
-    (Story) => <div style={{maxWidth: 360}}><Story/></div>,
+    (Story) => <div className="story-frame-sm"><Story/></div>,
   ],
 } satisfies Meta<typeof TextInput>;
 
@@ -73,7 +73,7 @@ export const Disabled: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+    <div className="story-col">
       <TextInput {...args} size="sm" label="Small"/>
       <TextInput {...args} size="md" label="Medium"/>
       <TextInput {...args} size="lg" label="Large"/>

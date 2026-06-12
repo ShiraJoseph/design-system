@@ -35,25 +35,22 @@ const sampleSteps = [
 
 const StepperHarness = ({orientation}: { orientation: 'horizontal' | 'vertical' }) => {
   const [step, setStep] = useState(0);
-  /* For vertical: reserve a fixed minimum height so the Back/Next buttons
-     stay put when the trailing connector expands on the last step. */
-  const wrapperStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-    maxWidth: 720,
-    ...(orientation === 'vertical' ? {minHeight: '24rem', justifyContent: 'space-between'} : {}),
-  };
 
   return (
-    <div style={wrapperStyle}>
+    <div
+      className={
+        orientation === 'vertical'
+          ? 'story-stepper-frame story-stepper-frame--vertical'
+          : 'story-stepper-frame'
+      }
+    >
       <Stepper
         orientation={orientation}
         activeStep={step}
         steps={sampleSteps}
         onStepChange={setStep}
       />
-      <div style={{display: 'flex', gap: '0.5rem', justifyContent: 'flex-end'}}>
+      <div className="story-actions">
         <Button variant="secondary" onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0}>
           Back
         </Button>

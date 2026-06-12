@@ -8,6 +8,8 @@ A small, deliberately-scoped React component library showcasing the design-syste
 work: design tokens with multiple color themes, react-intl for translation, WCAG 2.1 AA accessibility throughout, JSDoc
 on every public surface, and a focus on consistency in animation and spacing.
 
+Built over about four days.
+
 ## What's in here
 
 | Layer                            | What it gives you                                                                                                                                                                                                                                                              |

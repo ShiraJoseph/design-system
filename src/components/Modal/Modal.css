@@ -4,7 +4,7 @@
   background: transparent;
   color: var(--ds-color-text-primary);
   font-family: var(--ds-font-family-sans), sans-serif;
-  max-width: min(var(--ds-size-modal-max-width-vw), var(--ds-size-modal-max-width));
+  max-width: min(var(--ds-size-modal-max-width-vw), var(--ds-size-surface-md));
   width: var(--ds-size-full);
   margin: auto;
 
@@ -22,14 +22,18 @@
     animation: ds-bounce var(--ds-motion-duration-medium) linear both;
   }
 
-  .ds-modal-card {
+  /* Renders as a Card (overlay elevation) — border, radius, shadow, and
+     padding come from Card. Only layout and the dialog's own surface colour
+     live here. A dialog uses the dedicated `bg-modal` surface rather than the
+     shared card surface; the `.ds-card` is appended to raise specificity above
+     Card's elevation rule so this override wins. */
+  .ds-modal-card.ds-card {
     background: var(--ds-color-bg-modal);
-    border: var(--ds-border-width-thin) solid var(--ds-color-border-default);
-    border-radius: var(--ds-radius-2xl);
-    box-shadow: var(--ds-shadow-lg);
+  }
+
+  .ds-modal-card {
     display: flex;
     flex-direction: column;
-    padding: var(--ds-space-3);
     gap: var(--ds-space-2);
     max-height: var(--ds-size-modal-max-height);
     /* No overflow: hidden — child outlines (e.g., a focused button's

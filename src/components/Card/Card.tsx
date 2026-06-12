@@ -5,7 +5,7 @@ import './Card.css';
 export type CardElevation = 'flat' | 'raised' | 'overlay';
 
 /** Internal padding scale. */
-export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+export type CardPadding = 'sm' | 'lg';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   elevation?: CardElevation;
@@ -32,7 +32,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
  */
 export const Card = ({
   elevation = 'raised',
-  padding = 'md',
+  padding = 'lg',
   interactive = false,
   className,
   children,

@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { type PropsWithChildren, useEffect, useState } from 'react';
 import { create, themes, type ThemeVars } from 'storybook/theming';
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 
@@ -50,26 +50,30 @@ export const ThemedDocsContainer = ({
   children,
   context,
 }: PropsWithChildren<DocsContainerProps>) => {
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof document === 'undefined') return 'dark';
-
-    return (document.documentElement.getAttribute('data-theme') as 'dark' | 'light') ?? 'dark';
-  });
+  // Rebuild the docs-chrome theme from the live tokens on every `data-theme`
+  // change. We rebuild (not just track the mode string) because the tokens
+  // must be read AFTER the `withTheme` decorator sets `data-theme`: at first
+  // mount the attribute isn't set yet, so reading then would pick up the
+  // light `:root` defaults and leave the Storybook DocBlocks (toolbar, args
+  // table) cream in dark mode.
+  const [docsTheme, setDocsTheme] = useState<ThemeVars>(() =>
+    buildDocsTheme(
+      typeof document === 'undefined'
+        ? 'dark'
+        : (document.documentElement.getAttribute('data-theme') as 'dark' | 'light') ?? 'dark',
+    ),
+  );
 
   useEffect(() => {
     const root = document.documentElement;
-    const sync = () => {
-      const next = (root.getAttribute('data-theme') as 'dark' | 'light') ?? 'dark';
-      setTheme((prev) => (prev === next ? prev : next));
-    };
-    sync();
-    const observer = new MutationObserver(sync);
+    const rebuild = () =>
+      setDocsTheme(buildDocsTheme((root.getAttribute('data-theme') as 'dark' | 'light') ?? 'dark'));
+    rebuild();
+    const observer = new MutationObserver(rebuild);
     observer.observe(root, {attributes: true, attributeFilter: ['data-theme']});
 
     return () => observer.disconnect();
   }, []);
-
-  const docsTheme = useMemo(() => buildDocsTheme(theme), [theme]);
 
   return (
     <DocsContainer context={context} theme={docsTheme}>

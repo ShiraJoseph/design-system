@@ -32,6 +32,13 @@ body {
   text-rendering: optimizeLegibility;
   position: relative;
   min-height: var(--ds-size-viewport);
+  /* Hyphenate long words at real syllable points (Typo-graphy) so prose and
+     headings stay readable down to very narrow widths; `overflow-wrap` is the
+     fallback for words with no hyphenation point. Hyphenation needs the
+     document to declare a `lang` the browser has a dictionary for. */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 body::before {
@@ -52,6 +59,24 @@ h1, h2, h3, h4, h5 {
 
 code, kbd, samp, pre {
   font-family: var(--ds-font-family-mono), monospace;
+  /* Never auto-hyphenate code: an inserted hyphen inside a token like
+     `--ds-space-2` would read as part of the value. These break by character
+     instead (below). */
+  -webkit-hyphens: none;
+  hyphens: none;
+}
+
+/* Inline code breaks long tokens so it stays usable down to very narrow
+   widths. */
+code {
+  overflow-wrap: anywhere;
+}
+
+/* Code blocks wrap their lines within the block (preserving indentation)
+   rather than scrolling horizontally, so they stay readable at any width. */
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 :focus-visible {
@@ -85,6 +110,18 @@ code, kbd, samp, pre {
   border: 0;
 }
 
+/* Docs prose code: a standard sunk surface in BOTH themes so the inline-code
+   padding reads as an intentional box rather than unexplained empty space.
+   The semantic tokens flip per theme on their own. The class is doubled to
+   out-specify Storybook's own prose-code rule, which is scoped under an
+   unstable emotion-hashed class we cannot target directly. */
+.sbdocs.sbdocs code,
+.sbdocs.sbdocs pre {
+  background: var(--ds-color-bg-surface-sunk);
+  color: var(--ds-color-text-primary);
+  border-color: var(--ds-color-border-subtle);
+}
+
 [data-theme='dark'] {
   /* Storybook docs page: paint its prose chrome with theme-aware colors
      so prose stays readable when Aurora (dark) is active. Targets the
@@ -109,13 +146,6 @@ code, kbd, samp, pre {
     li,
     td,
     th {
-      color: var(--ds-color-text-primary);
-      border-color: var(--ds-color-border-subtle);
-    }
-
-    code,
-    pre {
-      background: var(--ds-color-bg-surface-sunk);
       color: var(--ds-color-text-primary);
       border-color: var(--ds-color-border-subtle);
     }

@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import './Modal.css';
+import { Card } from '../Card';
 import { IconButton } from '../IconButton';
 import { Close } from '../../icons';
 import { useModalModel } from './Modal.model';
@@ -79,7 +80,7 @@ export const Modal = ({
       aria-describedby={descId}
       onClick={handleBackdropClick}
     >
-      <div className="ds-modal-card" role="document">
+      <Card className="ds-modal-card" role="document" elevation="overlay" padding="lg">
         <header className="ds-modal-header">
           <div>
             <h2 id={titleId} className="ds-modal-title">
@@ -101,7 +102,7 @@ export const Modal = ({
         </header>
         {children && <div className="ds-modal-body">{children}</div>}
         {footer && <footer className="ds-modal-footer">{footer}</footer>}
-      </div>
+      </Card>
     </dialog>
   );
 };

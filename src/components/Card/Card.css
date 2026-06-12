@@ -1,7 +1,7 @@
 .ds-card {
   background: var(--ds-color-bg-surface);
   border: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
-  border-radius: var(--ds-radius-2xl);
+  border-radius: var(--ds-radius-xl);
   color: var(--ds-color-text-primary);
   font-family: var(--ds-font-family-sans), sans-serif;
 
@@ -18,20 +18,15 @@
     background: var(--ds-color-bg-surface-raised);
   }
 
-  &.ds-padding-none {
-    padding: 0;
-  }
-
+  /* Radius tracks padding: the tighter the padding, the tighter the corner. */
   &.ds-padding-sm {
-    padding: var(--ds-space-2);
-  }
-
-  &.ds-padding-md {
-    padding: var(--ds-space-3);
+    padding: var(--ds-space-1);
+    border-radius: var(--ds-radius-lg);
   }
 
   &.ds-padding-lg {
-    padding: var(--ds-space-4);
+    padding: var(--ds-space-2);
+    border-radius: var(--ds-radius-xl);
   }
 
   &.ds-interactive {
@@ -51,6 +46,10 @@
   justify-content: space-between;
   gap: var(--ds-space-2);
   margin-bottom: var(--ds-space-2);
+  /* Allow the header to shrink below its content and wrap a trailing action
+     under the title at very narrow widths instead of forcing overflow. */
+  min-width: 0;
+  flex-wrap: wrap;
 }
 
 .ds-card-header h1,
@@ -58,17 +57,21 @@
 .ds-card-header h3,
 .ds-card-header h4 {
   margin: 0;
+  min-width: 0;
   font-family: var(--ds-font-family-display), sans-serif;
   font-size: var(--ds-font-size-lg);
   font-weight: var(--ds-font-weight-semibold);
   color: var(--ds-color-text-primary);
   line-height: var(--ds-font-line-height-snug);
+  overflow-wrap: anywhere;
 }
 
 .ds-card-body {
+  min-width: 0;
   font-size: var(--ds-font-size-base);
   line-height: var(--ds-font-line-height-normal);
   color: var(--ds-color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .ds-card-footer {

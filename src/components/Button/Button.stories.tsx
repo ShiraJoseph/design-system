@@ -52,7 +52,7 @@ export const Ghost: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+    <div className="story-row">
       <Button {...args} size="sm">Small</Button>
       <Button {...args} size="md">Medium</Button>
       <Button {...args} size="lg">Large</Button>
@@ -62,7 +62,7 @@ export const Sizes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap'}}>
+    <div className="story-row">
       <Button {...args} leadingIcon={<Check/>}>Confirm</Button>
       <Button {...args} variant="secondary" trailingIcon={<ArrowRight/>}>
         Continue
@@ -90,7 +90,7 @@ export const Localized: Story = {
     const intl = useIntl();
 
     return (
-      <div style={{display: 'flex', gap: '0.5rem'}}>
+      <div className="story-row">
         <Button {...args} variant="primary">
           {intl.formatMessage({id: 'demo.button.primary'})}
         </Button>

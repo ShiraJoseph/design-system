@@ -5,15 +5,11 @@
  *
  * Decorative by default (`aria-hidden`); pass a `title` prop to expose
  * an accessible name when the icon stands alone.
- *
- * `CheckBold` is the one exception: a 16x16, 2px-stroke checkmark for
- * the small control glyphs (Checkbox, Stepper indicators) where the
- * standard `Check` reads too light.
  */
 
 export { ArrowRight } from './ArrowRight';
 export { Check } from './Check';
-export { CheckBold } from './CheckBold';
+export { Minus } from './Minus';
 export { Close } from './Close';
 export { Search } from './Search';
 export { AlertCircle } from './AlertCircle';

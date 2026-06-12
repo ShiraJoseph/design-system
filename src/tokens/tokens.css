@@ -28,9 +28,15 @@
   --ds-opacity-disabled: 0.5;
   --ds-size-full: 100%;
   --ds-size-viewport: 100vh;
+  --ds-size-content-max-width: 80%;
   --ds-size-icon: 1em;
   --ds-size-icon-lg: 1.25em;
-  --ds-size-modal-max-width: 32rem;
+  --ds-size-surface-sm: 22.5rem;
+  --ds-size-surface-md: 32rem;
+  --ds-size-surface-lg: 54rem;
+  --ds-size-grid-min-sm: 8rem;
+  --ds-size-grid-min-md: 16rem;
+  --ds-size-grid-min-lg: 24rem;
   --ds-size-modal-max-width-vw: 92vw;
   --ds-size-modal-max-height: 85vh;
   --ds-size-control-sm: 1.875rem;
@@ -83,9 +89,9 @@
   --ds-z-base: 0;
   --ds-z-raised: 10;
   --ds-color-bg-page: #fff5e9;
-  --ds-color-bg-surface: rgba(255, 253, 248, 0.62);
+  --ds-color-bg-surface: #fffaf2;
   --ds-color-bg-surface-sunk: rgba(255, 247, 232, 0.55);
-  --ds-color-bg-surface-raised: rgba(255, 253, 248, 0.78);
+  --ds-color-bg-surface-raised: #fffbf5;
   --ds-color-bg-modal: #fffdf8;
   --ds-color-bg-overlay: rgba(94, 52, 20, 0.42);
   --ds-color-text-primary: #0a0c1f;
@@ -118,9 +124,9 @@
 
 [data-theme="dark"] {
   --ds-color-bg-page: #06081a;
-  --ds-color-bg-surface: rgba(255, 255, 255, 0.06);
+  --ds-color-bg-surface: #151728;
   --ds-color-bg-surface-sunk: rgba(6, 8, 26, 0.5);
-  --ds-color-bg-surface-raised: rgba(255, 255, 255, 0.10);
+  --ds-color-bg-surface-raised: #1f2131;
   --ds-color-bg-modal: #262a52;
   --ds-color-bg-overlay: rgba(2, 3, 13, 0.62);
   --ds-color-text-primary: rgba(248, 248, 245, 0.96);
@@ -154,9 +160,9 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ds-color-bg-page: #06081a;
-    --ds-color-bg-surface: rgba(255, 255, 255, 0.06);
+    --ds-color-bg-surface: #151728;
     --ds-color-bg-surface-sunk: rgba(6, 8, 26, 0.5);
-    --ds-color-bg-surface-raised: rgba(255, 255, 255, 0.10);
+    --ds-color-bg-surface-raised: #1f2131;
     --ds-color-bg-modal: #262a52;
     --ds-color-bg-overlay: rgba(2, 3, 13, 0.62);
     --ds-color-text-primary: rgba(248, 248, 245, 0.96);

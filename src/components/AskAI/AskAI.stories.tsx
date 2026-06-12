@@ -14,7 +14,7 @@ const meta = {
       },
     },
   },
-  decorators: [(Story) => <div style={{width: 'min(640px, 92vw)'}}><Story/></div>],
+  decorators: [(Story) => <div className="story-frame-lg"><Story/></div>],
 } satisfies Meta<typeof AskAI>;
 
 export default meta;
