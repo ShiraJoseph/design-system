@@ -2,25 +2,18 @@ export type CardElevation = 'flat' | 'raised' | 'overlay';
 
 export type CardPadding = 'sm' | 'lg';
 
-interface UseCardModelArgs {
-  elevation: CardElevation;
-  padding: CardPadding;
-  interactive: boolean;
-  className?: string;
-}
-
-interface UseCardModelResult {
-  classes: string;
-  tabIndex: 0 | undefined;
-}
-
 /** Card's class derivation and focusability from the `interactive` flag. */
 export const useCardModel = ({
   elevation,
   padding,
   interactive,
   className,
-}: UseCardModelArgs): UseCardModelResult => ({
+}: {
+  elevation: CardElevation;
+  padding: CardPadding;
+  interactive: boolean;
+  className?: string;
+}) => ({
   classes: [
     'ds-card',
     `ds-elevation-${elevation}`,

@@ -29,27 +29,6 @@ export interface StepView {
   connectorExpanded: boolean;
 }
 
-interface UseStepperModelArgs {
-  steps: StepDescriptor[];
-  activeStep: number;
-  orientation: StepperOrientation;
-  ariaLabelProp: string | undefined;
-  onStepChange?: (index: number) => void;
-  isComplete?: () => boolean;
-  className?: string;
-}
-
-interface UseStepperModelResult {
-  classes: string;
-  ariaLabel: string;
-  baseId: string;
-  isInteractive: boolean;
-  isOnLastStep: boolean;
-  completed: boolean;
-  activeContent: ReactNode | undefined;
-  stepViews: StepView[];
-}
-
 const stepStatus = (index: number, activeStep: number): StepStatus => {
   if (index < activeStep) return 'complete';
   if (index === activeStep) return 'current';
@@ -66,7 +45,15 @@ export const useStepperModel = ({
   onStepChange,
   isComplete,
   className,
-}: UseStepperModelArgs): UseStepperModelResult => {
+}: {
+  steps: StepDescriptor[];
+  activeStep: number;
+  orientation: StepperOrientation;
+  ariaLabelProp: string | undefined;
+  onStepChange?: (index: number) => void;
+  isComplete?: () => boolean;
+  className?: string;
+}) => {
   const intl = useIntl();
   const reactId = useId();
   const isInteractive = typeof onStepChange === 'function';

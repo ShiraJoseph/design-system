@@ -40,7 +40,9 @@ src/
    helper functions, no multi-flag className-building. State, effects, handlers,
    and non-Props types live in `<Name>.model.ts` (lowercase, or `.model.tsx` if it
    holds JSX), exposed as a single `use<Name>Model` hook. The only conditionals in
-   the `.tsx` are inline ternaries in the JSX.
+   the `.tsx` are inline ternaries in the JSX. The hook's args are an inline
+   anonymous object type (like component props) — no named `UseXxxModelArgs` — and
+   its return type is inferred, not annotated (no `UseXxxModelResult`).
    - **Single-const exception:** don't create a `.model.ts` just to hold ONE
      derived value. If the only derivation is a single `const` (typically one
      className), leave it inline in the `.tsx`. Two+ derived consts, or any

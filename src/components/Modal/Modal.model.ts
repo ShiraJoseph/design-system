@@ -1,21 +1,5 @@
-import { type MouseEvent, type ReactNode, type RefObject, useEffect, useId, useRef, } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useId, useRef, } from 'react';
 import { useIntl } from 'react-intl';
-
-interface UseModalModelArgs {
-  open: boolean;
-  onClose: () => void;
-  description?: ReactNode;
-  dismissOnBackdropClick: boolean;
-  closeLabel?: string;
-}
-
-interface UseModalModelResult {
-  dialogRef: RefObject<HTMLDialogElement | null>;
-  titleId: string;
-  descId: string | undefined;
-  resolvedCloseLabel: string;
-  handleBackdropClick: (event: MouseEvent<HTMLDialogElement>) => void;
-}
 
 /**
  * Drives the native <dialog> lifecycle and intercepts the browser's ESC
@@ -27,7 +11,13 @@ export const useModalModel = ({
   description,
   dismissOnBackdropClick,
   closeLabel,
-}: UseModalModelArgs): UseModalModelResult => {
+}: {
+  open: boolean;
+  onClose: () => void;
+  description?: ReactNode;
+  dismissOnBackdropClick: boolean;
+  closeLabel?: string;
+}) => {
   const intl = useIntl();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const reactId = useId();

@@ -1,17 +1,5 @@
 import { useRef, useState, type AnimationEvent } from 'react';
 
-interface UseBounceOnChangeOptions {
-  /** Defaults to `'ds-bounce'`. Pass a composing animation's own name so unrelated nested animationend events don't clear the flag. */
-  animationName?: string;
-}
-
-interface UseBounceOnChangeResult {
-  bouncing: boolean;
-  /** No-op when the user prefers reduced motion. */
-  triggerBounce: () => void;
-  handleBounceAnimationEnd: <E extends Element>(event: AnimationEvent<E>) => void;
-}
-
 const FALLBACK_DURATION_MS = 260;
 const SAFETY_MARGIN_MS = 340;
 
@@ -35,7 +23,10 @@ const readDurationMs = (): number => {
  */
 export const useBounceOnChange = ({
   animationName = 'ds-bounce',
-}: UseBounceOnChangeOptions = {}): UseBounceOnChangeResult => {
+}: {
+  /** Defaults to `'ds-bounce'`. Pass a composing animation's own name so unrelated nested animationend events don't clear the flag. */
+  animationName?: string;
+} = {}) => {
   const [bouncing, setBouncing] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -67,5 +58,10 @@ export const useBounceOnChange = ({
     }
   };
 
-  return { bouncing, triggerBounce, handleBounceAnimationEnd };
+  return {
+    bouncing,
+    /** No-op when the user prefers reduced motion. */
+    triggerBounce,
+    handleBounceAnimationEnd,
+  };
 };

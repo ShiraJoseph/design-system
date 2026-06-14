@@ -1,22 +1,5 @@
-import { type AnimationEvent, type ChangeEvent, type ReactNode, useId } from 'react';
+import { type ChangeEvent, type ReactNode, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
-
-interface UseRadioModelArgs {
-  id?: string;
-  description?: ReactNode;
-  disabled?: boolean;
-  className?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface UseRadioModelResult {
-  inputId: string;
-  descriptionId: string | undefined;
-  wrapperClasses: string;
-  ringClasses: string;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleRingAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
-}
 
 /** Per-instance ids, bounce-on-change wiring, onChange forwarding, and class derivation for Radio. */
 export const useRadioModel = ({
@@ -25,7 +8,13 @@ export const useRadioModel = ({
   disabled,
   className,
   onChange,
-}: UseRadioModelArgs): UseRadioModelResult => {
+}: {
+  id?: string;
+  description?: ReactNode;
+  disabled?: boolean;
+  className?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const reactId = useId();
   const inputId = id ?? `ds-radio-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;

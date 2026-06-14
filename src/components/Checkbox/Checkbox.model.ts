@@ -1,30 +1,8 @@
-import { type AnimationEvent, type ChangeEvent, type ReactNode, type Ref, useId } from 'react';
+import { type ChangeEvent, type ReactNode, type Ref, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 import { assignRefs } from '../../utils/assignRefs';
 
 export type CheckboxSize = 'sm' | 'md';
-
-interface UseCheckboxModelArgs {
-  id?: string;
-  description?: ReactNode;
-  indeterminate: boolean;
-  size: CheckboxSize;
-  disabled?: boolean;
-  className?: string;
-  ref?: Ref<HTMLInputElement>;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface UseCheckboxModelResult {
-  inputId: string;
-  descriptionId: string | undefined;
-  wrapperClasses: string;
-  boxClasses: string;
-  /** Attach to the input; forwards any external ref and pushes `indeterminate` (which has no JSX prop) straight to the node. */
-  setMergedRef: (node: HTMLInputElement | null) => void;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleBoxAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
-}
 
 /** Checkbox wiring: per-instance ids, bounce-on-change, class/state derivation, and the ref that pushes `indeterminate` to the native input. */
 export const useCheckboxModel = ({
@@ -36,7 +14,16 @@ export const useCheckboxModel = ({
   className,
   ref,
   onChange,
-}: UseCheckboxModelArgs): UseCheckboxModelResult => {
+}: {
+  id?: string;
+  description?: ReactNode;
+  indeterminate: boolean;
+  size: CheckboxSize;
+  disabled?: boolean;
+  className?: string;
+  ref?: Ref<HTMLInputElement>;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const reactId = useId();
   const inputId = id ?? `ds-checkbox-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;
@@ -74,6 +61,7 @@ export const useCheckboxModel = ({
     descriptionId,
     wrapperClasses,
     boxClasses,
+    /** Attach to the input; forwards any external ref and pushes `indeterminate` (which has no JSX prop) straight to the node. */
     setMergedRef,
     handleChange,
     handleBoxAnimationEnd: handleBounceAnimationEnd,

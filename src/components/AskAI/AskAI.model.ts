@@ -1,36 +1,20 @@
-import { type FormEvent, type KeyboardEvent, type RefObject, useEffect, useRef, useState, } from 'react';
-import { type IntlShape, useIntl } from 'react-intl';
+import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState, } from 'react';
+import { useIntl } from 'react-intl';
 import type { AskAIMessage, AskAIProvider } from './providers';
-
-interface UseAskAIModelArgs {
-  provider: AskAIProvider;
-  title?: string;
-  className?: string;
-}
-
-interface UseAskAIModelResult {
-  intl: IntlShape;
-  heading: string;
-  classes: string;
-  draft: string;
-  setDraft: (value: string) => void;
-  messages: AskAIMessage[];
-  streaming: boolean;
-  isStreamingMessage: (index: number) => boolean;
-  threadRef: RefObject<HTMLDivElement | null>;
-  inputRef: RefObject<HTMLInputElement | null>;
-  submit: (question: string) => Promise<void>;
-  cancel: () => void;
-  reset: () => void;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  handleKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-}
 
 const ERROR_FALLBACK_CONTENT = 'Something went wrong while answering. Try again?';
 const DEFAULT_HEADING = 'Ask the design system';
 
 /** Drives the AskAI chat panel: Q&A state, the provider streaming loop, abort wiring, auto-scroll, and heading/class derivation. */
-export const useAskAIModel = ({provider, title, className}: UseAskAIModelArgs): UseAskAIModelResult => {
+export const useAskAIModel = ({
+  provider,
+  title,
+  className,
+}: {
+  provider: AskAIProvider;
+  title?: string;
+  className?: string;
+}) => {
   const intl = useIntl();
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<AskAIMessage[]>([]);

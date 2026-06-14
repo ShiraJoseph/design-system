@@ -1,23 +1,8 @@
-import { type AnimationEvent, type MouseEvent, type ReactNode } from 'react';
+import { type MouseEvent, type ReactNode } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 
 export type FABSize = 'md' | 'lg';
 export type FABVariant = 'primary' | 'secondary';
-
-interface UseFABModelArgs {
-  variant: FABVariant;
-  size: FABSize;
-  label?: ReactNode;
-  quiet: boolean;
-  className?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-}
-
-interface UseFABModelResult {
-  classes: string;
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  handleAnimationEnd: (event: AnimationEvent<HTMLButtonElement>) => void;
-}
 
 /** FAB's press-release bounce, click forwarding, and class derivation. */
 export const useFABModel = ({
@@ -27,7 +12,14 @@ export const useFABModel = ({
   quiet,
   className,
   onClick,
-}: UseFABModelArgs): UseFABModelResult => {
+}: {
+  variant: FABVariant;
+  size: FABSize;
+  label?: ReactNode;
+  quiet: boolean;
+  className?: string;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+}) => {
   const {bouncing, triggerBounce, handleBounceAnimationEnd} = useBounceOnChange();
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {

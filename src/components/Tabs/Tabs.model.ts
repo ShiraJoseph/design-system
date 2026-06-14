@@ -10,23 +10,6 @@ export interface TabDescriptor {
   disabled?: boolean;
 }
 
-interface UseTabsModelArgs {
-  value: string;
-  onChange: (id: string) => void;
-  tabs: TabDescriptor[];
-  orientation: TabsOrientation;
-  className?: string;
-}
-
-interface UseTabsModelResult {
-  baseId: string;
-  classes: string;
-  triggerClasses: (isActive: boolean) => string;
-  setTriggerRef: (id: string) => (node: HTMLButtonElement | null) => void;
-  inkBarStyle: CSSProperties;
-  handleKeyDown: (event: KeyboardEvent<HTMLButtonElement>, index: number) => void;
-}
-
 const computeInkBarStyle = (node: HTMLButtonElement, orientation: TabsOrientation): CSSProperties => {
   if (orientation === 'horizontal') {
     return {
@@ -50,7 +33,13 @@ export const useTabsModel = ({
   tabs,
   orientation,
   className,
-}: UseTabsModelArgs): UseTabsModelResult => {
+}: {
+  value: string;
+  onChange: (id: string) => void;
+  tabs: TabDescriptor[];
+  orientation: TabsOrientation;
+  className?: string;
+}) => {
   const reactId = useId();
   const baseId = `ds-tabs-${reactId}`;
   const classes = ['ds-tabs', `ds-orientation-${orientation}`, className].filter(Boolean).join(' ');

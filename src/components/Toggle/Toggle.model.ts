@@ -1,27 +1,7 @@
-import { type AnimationEvent, type ChangeEvent, type ReactNode, useId } from 'react';
+import { type ChangeEvent, type ReactNode, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 
 export type ToggleSize = 'sm' | 'md';
-
-interface UseToggleModelArgs {
-  id?: string;
-  description?: ReactNode;
-  size: ToggleSize;
-  disabled?: boolean;
-  className?: string;
-  visuallyHideLabel: boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface UseToggleModelResult {
-  inputId: string;
-  descriptionId: string | undefined;
-  wrapperClasses: string;
-  thumbClasses: string;
-  labelClass: string;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleThumbAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
-}
 
 /** Per-instance ids, class derivation, and slide-bounce wiring for Toggle; listens for the `ds-slide-bounce` animation name so nested animations can't clear the bouncing flag. */
 export const useToggleModel = ({
@@ -32,7 +12,15 @@ export const useToggleModel = ({
   className,
   visuallyHideLabel,
   onChange,
-}: UseToggleModelArgs): UseToggleModelResult => {
+}: {
+  id?: string;
+  description?: ReactNode;
+  size: ToggleSize;
+  disabled?: boolean;
+  className?: string;
+  visuallyHideLabel: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const reactId = useId();
   const inputId = id ?? `ds-toggle-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;

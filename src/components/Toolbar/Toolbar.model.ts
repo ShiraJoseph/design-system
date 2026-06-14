@@ -3,21 +3,6 @@ import { assignRefs } from '../../utils/assignRefs';
 
 export type ToolbarOrientation = 'horizontal' | 'vertical';
 
-interface UseToolbarModelArgs {
-  orientation: ToolbarOrientation;
-  className?: string;
-  ref?: Ref<HTMLDivElement>;
-  onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
-}
-
-interface UseToolbarModelResult {
-  classes: string;
-  /** Attach to the toolbar container; merges the internal ref with any external ref so the hook can observe and drive focus. */
-  setMergedRef: (node: HTMLDivElement | null) => void;
-  /** Composes the consumer's `onKeyDown` with the roving-tabindex navigation. */
-  onContainerKeyDown: (event: KeyboardEvent<HTMLDivElement>) => void;
-}
-
 /**
  * Roving-tabindex for a toolbar of `<button>` children; a MutationObserver keeps the tabindex
  * correct when items are added, removed, or toggled disabled at runtime. Also derives the
@@ -28,7 +13,12 @@ export const useToolbarModel = ({
   className,
   ref,
   onKeyDown,
-}: UseToolbarModelArgs): UseToolbarModelResult => {
+}: {
+  orientation: ToolbarOrientation;
+  className?: string;
+  ref?: Ref<HTMLDivElement>;
+  onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [focusIndex, setFocusIndex] = useState(0);
 
@@ -108,5 +98,11 @@ export const useToolbarModel = ({
     .filter(Boolean)
     .join(' ');
 
-  return {classes, setMergedRef, onContainerKeyDown};
+  return {
+    classes,
+    /** Attach to the toolbar container; merges the internal ref with any external ref so the hook can observe and drive focus. */
+    setMergedRef,
+    /** Composes the consumer's `onKeyDown` with the roving-tabindex navigation. */
+    onContainerKeyDown,
+  };
 };
