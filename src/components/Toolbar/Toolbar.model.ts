@@ -1,4 +1,4 @@
-import { type KeyboardEvent, type Ref, useEffect, useRef, useState } from 'react';
+import { type KeyboardEvent, type Ref, useLayoutEffect, useRef, useState } from 'react';
 import { assignRefs } from '../../utils/assignRefs';
 
 export type ToolbarOrientation = 'horizontal' | 'vertical';
@@ -39,7 +39,7 @@ export const useToolbarModel = ({
     return Array.from(node.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = containerRef.current;
     if (!node) return;
 

@@ -71,17 +71,16 @@ describe('useCheckboxModel', () => {
     expect(result.current.boxClasses).toContain('ds-bouncing');
   });
 
-  it('pushes indeterminate to the underlying input via the merged ref', () => {
-    const {result, rerender} = renderHook(
-      ({indeterminate}) => useCheckboxModel({...baseArgs, indeterminate}),
-      {initialProps: {indeterminate: false}},
-    );
+  it('pushes indeterminate to the node when the ref attaches', () => {
     const fakeInput = document.createElement('input');
     fakeInput.type = 'checkbox';
-    act(() => result.current.setMergedRef(fakeInput));
-    rerender({indeterminate: true});
+
+    const marked = renderModel({indeterminate: true});
+    act(() => marked.result.current.setMergedRef(fakeInput));
     expect(fakeInput.indeterminate).toBe(true);
-    rerender({indeterminate: false});
+
+    const cleared = renderModel({indeterminate: false});
+    act(() => cleared.result.current.setMergedRef(fakeInput));
     expect(fakeInput.indeterminate).toBe(false);
   });
 

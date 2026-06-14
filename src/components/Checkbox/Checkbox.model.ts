@@ -1,12 +1,4 @@
-import {
-  type AnimationEvent,
-  type ChangeEvent,
-  type ReactNode,
-  type Ref,
-  useEffect,
-  useId,
-  useRef,
-} from 'react';
+import { type AnimationEvent, type ChangeEvent, type ReactNode, type Ref, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 import { assignRefs } from '../../utils/assignRefs';
 
@@ -28,13 +20,13 @@ interface UseCheckboxModelResult {
   descriptionId: string | undefined;
   wrapperClasses: string;
   boxClasses: string;
-  /** Attach to the input; merges the internal ref with any external ref and pushes `indeterminate` to the node. */
+  /** Attach to the input; forwards any external ref and pushes `indeterminate` (which has no JSX prop) straight to the node. */
   setMergedRef: (node: HTMLInputElement | null) => void;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleBoxAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
 }
 
-/** Checkbox wiring: per-instance ids, bounce-on-change, class/state derivation, and the merged ref that pushes `indeterminate` to the native input. */
+/** Checkbox wiring: per-instance ids, bounce-on-change, class/state derivation, and the ref that pushes `indeterminate` to the native input. */
 export const useCheckboxModel = ({
   id,
   description,
@@ -48,16 +40,15 @@ export const useCheckboxModel = ({
   const reactId = useId();
   const inputId = id ?? `ds-checkbox-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;
-  const internalRef = useRef<HTMLInputElement | null>(null);
   const {bouncing, triggerBounce, handleBounceAnimationEnd} = useBounceOnChange();
 
-  useEffect(() => {
-    if (internalRef.current) {
-      internalRef.current.indeterminate = indeterminate;
+  const setMergedRef = (node: HTMLInputElement | null) => {
+    if (node) {
+      node.indeterminate = indeterminate;
     }
-  }, [indeterminate]);
 
-  const setMergedRef = (node: HTMLInputElement | null) => assignRefs(node, internalRef, ref);
+    assignRefs(node, ref);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     triggerBounce();
