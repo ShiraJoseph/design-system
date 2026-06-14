@@ -4,6 +4,14 @@ import { useCheckboxModel } from './Checkbox.model';
 
 const originalMatchMedia = window.matchMedia;
 
+const baseArgs: Parameters<typeof useCheckboxModel>[0] = {
+  indeterminate: false,
+  size: 'md',
+};
+
+const renderModel = (overrides: Partial<Parameters<typeof useCheckboxModel>[0]> = {}) =>
+  renderHook(() => useCheckboxModel({...baseArgs, ...overrides}));
+
 beforeEach(() => {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -23,61 +31,100 @@ afterEach(() => {
 
 describe('useCheckboxModel', () => {
   it('uses the provided id when given', () => {
-    const {result} = renderHook(() => useCheckboxModel({id: 'agree', indeterminate: false}));
-    expect(result.current.inputId).toBe('agree');
+    expect(renderModel({id: 'agree'}).result.current.inputId).toBe('agree');
   });
 
   it('generates a stable ds-checkbox-* id when none is provided', () => {
-    const {result} = renderHook(() => useCheckboxModel({indeterminate: false}));
-    expect(result.current.inputId).toMatch(/^ds-checkbox-/);
+    expect(renderModel().result.current.inputId).toMatch(/^ds-checkbox-/);
   });
 
   it('returns a descriptionId tied to the input when description is set', () => {
-    const {result} = renderHook(() =>
-      useCheckboxModel({id: 'a', description: 'more', indeterminate: false}),
-    );
-    expect(result.current.descriptionId).toBe('a-desc');
+    expect(renderModel({id: 'a', description: 'more'}).result.current.descriptionId).toBe('a-desc');
   });
 
   it('returns descriptionId=undefined when description is omitted', () => {
-    const {result} = renderHook(() => useCheckboxModel({id: 'a', indeterminate: false}));
-    expect(result.current.descriptionId).toBeUndefined();
+    expect(renderModel({id: 'a'}).result.current.descriptionId).toBeUndefined();
   });
 
-  it('pushes indeterminate to the underlying input via the internal ref', () => {
+  it('builds the wrapper class list from size and flags', () => {
+    const {result} = renderModel({size: 'sm', indeterminate: true, disabled: true});
+    expect(result.current.wrapperClasses).toContain('ds-checkbox');
+    expect(result.current.wrapperClasses).toContain('ds-size-sm');
+    expect(result.current.wrapperClasses).toContain('ds-indeterminate');
+    expect(result.current.wrapperClasses).toContain('ds-disabled');
+  });
+
+  it('omits the indeterminate and disabled classes when those flags are off', () => {
+    const {result} = renderModel();
+    expect(result.current.wrapperClasses).not.toContain('ds-indeterminate');
+    expect(result.current.wrapperClasses).not.toContain('ds-disabled');
+  });
+
+  it('appends a passed className to the wrapper', () => {
+    expect(renderModel({className: 'extra'}).result.current.wrapperClasses).toContain('extra');
+  });
+
+  it('boxClasses is ds-box until the bounce is triggered', () => {
+    const {result} = renderModel();
+    expect(result.current.boxClasses).toBe('ds-box');
+    act(() => result.current.handleChange({} as never));
+    expect(result.current.boxClasses).toContain('ds-bouncing');
+  });
+
+  it('pushes indeterminate to the underlying input via the merged ref', () => {
     const {result, rerender} = renderHook(
-      ({indeterminate}) => useCheckboxModel({indeterminate}),
+      ({indeterminate}) => useCheckboxModel({...baseArgs, indeterminate}),
       {initialProps: {indeterminate: false}},
     );
     const fakeInput = document.createElement('input');
     fakeInput.type = 'checkbox';
-    act(() => {
-      result.current.internalRef.current = fakeInput;
-    });
+    act(() => result.current.setMergedRef(fakeInput));
     rerender({indeterminate: true});
     expect(fakeInput.indeterminate).toBe(true);
     rerender({indeterminate: false});
     expect(fakeInput.indeterminate).toBe(false);
   });
 
+  it('setMergedRef forwards the node to a function ref', () => {
+    const externalRef = vi.fn();
+    const fakeInput = document.createElement('input');
+    const {result} = renderModel({ref: externalRef});
+    act(() => result.current.setMergedRef(fakeInput));
+    expect(externalRef).toHaveBeenCalledWith(fakeInput);
+  });
+
+  it('setMergedRef assigns the node to an object ref', () => {
+    const externalRef = {current: null as HTMLInputElement | null};
+    const fakeInput = document.createElement('input');
+    const {result} = renderModel({ref: externalRef});
+    act(() => result.current.setMergedRef(fakeInput));
+    expect(externalRef.current).toBe(fakeInput);
+  });
+
+  it('setMergedRef tolerates a missing external ref', () => {
+    const fakeInput = document.createElement('input');
+    const {result} = renderModel();
+    expect(() => act(() => result.current.setMergedRef(fakeInput))).not.toThrow();
+  });
+
   it('handleChange triggers the bounce and forwards to onChange', () => {
     const onChange = vi.fn();
-    const {result} = renderHook(() => useCheckboxModel({indeterminate: false, onChange}));
+    const {result} = renderModel({onChange});
     const event = {} as never;
     act(() => result.current.handleChange(event));
-    expect(result.current.bouncing).toBe(true);
+    expect(result.current.boxClasses).toContain('ds-bouncing');
     expect(onChange).toHaveBeenCalledWith(event);
   });
 
   it('handleChange tolerates a missing onChange', () => {
-    const {result} = renderHook(() => useCheckboxModel({indeterminate: false}));
+    const {result} = renderModel();
     expect(() => act(() => result.current.handleChange({} as never))).not.toThrow();
   });
 
   it('handleBoxAnimationEnd clears bouncing on ds-bounce', () => {
-    const {result} = renderHook(() => useCheckboxModel({indeterminate: false}));
+    const {result} = renderModel();
     act(() => result.current.handleChange({} as never));
     act(() => result.current.handleBoxAnimationEnd({animationName: 'ds-bounce'} as never));
-    expect(result.current.bouncing).toBe(false);
+    expect(result.current.boxClasses).not.toContain('ds-bouncing');
   });
 });

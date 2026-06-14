@@ -1,1 +1,2 @@
-export { Tabs, type TabsProps, type TabsOrientation, type TabDescriptor } from './Tabs';
+export { Tabs } from './Tabs';
+export type { TabsOrientation, TabDescriptor } from './Tabs.model';

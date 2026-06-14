@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { useIntl } from 'react-intl';
 import { Card } from './Card';
-import { CardHeader } from './CardHeader';
-import { CardBody } from './CardBody';
-import { CardFooter } from './CardFooter';
+import { CardHeader } from './CardHeader/CardHeader';
+import { CardBody } from './CardBody/CardBody';
+import { CardFooter } from './CardFooter/CardFooter';
 import { GridLayout } from '../GridLayout';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
@@ -49,6 +50,18 @@ export const Default: Story = {
       </CardFooter>
     </Card>
   ),
+  play: async ({canvasElement}) => {
+    const card = canvasElement.querySelector('.ds-card');
+    await expect(card?.className).toMatch(/ds-elevation-raised/);
+    await expect(card?.className).toMatch(/ds-padding-lg/);
+    await expect(card?.getAttribute('tabIndex')).toBeNull();
+    const header = canvasElement.querySelector('.ds-card-header');
+    await expect(header).toHaveTextContent('Quarterly report');
+    const body = canvasElement.querySelector('.ds-card-body');
+    await expect(body).toHaveTextContent('Revenue is up 12 percent year over year');
+    const footer = canvasElement.querySelector('.ds-card-footer');
+    await expect(footer).toHaveTextContent('View report');
+  },
 };
 
 export const Elevations: Story = {
@@ -59,6 +72,12 @@ export const Elevations: Story = {
       <Card elevation="overlay"><CardBody>Overlay</CardBody></Card>
     </GridLayout>
   ),
+  play: async ({canvasElement}) => {
+    await expect(within(canvasElement).getByText('Flat')).toBeInTheDocument();
+    const flatCard = canvasElement.querySelector('.ds-elevation-flat');
+    await expect(flatCard?.className).toMatch(/ds-card/);
+    await expect(flatCard?.className).toMatch(/ds-elevation-flat/);
+  },
 };
 
 export const Interactive: Story = {
@@ -69,6 +88,11 @@ export const Interactive: Story = {
       <CardBody>Manage members, plan, and billing for your workspace.</CardBody>
     </Card>
   ),
+  play: async ({canvasElement}) => {
+    const card = canvasElement.querySelector('.ds-card');
+    await expect(card?.className).toMatch(/ds-interactive/);
+    await expect(card?.getAttribute('tabIndex')).toBe('0');
+  },
 };
 
 export const Localized: Story = {

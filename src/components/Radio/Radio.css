@@ -15,9 +15,6 @@
     opacity: var(--ds-opacity-disabled);
   }
 
-  /* The control is the height of one line of label text so the radio
-     centers vertically with the first line of the label even when the
-     label has a multi-line description below. */
   .ds-control {
     position: relative;
     display: inline-flex;
@@ -44,8 +41,6 @@
     z-index: var(--ds-z-raised);
   }
 
-  /* State changes (border) snap instantly. The only motion is the
-     .ds-bouncing scale pop applied via the shared rule. */
   .ds-ring {
     display: inline-flex;
     align-items: center;
@@ -56,8 +51,6 @@
     box-sizing: border-box;
   }
 
-  /* Dot appears / disappears instantly via opacity. The bounce lives on
-     the parent .ds-ring so the outer ring + inner dot scale together. */
   .ds-dot {
     width: var(--ds-radio-dot-size);
     height: var(--ds-radio-dot-size);
@@ -80,10 +73,6 @@
     outline-offset: var(--ds-border-width-heavy);
   }
 
-  /* JS-triggered bounce on change: parent React component adds the
-     `ds-bouncing` class and removes it on animation end. Lives on .ds-ring
-     so the border + dot scale together; the label outside .ds-control is
-     not affected. */
   .ds-ring.ds-bouncing {
     --bounce-rest: scale(1);
     --bounce-out: var(--ds-motion-bounce-scale-sm-out);

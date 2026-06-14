@@ -131,8 +131,6 @@ describe('useModalModel', () => {
       {wrapper, initialProps: {onClose: firstClose}},
     );
     const dialog = attachDialog(result.current.dialogRef);
-    /* rerender with a fresh onClose so the cancel-listener effect re-runs
-       after the test wired up the dialog ref. */
     rerender({onClose: finalClose});
     dialog.dispatchEvent(new Event('cancel', {cancelable: true}));
     expect(finalClose).toHaveBeenCalled();

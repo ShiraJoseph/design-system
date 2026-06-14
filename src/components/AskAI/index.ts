@@ -1,4 +1,4 @@
-export { AskAI, type AskAIProps } from './AskAI';
+export { AskAI } from './AskAI';
 export { catalog } from './catalog';
 export type { CatalogComponent, CatalogProp, CatalogExample } from './catalog';
 export {

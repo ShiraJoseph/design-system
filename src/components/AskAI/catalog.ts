@@ -1,15 +1,8 @@
-/**
- * @file Structured metadata for every public component in the library.
- *
- * Used by the default `staticProvider` to answer questions, and by the
- * skill files in `/agents` to teach external AI agents the conventions
- * for adding new components. Keep entries terse and high-signal.
- */
+/** Component metadata consumed by `staticProvider` and by the `/agents` skill files. Keep entries terse and high-signal. */
 
 export interface CatalogExample {
-  /** Short heading for the example. */
   title: string;
-  /** Code snippet, JSX. Will render as a fenced `tsx` block in answers. */
+  /** Rendered as a fenced `tsx` block in answers. */
   code: string;
 }
 
@@ -21,19 +14,14 @@ export interface CatalogProp {
 }
 
 export interface CatalogComponent {
-  /** Component name, matches the import. */
   name: string;
-  /** One-paragraph summary of when to reach for this component. */
   description: string;
-  /** Bullet list of accessibility guarantees baked into the component. */
   accessibility: string[];
-  /** Public props, ordered by relevance. */
+  /** Ordered by relevance. */
   props: CatalogProp[];
-  /** Worked examples, used in answers and Storybook docs. */
   examples: CatalogExample[];
-  /** Anti-patterns or footguns, what NOT to do. */
   pitfalls?: string[];
-  /** Search keywords; lowercase, comma-separated. */
+  /** Lowercase, comma-separated. */
   keywords: string;
 }
 

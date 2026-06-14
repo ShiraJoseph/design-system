@@ -1,29 +1,36 @@
 import { type AnimationEvent, type ChangeEvent, type ReactNode, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 
+export type ToggleSize = 'sm' | 'md';
+
 interface UseToggleModelArgs {
   id?: string;
   description?: ReactNode;
+  size: ToggleSize;
+  disabled?: boolean;
+  className?: string;
+  visuallyHideLabel: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface UseToggleModelResult {
   inputId: string;
   descriptionId: string | undefined;
-  bouncing: boolean;
+  wrapperClasses: string;
+  thumbClasses: string;
+  labelClass: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleThumbAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
 }
 
-/**
- * Per-instance ids for Toggle's input + optional description, plus the
- * JS-triggered slide-bounce wiring. Listens specifically for the
- * `ds-slide-bounce` animation name so unrelated nested animations
- * can't accidentally clear the bouncing flag.
- */
+/** Per-instance ids, class derivation, and slide-bounce wiring for Toggle; listens for the `ds-slide-bounce` animation name so nested animations can't clear the bouncing flag. */
 export const useToggleModel = ({
   id,
   description,
+  size,
+  disabled,
+  className,
+  visuallyHideLabel,
   onChange,
 }: UseToggleModelArgs): UseToggleModelResult => {
   const reactId = useId();
@@ -38,10 +45,23 @@ export const useToggleModel = ({
     onChange?.(event);
   };
 
+  const wrapperClasses = [
+    'ds-toggle',
+    `ds-size-${size}`,
+    disabled && 'ds-disabled',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const thumbClasses = ['ds-thumb', bouncing && 'ds-bouncing'].filter(Boolean).join(' ');
+
   return {
     inputId,
     descriptionId,
-    bouncing,
+    wrapperClasses,
+    thumbClasses,
+    labelClass: visuallyHideLabel ? 'ds-visually-hidden' : 'ds-label',
     handleChange,
     handleThumbAnimationEnd: handleBounceAnimationEnd,
   };

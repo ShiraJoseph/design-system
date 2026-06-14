@@ -11,8 +11,6 @@
     color: var(--ds-color-text-primary);
   }
 
-  /* Asterisk for required fields. Muted by default; flips to the danger
-     color when the wrapper enters the error state. */
   .ds-required-mark {
     margin-left: var(--ds-space-025);
     color: var(--ds-color-text-muted);
@@ -94,10 +92,6 @@
     line-height: var(--ds-font-line-height-snug);
   }
 
-  /* Error text bounces LEFT (the only horizontal use of the bounce-up
-     family). Same 5-stop shape as Button/Modal, mirrored across the X
-     axis instead of Y. Draws the eye toward the field that needs
-     attention. */
   .ds-error {
     margin: 0;
     font-size: var(--ds-font-size-xs);

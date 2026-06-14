@@ -2,9 +2,7 @@ import { catalog, type CatalogComponent } from '../catalog';
 import type { AskAIMessage, AskAIProvider } from './types';
 
 /**
- * Score how well a catalog entry matches a question. Pure keyword
- * matching against name + keywords + description, then length-normalized.
- *
+ * Score a catalog entry against question terms by keyword matching.
  * @internal
  */
 const scoreEntry = (entry: CatalogComponent, terms: string[]): number => {
@@ -24,10 +22,7 @@ const scoreEntry = (entry: CatalogComponent, terms: string[]): number => {
   return score;
 };
 
-/**
- * Render one catalog entry as a Markdown answer. Tight formatting so
- * the message bubbles look intentional, not like a wall of dumped JSON.
- */
+/** Render one catalog entry as a Markdown answer. */
 const renderAnswer = (entry: CatalogComponent): string => {
   const lines: string[] = [];
   lines.push(`**${entry.name}**. ${entry.description}`);
@@ -72,8 +67,7 @@ const fallbackAnswer = (): string => {
 };
 
 /**
- * Sleep for the given number of milliseconds, respecting an abort signal.
- *
+ * Sleep, respecting an abort signal.
  * @internal
  */
 const delay = (ms: number, signal?: AbortSignal): Promise<void> =>
@@ -86,10 +80,7 @@ const delay = (ms: number, signal?: AbortSignal): Promise<void> =>
     });
   });
 
-/**
- * Stream `text` in fixed-size chunks with a small delay so the UI
- * matches the cadence of a real LLM provider.
- */
+/** Stream `text` in fixed-size chunks with a small delay so the UI matches a real LLM's cadence. */
 async function* streamChunks(
   text: string,
   cites: string[] | undefined,
@@ -106,14 +97,7 @@ async function* streamChunks(
   }
 }
 
-/**
- * Default `AskAI` provider. Resolves answers from the in-repo
- * component catalog using keyword matching. Zero external calls; works
- * fully offline. Use this for the demo and any context where shipping
- * an API key client-side would be inappropriate.
- *
- * Drop-in replacement: any object satisfying `AskAIProvider`.
- */
+/** Default `AskAI` provider: keyword-matches the in-repo catalog with zero external calls (works offline). */
 export const staticProvider: AskAIProvider = {
   label: 'Static · catalog match',
   async* ask(question: string, _history: AskAIMessage[], signal?: AbortSignal) {

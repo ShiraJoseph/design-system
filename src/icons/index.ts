@@ -1,11 +1,4 @@
-/**
- * @file Icon exports. The standard icons render inside a 24x24 viewBox
- * with a 1.75-stroke geometry, tuned to read well at the typography
- * ramp's `sm`–`lg` sizes against both light and dark backgrounds.
- *
- * Decorative by default (`aria-hidden`); pass a `title` prop to expose
- * an accessible name when the icon stands alone.
- */
+/** Icon exports: 24x24 viewBox, 1.75 stroke, decorative by default (pass `title` for an accessible name). */
 
 export { ArrowRight } from './ArrowRight';
 export { Check } from './Check';

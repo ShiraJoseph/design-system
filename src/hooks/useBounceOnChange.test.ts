@@ -73,8 +73,6 @@ describe('useBounceOnChange', () => {
     const {result} = renderHook(() => useBounceOnChange());
     act(() => result.current.triggerBounce());
     expect(result.current.bouncing).toBe(true);
-    /* The hook reads --ds-motion-duration-medium (260ms) + a 340ms
-       safety margin. Advance well past that. */
     act(() => {
       vi.advanceTimersByTime(700);
     });
@@ -88,9 +86,6 @@ describe('useBounceOnChange', () => {
     act(() => result.current.triggerBounce());
     act(() => result.current.handleBounceAnimationEnd({animationName: 'ds-bounce'} as never));
     expect(result.current.bouncing).toBe(false);
-    /* If the timer hadn't been cleared it would fire here and try to
-       set bouncing=false again — which is a no-op, so this test really
-       just asserts no thrown exception and the count stays sane. */
     act(() => {
       vi.advanceTimersByTime(700);
     });

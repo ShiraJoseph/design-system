@@ -1,11 +1,3 @@
-/**
- * Global typography, focus ring, motion preferences, and a calm
- * surface treatment. Imported once after `tokens.css`.
- *
- * Atkinson Hyperlegible was designed by the Braille Institute for low
- * vision and dyslexia. We use it across the entire system as a single
- * legible voice, varying only weight and size.
- */
 
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Bricolage+Grotesque:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');
 
@@ -32,10 +24,6 @@ body {
   text-rendering: optimizeLegibility;
   position: relative;
   min-height: var(--ds-size-viewport);
-  /* Hyphenate long words at real syllable points (Typo-graphy) so prose and
-     headings stay readable down to very narrow widths; `overflow-wrap` is the
-     fallback for words with no hyphenation point. Hyphenation needs the
-     document to declare a `lang` the browser has a dictionary for. */
   -webkit-hyphens: auto;
   hyphens: auto;
   overflow-wrap: break-word;
@@ -59,21 +47,14 @@ h1, h2, h3, h4, h5 {
 
 code, kbd, samp, pre {
   font-family: var(--ds-font-family-mono), monospace;
-  /* Never auto-hyphenate code: an inserted hyphen inside a token like
-     `--ds-space-2` would read as part of the value. These break by character
-     instead (below). */
   -webkit-hyphens: none;
   hyphens: none;
 }
 
-/* Inline code breaks long tokens so it stays usable down to very narrow
-   widths. */
 code {
   overflow-wrap: anywhere;
 }
 
-/* Code blocks wrap their lines within the block (preserving indentation)
-   rather than scrolling horizontally, so they stay readable at any width. */
 pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -85,10 +66,6 @@ pre {
   border-radius: var(--ds-radius-sm);
 }
 
-/* Reduced-motion override. `!important` is required here because the
-   user's motion preference must beat every component-level animation /
-   transition rule; the canonical pattern is 0.01ms (effectively zero
-   but non-zero so animationend / transitionend still fire). */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -110,11 +87,6 @@ pre {
   border: 0;
 }
 
-/* Docs prose code: a standard sunk surface in BOTH themes so the inline-code
-   padding reads as an intentional box rather than unexplained empty space.
-   The semantic tokens flip per theme on their own. The class is doubled to
-   out-specify Storybook's own prose-code rule, which is scoped under an
-   unstable emotion-hashed class we cannot target directly. */
 .sbdocs.sbdocs code,
 .sbdocs.sbdocs pre {
   background: var(--ds-color-bg-surface-sunk);
@@ -123,10 +95,6 @@ pre {
 }
 
 [data-theme='dark'] {
-  /* Storybook docs page: paint its prose chrome with theme-aware colors
-     so prose stays readable when Aurora (dark) is active. Targets the
-     classnames Storybook's docs renderer attaches to its containers and
-     typography. */
   .sbdocs,
   .sbdocs-wrapper,
   .sbdocs-content,
@@ -158,8 +126,6 @@ pre {
       border-color: var(--ds-color-border-subtle);
     }
 
-    /* Story preview block inside docs: keep our theme-aware bg so the
-       embedded canvas matches its surroundings. */
     .docs-story {
       background: var(--ds-color-bg-page);
     }

@@ -5,8 +5,6 @@
   width: var(--ds-size-full);
   gap: var(--ds-space-3);
 
-  /* Completed-step check: sized by font-size off the standard scale, like
-     every other icon (width/height = --ds-size-icon = 1em). */
   .ds-stepper-check {
     width: var(--ds-size-icon);
     height: var(--ds-size-icon);
@@ -65,18 +63,11 @@
     position: relative;
   }
 
-  /* Horizontal: lock .ds-step width to the indicator hit target so connectors
-     anchor to the visible circle's edge, not to a wider container that
-     the label might cause. The label sits absolutely below the indicator
-     and is allowed to be wider than the step. */
   &.ds-orientation-horizontal .ds-step {
     flex-direction: column;
     width: var(--ds-size-tap-target-min);
   }
 
-  /* Label flows in-place under the indicator. Width matches the step so
-     it never extends past either side. Long descriptions wrap to
-     multiple lines. */
   &.ds-orientation-horizontal .ds-text {
     width: var(--ds-size-tap-target-min);
     text-align: center;
@@ -86,8 +77,6 @@
     flex-direction: row;
   }
 
-  /* Indicator: 44x44 hit target, 32x32 visible circle so the click area
-     extends generously beyond the visual. WCAG 2.5.5 AAA target size. */
   .ds-indicator {
     display: inline-flex;
     align-items: center;
@@ -184,9 +173,6 @@
     line-height: var(--ds-font-line-height-snug);
   }
 
-  /* Connectors flex-grow based on position relative to the active step.
-     The connector immediately AFTER the active step (i.e., the one
-     connecting active to the next step) expands; all others shrink. */
   .ds-connector {
     flex-grow: 1;
     background: var(--ds-color-border-default);
@@ -205,11 +191,6 @@
     background: var(--ds-color-action-primary-bg);
   }
 
-  /* Negative side-margins pull the connector under the .ds-step's hit-area
-     padding so the visible line runs continuously into the indicator
-     circle. The indicator paints on top via DOM order. The half-margin
-     is the gap between the .ds-step's edge and the visible indicator
-     circle (2 px on each side for md). */
   &.ds-orientation-horizontal .ds-connector {
     height: var(--ds-border-width-thick);
     align-self: flex-start;
@@ -219,11 +200,6 @@
     z-index: var(--ds-z-base);
   }
 
-  /* Vertical connector heights live as local custom properties so the
-     conservation invariant `trailing-expanded = expanded - normal` can
-     be enforced via calc() rather than a hand-maintained literal. Sized
-     for slide-then-bounce-back travel to be readable; the earlier
-     space-3 / space-6 values were too short to register the bounce. */
   &.ds-orientation-vertical {
     --ds-stepper-connector-height-normal: var(--ds-space-8);
     --ds-stepper-connector-height-expanded: calc(var(--ds-space-12) * 2);
@@ -247,12 +223,6 @@
     height: var(--ds-stepper-connector-height-normal);
   }
 
-  /* Trailing connector. Width 0 (flex-grow: 0) when the active step isn't
-     the last one; expands to flex-grow 2.4 when it is. The 2.4 keeps the
-     total flex-grow constant across the transition: the in-between
-     connector that just lost "expanded" state goes 3 -> 0.6 (loses 2.4),
-     the trailing gains 0 -> 2.4. Net change: 0. The relationship is
-     trailing-expanded = connector-expanded - connector-normal. */
   .ds-trailing-connector {
     background: var(--ds-color-border-default);
     flex-grow: 0;
@@ -280,18 +250,10 @@
     transition: height var(--ds-motion-duration-medium) var(--ds-motion-bounce);
   }
 
-  /* Conservation: trailing-expanded = connector-expanded - connector-normal,
-     so reaching the last step doesn't make the column taller. Expressed
-     as a calc() so adjusting either height keeps the invariant intact. */
   &.ds-orientation-vertical .ds-trailing-connector[data-position='expanded'] {
     height: calc(var(--ds-stepper-connector-height-expanded) - var(--ds-stepper-connector-height-normal));
   }
 
-  /* Completion mark sits as a flex sibling of the <ol>, NOT inside the
-     trailing connector. The gap between the ol and the mark is the
-     navigation flex gap; both the gap and the mark are outside the
-     indicators-and-connectors flex pool, so they don't affect step
-     positions. */
   .ds-completion-mark {
     display: inline-flex;
     align-items: center;
@@ -305,15 +267,10 @@
     align-self: flex-start;
   }
 
-  /* Horizontal: align mark center with the indicator centerline (which
-     sits at tap-target-min / 2 from ol's top), not with the ol's full
-     height (labels make it taller). */
   &.ds-orientation-horizontal .ds-completion-mark {
     margin-top: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
   }
 
-  /* Vertical: align mark center with the indicator column (indicator
-     center at tap-target-min / 2 from ol's left). */
   &.ds-orientation-vertical .ds-completion-mark {
     margin-left: calc((var(--ds-size-tap-target-min) - var(--ds-space-3)) / 2);
   }
@@ -322,10 +279,6 @@
     visibility: visible;
   }
 
-  /* Panel viewport hides the panel's overflow during slide entrance. The
-     block-axis padding gives a comfortable gap between nav and panel in
-     horizontal layout; in vertical the gap belongs to the .ds-stepper's flex
-     gap, so the padding is zeroed below. */
   .ds-panel-viewport {
     flex: 1;
     overflow: hidden;
@@ -342,10 +295,6 @@
     color: var(--ds-color-text-primary);
   }
 
-  /* Zero outer margins on the panel's first / last block-level child so
-     content's top edge aligns with the panel viewport top (in vertical
-     orientation, with the first indicator) instead of getting pushed
-     down by default <p> / <h*> margins. */
   .ds-panel > :first-child {
     margin-top: 0;
   }
@@ -362,9 +311,3 @@
   }
 }
 
-/* Stepper panel content is text and gets no animation per the
-   consolidated motion vocabulary (bounce / slide / spin only, and
-   slide is reserved for spatial controls like the toggle thumb and
-   the completion mark). The panel re-mounts on step change via the
-   key prop on <StepperPanel>; absence of animation means the new
-   content just appears. */

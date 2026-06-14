@@ -1,7 +1,7 @@
 {
   "name": "design-system",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "lint": "eslint .",
@@ -14,7 +14,10 @@
     "docs": "typedoc && start docs/index.html",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:unit": "vitest run --project=unit"
+    "test:unit": "vitest run --project=unit",
+    "coverage": "npm run coverage:unit && npm run coverage:stories",
+    "coverage:unit": "vitest run --config vitest.unit.config.ts --coverage",
+    "coverage:stories": "vitest run --project=storybook --coverage"
   },
   "dependencies": {
     "react": "^19.2.5",

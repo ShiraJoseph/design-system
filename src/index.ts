@@ -1,14 +1,4 @@
-/**
- * @file Public entry point for the design system.
- *
- * Consumers should import the tokens CSS once at app boot:
- *
- * ```ts
- * import 'design-system/tokens';
- * ```
- *
- * Components, icons, hooks, and types are re-exported below.
- */
+/** Public entry point. Import `design-system/tokens` once at app boot for the token CSS. */
 
 export * from './components/Button';
 export * from './components/IconButton';

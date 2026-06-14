@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Modal } from './Modal';
 import { Button } from '../Button';
 
@@ -50,6 +51,49 @@ export const Confirmation: Story = {
         />
       </>
     );
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', {name: 'Delete account'}));
+    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
+    await expect(dialog.open).toBe(true);
+    const heading = canvas.getByText('Delete this account?');
+    await expect(dialog).toHaveAttribute('aria-labelledby', heading.id);
+    const description = canvas.getByText(/cannot be undone/);
+    await expect(dialog).toHaveAttribute('aria-describedby', description.id);
+    await expect(canvas.getByRole('button', {name: 'Cancel'})).toBeInTheDocument();
+  },
+};
+
+export const Minimal: Story = {
+  args: {open: false, onClose: () => {}, title: ''},
+  render: () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button quiet onClick={() => setOpen(true)}>Open</Button>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Heads up"
+          closeLabel="Dismiss"
+        >
+          body content
+        </Modal>
+      </>
+    );
+  },
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', {name: 'Open'}));
+    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
+    await expect(dialog.open).toBe(true);
+    await expect(dialog).not.toHaveAttribute('aria-describedby');
+    await expect(canvasElement.querySelector('.ds-modal-footer')).toBeNull();
+    await expect(canvas.getByText('body content')).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button', {name: 'Dismiss'}));
+    await expect(dialog.open).toBe(false);
   },
 };
 

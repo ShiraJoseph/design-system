@@ -12,9 +12,6 @@
     background: var(--ds-color-bg-overlay);
   }
 
-  /* Modal bounces in scale (a pop) using the shared ds-bounce. Scale-only;
-     no opacity or translateY, so it reads as a clean pop rather than a
-     compound slide-fade. */
   &[open] {
     --bounce-rest: scale(1);
     --bounce-out: var(--ds-motion-bounce-scale-lg-out);
@@ -22,11 +19,6 @@
     animation: ds-bounce var(--ds-motion-duration-medium) linear both;
   }
 
-  /* Renders as a Card (overlay elevation) — border, radius, shadow, and
-     padding come from Card. Only layout and the dialog's own surface colour
-     live here. A dialog uses the dedicated `bg-modal` surface rather than the
-     shared card surface; the `.ds-card` is appended to raise specificity above
-     Card's elevation rule so this override wins. */
   .ds-modal-card.ds-card {
     background: var(--ds-color-bg-modal);
   }
@@ -36,9 +28,6 @@
     flex-direction: column;
     gap: var(--ds-space-2);
     max-height: var(--ds-size-modal-max-height);
-    /* No overflow: hidden — child outlines (e.g., a focused button's
-       focus ring) need to extend past the card. The body element below
-       handles its own scroll-overflow. */
   }
 
   .ds-modal-header {

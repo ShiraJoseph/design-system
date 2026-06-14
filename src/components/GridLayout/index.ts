@@ -1,1 +1,1 @@
-export { GridLayout, type GridLayoutProps, type GridLayoutSize } from './GridLayout';
+export { GridLayout, type GridLayoutSize } from './GridLayout';

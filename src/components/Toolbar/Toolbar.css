@@ -1,6 +1,3 @@
-/* Renders as a Card (raised elevation, sm padding for an 8px gutter) —
-   background, border, radius, shadow, and padding all come from Card. Only the
-   toolbar's layout lives here. */
 .ds-toolbar {
   display: inline-flex;
   align-items: center;
@@ -46,11 +43,6 @@
     color: var(--ds-color-action-primary-fg);
   }
 
-  /* Selected item gets the primary colour. Background snaps on; the
-     bounce is on translateY of the item itself, matching the Button
-     family's 6px / 2px bounce-up. Re-fires automatically when
-     aria-pressed flips because the animation declaration enters scope
-     on the newly-selected item. */
   .ds-item[aria-pressed='true'] {
     color: var(--ds-color-action-primary-fg);
     background: var(--ds-color-action-primary-bg);

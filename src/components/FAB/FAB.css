@@ -23,8 +23,6 @@
     animation: none;
   }
 
-  /* Shares the bounce-up family magnitudes with Button (6/2 translateY).
-     The shared .ds-bouncing rule in animations.css applies the animation. */
   &.ds-bouncing {
     --bounce-out: translateY(calc(var(--ds-motion-bounce-translate-out) * -1));
     --bounce-out-2: translateY(calc(var(--ds-motion-bounce-translate-out-2) * -1));

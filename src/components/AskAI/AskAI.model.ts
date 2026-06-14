@@ -4,14 +4,19 @@ import type { AskAIMessage, AskAIProvider } from './providers';
 
 interface UseAskAIModelArgs {
   provider: AskAIProvider;
+  title?: string;
+  className?: string;
 }
 
 interface UseAskAIModelResult {
   intl: IntlShape;
+  heading: string;
+  classes: string;
   draft: string;
   setDraft: (value: string) => void;
   messages: AskAIMessage[];
   streaming: boolean;
+  isStreamingMessage: (index: number) => boolean;
   threadRef: RefObject<HTMLDivElement | null>;
   inputRef: RefObject<HTMLInputElement | null>;
   submit: (question: string) => Promise<void>;
@@ -22,14 +27,10 @@ interface UseAskAIModelResult {
 }
 
 const ERROR_FALLBACK_CONTENT = 'Something went wrong while answering. Try again?';
+const DEFAULT_HEADING = 'Ask the design system';
 
-/**
- * Drives the AskAI chat panel: question/answer state, the streaming
- * loop against the supplied provider, the abort controller wiring, and
- * the auto-scroll-to-bottom behavior. The component renders JSX from
- * the returned state; all effects and handlers live here.
- */
-export const useAskAIModel = ({provider}: UseAskAIModelArgs): UseAskAIModelResult => {
+/** Drives the AskAI chat panel: Q&A state, the provider streaming loop, abort wiring, auto-scroll, and heading/class derivation. */
+export const useAskAIModel = ({provider, title, className}: UseAskAIModelArgs): UseAskAIModelResult => {
   const intl = useIntl();
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<AskAIMessage[]>([]);
@@ -114,13 +115,13 @@ export const useAskAIModel = ({provider}: UseAskAIModelArgs): UseAskAIModelResul
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    /* Enter submits via the surrounding <form>; we only intercept Escape
-       to give the user a keyboard exit from an in-flight stream. */
     if (event.key === 'Escape' && streaming) {
       event.preventDefault();
       cancel();
     }
   };
+
+  const isStreamingMessage = (index: number) => streaming && index === messages.length - 1;
 
   useEffect(() => {
     if (threadRef.current) {
@@ -130,10 +131,13 @@ export const useAskAIModel = ({provider}: UseAskAIModelArgs): UseAskAIModelResul
 
   return {
     intl,
+    heading: title ?? DEFAULT_HEADING,
+    classes: ['ds-ask-ai', className].filter(Boolean).join(' '),
     draft,
     setDraft,
     messages,
     streaming,
+    isStreamingMessage,
     threadRef,
     inputRef,
     submit,

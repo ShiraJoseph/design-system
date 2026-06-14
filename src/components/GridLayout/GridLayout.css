@@ -1,7 +1,5 @@
 .ds-grid-layout {
   display: grid;
-  /* One gap for every size, so grids of different `size` on the same page
-     align to a shared rhythm and the column math stays predictable. */
   gap: var(--ds-space-3);
 
   &.ds-grid-layout-size-sm {

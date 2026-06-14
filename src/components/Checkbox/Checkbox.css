@@ -56,9 +56,6 @@
     z-index: var(--ds-z-raised);
   }
 
-  /* State changes (border + bg) snap instantly. The only motion is the
-     .ds-bouncing scale pop applied via the shared rule, which scales the
-     whole box (border + check) together. */
   .ds-box {
     position: relative;
     display: inline-flex;
@@ -68,11 +65,6 @@
     border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
   }
 
-  /* Check + dash appear / disappear instantly via opacity. The bounce on
-     the parent .ds-box scales the check along with the border. Sized by
-     font-size off the standard scale like every other icon
-     (width/height = --ds-size-icon = 1em); the glyph is inset within its
-     viewBox so it keeps a gap from the border. */
   .ds-check {
     width: var(--ds-size-icon);
     height: var(--ds-size-icon);
@@ -81,9 +73,6 @@
     opacity: 0;
   }
 
-  /* Indeterminate mark: the Minus icon, sized by font-size like .ds-check.
-     Absolutely centered so it overlays the (hidden) check without affecting
-     the box layout. */
   .ds-dash {
     position: absolute;
     inset: 0;
@@ -122,10 +111,6 @@
     outline-offset: var(--ds-border-width-heavy);
   }
 
-  /* JS-triggered bounce on change: parent React component adds the
-     `ds-bouncing` class and removes it on animation end. Lives on .ds-box
-     so the border + check scale together; the label outside .ds-control
-     is not affected. */
   .ds-box.ds-bouncing {
     --bounce-rest: scale(1);
     --bounce-out: var(--ds-motion-bounce-scale-md-out);

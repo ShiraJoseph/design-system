@@ -66,15 +66,6 @@
     color: var(--ds-color-text-primary);
   }
 
-  /* Single ink bar that slides between triggers. Position and size are
-     driven by inline style from JS (measured from the active trigger's
-     offset rect). The linear() multi-stop timing settles the slide with
-     a small bounce-back-toward-start, matching the slide-then-bounce
-     shape used by the toggle thumb (which is expressed as composed
-     keyframe animations rather than a transition). */
-  /* Ink bar slides between active triggers using the shared slide-then-
-     bounce-back linear() multi-stop. Same shape as the Stepper connector
-     transition; pulls back ~6% then ~2% toward start before settling. */
   .ds-ink-bar {
     position: absolute;
     background: var(--ds-color-action-primary-bg);
@@ -103,16 +94,10 @@
     line-height: var(--ds-font-line-height-normal);
   }
 
-  /* Horizontal: a gap above the panel for breathing room from the
-     tablist. Vertical: no top padding so panel content aligns with the
-     first trigger. */
   &.ds-orientation-horizontal .ds-panel {
     padding-top: var(--ds-space-2);
   }
 
-  /* Zero outer margins on the panel's first / last block-level child so
-     content's top edge aligns with the panel boundary instead of being
-     pushed down by default <p> / <h*> margins. */
   .ds-panel > :first-child {
     margin-top: 0;
   }

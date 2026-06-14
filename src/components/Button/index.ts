@@ -1,1 +1,2 @@
-export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from './Button';
+export { Button } from './Button';
+export type { ButtonSize, ButtonVariant } from './Button.model';

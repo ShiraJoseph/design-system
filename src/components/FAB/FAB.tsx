@@ -1,41 +1,8 @@
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useFABModel } from './FAB.model';
+import { type FABSize, type FABVariant, useFABModel } from './FAB.model';
 import './FAB.css';
 
-export type FABSize = 'md' | 'lg';
-export type FABVariant = 'primary' | 'secondary';
-
-export interface FABProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * Required accessible name. The icon is decorative; this is what
-   * screen readers announce. Phrase as the action ("Compose message",
-   * "New project").
-   */
-  'aria-label': string;
-  /** Icon content. Should accept `currentColor`. */
-  icon: ReactNode;
-  /**
-   * Optional label that expands beside the icon when set. Useful for
-   * extended FABs ("Compose"). Hidden on `sm` size since space is
-   * tight there.
-   */
-  label?: ReactNode;
-  variant?: FABVariant;
-  size?: FABSize;
-  /** When `true`, suppresses the press-release bounce. */
-  quiet?: boolean;
-  ref?: Ref<HTMLButtonElement>;
-}
-
-/**
- * Floating action button. A high-emphasis circular control intended
- * to sit above content, typically anchored to a corner of the page.
- *
- * Apply positioning at the consumer (e.g., `style={{ position: 'fixed',
- * bottom: '1.5rem', right: '1.5rem' }}`); the component itself does
- * not impose any positioning so it can be reused inside layouts that
- * don't need fixed positioning.
- */
+/** High-emphasis circular floating action button; imposes no positioning, so anchor it at the consumer (e.g. `position: fixed`). */
 export const FAB = ({
   icon,
   label,
@@ -48,20 +15,29 @@ export const FAB = ({
   onClick,
   ref,
   ...rest
-}: FABProps) => {
-  const {bouncing, handleClick, handleAnimationEnd} = useFABModel({quiet, onClick});
-
-  const classes = [
-    'ds-fab',
-    `ds-variant-${variant}`,
-    `ds-size-${size}`,
-    label && 'ds-extended',
-    quiet && 'ds-quiet',
-    bouncing && 'ds-bouncing',
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** Required accessible name; phrase as the action ("Compose message", "New project"). */
+  'aria-label': string;
+  /** Should accept `currentColor`. */
+  icon: ReactNode;
+  /** Expands beside the icon for extended FABs; the label is not rendered on `sm`. */
+  label?: ReactNode;
+  /** Defaults to `'primary'`. */
+  variant?: FABVariant;
+  /** Defaults to `'md'`. */
+  size?: FABSize;
+  /** Suppresses the press-release bounce so it doesn't compete with another animated affordance the FAB triggers (Modal opening, Toast appearing). */
+  quiet?: boolean;
+  ref?: Ref<HTMLButtonElement>;
+}) => {
+  const {classes, handleClick, handleAnimationEnd} = useFABModel({
+    variant,
+    size,
+    label,
+    quiet,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    onClick,
+  });
 
   return (
     <button
@@ -73,8 +49,8 @@ export const FAB = ({
       onAnimationEnd={handleAnimationEnd}
       {...rest}
     >
-      <span className="ds-icon" aria-hidden="true">{icon}</span>
-      {label && <span className="ds-label">{label}</span>}
+      <span className={'ds-icon'} aria-hidden={'true'}>{icon}</span>
+      {label && <span className={'ds-label'}>{label}</span>}
     </button>
   );
 };

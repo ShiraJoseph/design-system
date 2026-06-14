@@ -415,8 +415,6 @@ const MotionDemo = ({
     if (kind === 'duration') {
       duration = cssDurationToMs(styles.getPropertyValue(`--ds-motion-duration-${name}`), 300);
     } else if (kind === 'pattern' && name === 'bounce') {
-      /* Numbers come from the production button bounce (translateY -6 /
-         -2 at 15% / 65%); without this anchor they'd read as arbitrary. */
       duration = cssDurationToMs(styles.getPropertyValue('--ds-motion-duration-medium'), 260);
       const bounceOut = styles.getPropertyValue('--ds-motion-bounce-translate-out').trim();
       const bounceOut2 = styles.getPropertyValue('--ds-motion-bounce-translate-out-2').trim();

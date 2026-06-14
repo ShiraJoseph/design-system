@@ -1,6 +1,3 @@
-/* Surface (background, border, radius, shadow) and the outer padding come
-   from the Card this renders as (padding="lg"); only layout, sizing, and the
-   spacing between the header / thread / composer regions live here. */
 .ds-ask-ai {
   position: relative;
   display: flex;
@@ -70,15 +67,11 @@
     width: var(--ds-size-full);
   }
 
-  /* DS Button used for suggestions; this class only adjusts text
-     alignment to left so prompts read naturally. */
   .ds-suggestion {
     justify-content: flex-start;
     text-align: left;
   }
 
-  /* Text content gets no animation in the consolidated motion vocabulary.
-     The bubble simply appears when its props change. */
   .ds-user-bubble,
   .ds-assistant-bubble {
     font-size: var(--ds-font-size-sm);
@@ -188,8 +181,6 @@
     gap: var(--ds-space-1);
   }
 
-  /* TextInput's outer wrapper grows to fill the row so the Ask button
-     stays pinned to the right of the composer. */
   .ds-composer-input {
     flex: 1;
   }

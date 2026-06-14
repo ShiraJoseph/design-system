@@ -18,11 +18,8 @@ interface UseModalModelResult {
 }
 
 /**
- * Drives the native <dialog> lifecycle: shows/closes in response to
- * the `open` prop, intercepts the browser's ESC `cancel` event so
- * `onClose` is the single source of truth, and computes the backdrop-
- * click handler (clicks on the dialog element itself, outside the
- * visible card, count as outside-the-modal).
+ * Drives the native <dialog> lifecycle and intercepts the browser's ESC
+ * `cancel` event so `onClose` stays the single source of truth.
  */
 export const useModalModel = ({
   open,
