@@ -1,0 +1,16 @@
+.ds-grid-layout {
+  display: grid;
+  gap: var(--ds-space-3);
+
+  &.ds-grid-layout-size-sm {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-sm), 100%), 1fr));
+  }
+
+  &.ds-grid-layout-size-md {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-md), 100%), 1fr));
+  }
+
+  &.ds-grid-layout-size-lg {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--ds-size-grid-min-lg), 100%), 1fr));
+  }
+}

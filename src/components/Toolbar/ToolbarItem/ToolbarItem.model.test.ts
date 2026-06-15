@@ -3,6 +3,17 @@ import { act, renderHook } from '@testing-library/react';
 import { useToolbarItemModel } from './ToolbarItem.model';
 
 describe('useToolbarItemModel', () => {
+  it('builds the base class list', () => {
+    const {result} = renderHook(() => useToolbarItemModel({}));
+    expect(result.current.classes).toBe('ds-item');
+  });
+
+  it('appends a passed className', () => {
+    const {result} = renderHook(() => useToolbarItemModel({className: 'extra'}));
+    expect(result.current.classes).toContain('ds-item');
+    expect(result.current.classes).toContain('extra');
+  });
+
   it('composes onSelect and onClick when both are provided', () => {
     const onSelect = vi.fn();
     const onClick = vi.fn();

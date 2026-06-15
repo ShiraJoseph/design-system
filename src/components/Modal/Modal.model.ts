@@ -1,28 +1,9 @@
-import { type MouseEvent, type ReactNode, type RefObject, useEffect, useId, useRef, } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useId, useLayoutEffect, useRef, } from 'react';
 import { useIntl } from 'react-intl';
 
-interface UseModalModelArgs {
-  open: boolean;
-  onClose: () => void;
-  description?: ReactNode;
-  dismissOnBackdropClick: boolean;
-  closeLabel?: string;
-}
-
-interface UseModalModelResult {
-  dialogRef: RefObject<HTMLDialogElement | null>;
-  titleId: string;
-  descId: string | undefined;
-  resolvedCloseLabel: string;
-  handleBackdropClick: (event: MouseEvent<HTMLDialogElement>) => void;
-}
-
 /**
- * Drives the native <dialog> lifecycle: shows/closes in response to
- * the `open` prop, intercepts the browser's ESC `cancel` event so
- * `onClose` is the single source of truth, and computes the backdrop-
- * click handler (clicks on the dialog element itself, outside the
- * visible card, count as outside-the-modal).
+ * Drives the native <dialog> lifecycle and intercepts the browser's ESC
+ * `cancel` event so `onClose` stays the single source of truth.
  */
 export const useModalModel = ({
   open,
@@ -30,7 +11,13 @@ export const useModalModel = ({
   description,
   dismissOnBackdropClick,
   closeLabel,
-}: UseModalModelArgs): UseModalModelResult => {
+}: {
+  open: boolean;
+  onClose: () => void;
+  description?: ReactNode;
+  dismissOnBackdropClick: boolean;
+  closeLabel?: string;
+}) => {
   const intl = useIntl();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const reactId = useId();
@@ -38,7 +25,7 @@ export const useModalModel = ({
   const descId = description ? `ds-modal-desc-${reactId}` : undefined;
   const resolvedCloseLabel = closeLabel ?? intl.formatMessage({id: 'modal.close'});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (open && !dialog.open) {

@@ -1,7 +1,2 @@
-export {
-  IconButton,
-  type IconButtonProps,
-  type IconButtonVariant,
-  type IconButtonSize,
-  type IconButtonShape,
-} from './IconButton';
+export { IconButton } from './IconButton';
+export type { IconButtonShape, IconButtonSize, IconButtonVariant } from './IconButton.model';

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect } from 'storybook/test';
 import { Modal } from './Modal';
 import { Button } from '../Button';
 
@@ -48,6 +49,55 @@ export const Confirmation: Story = {
             </>
           }
         />
+      </>
+    );
+  },
+};
+
+export const OpenByDefault: Story = {
+  name: 'Open by default',
+  tags: ['!autodocs'],
+  args: {open: false, onClose: () => {}, title: ''},
+  render: () => {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Delete this account?"
+        description="This action cannot be undone. All associated data will be permanently removed."
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="danger" onClick={() => setOpen(false)}>Delete</Button>
+          </>
+        }
+      />
+    );
+  },
+  play: async ({canvasElement}) => {
+    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
+    await expect(dialog.open).toBe(true);
+  },
+};
+
+export const Minimal: Story = {
+  args: {open: false, onClose: () => {}, title: ''},
+  render: () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button quiet onClick={() => setOpen(true)}>Open</Button>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          title="Heads up"
+          closeLabel="Dismiss"
+        >
+          body content
+        </Modal>
       </>
     );
   },

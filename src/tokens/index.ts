@@ -1,20 +1,4 @@
-/**
- * @file Public entry point for the design token module.
- *
- * Consumers should import the CSS once at app boot:
- *
- * ```ts
- * import 'design-system/tokens.css';
- * ```
- *
- * To reference tokens from JS/TS (e.g, inline styles), use the typed
- * `tokens` object, which exposes `var(--ds-...)` strings.
- *
- * ```ts
- * import { tokens } from 'design-system';
- * <div style={{ color: tokens.colorTextPrimary }} />
- * ```
- */
+/** Design token entry. Import the CSS once at boot; the typed `tokens` object exposes `var(--ds-...)` strings for JS/TS. */
 
 export { tokens } from './generated';
 export type { TokenName } from './generated';

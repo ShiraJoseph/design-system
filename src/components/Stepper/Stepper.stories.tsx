@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Stepper } from './Stepper';
 import { Button } from '../Button';
 
@@ -35,25 +36,22 @@ const sampleSteps = [
 
 const StepperHarness = ({orientation}: { orientation: 'horizontal' | 'vertical' }) => {
   const [step, setStep] = useState(0);
-  /* For vertical: reserve a fixed minimum height so the Back/Next buttons
-     stay put when the trailing connector expands on the last step. */
-  const wrapperStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-    maxWidth: 720,
-    ...(orientation === 'vertical' ? {minHeight: '24rem', justifyContent: 'space-between'} : {}),
-  };
 
   return (
-    <div style={wrapperStyle}>
+    <div
+      className={
+        orientation === 'vertical'
+          ? 'story-stepper-frame story-stepper-frame--vertical'
+          : 'story-stepper-frame'
+      }
+    >
       <Stepper
         orientation={orientation}
         activeStep={step}
         steps={sampleSteps}
         onStepChange={setStep}
       />
-      <div style={{display: 'flex', gap: '0.5rem', justifyContent: 'flex-end'}}>
+      <div className="story-actions">
         <Button variant="secondary" onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0}>
           Back
         </Button>
@@ -69,9 +67,32 @@ const StepperHarness = ({orientation}: { orientation: 'horizontal' | 'vertical' 
 export const Horizontal: Story = {
   args: {orientation: 'horizontal', activeStep: 0, steps: sampleSteps},
   render: () => <StepperHarness orientation="horizontal"/>,
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Account')).toBeInTheDocument();
+    await expect(canvas.getByText('Profile')).toBeInTheDocument();
+    await expect(canvas.getByText('Confirm')).toBeInTheDocument();
+    const nav = canvasElement.querySelector('nav') as HTMLElement;
+    await expect(nav).toHaveAttribute('aria-label');
+    await expect(canvas.getByText(/Provide your work email/)).toBeInTheDocument();
+    const indicators = within(nav).getAllByRole('button');
+    await userEvent.click(indicators[2]);
+    await expect(canvas.getByText(/Double-check the details/)).toBeInTheDocument();
+    await expect(canvasElement.querySelector('.ds-completion-mark')).toHaveAttribute('data-visible', 'true');
+  },
 };
 
 export const Vertical: Story = {
   args: {orientation: 'vertical', activeStep: 0, steps: sampleSteps},
   render: () => <StepperHarness orientation="vertical"/>,
+};
+
+export const NonInteractive: Story = {
+  args: {activeStep: 1, steps: sampleSteps},
+  render: (args) => <Stepper {...args} aria-label="Read-only progress"/>,
+  play: async ({canvasElement}) => {
+    const nav = canvasElement.querySelector('nav') as HTMLElement;
+    await expect(within(nav).queryAllByRole('button')).toHaveLength(0);
+    await expect(within(nav).getByText('Profile').closest('li')).toHaveAttribute('aria-current', 'step');
+  },
 };

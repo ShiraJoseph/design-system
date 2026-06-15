@@ -1,11 +1,4 @@
-/**
- * @file Token build script: reads `tokens.json` and emits `tokens.css`
- * (CSS custom properties for light + dark themes) and `generated.ts`
- * (typed token references usable from component code).
- *
- * Run with `npm run tokens:build`. The output files are committed so
- * consumers can use the design system without running the build.
- */
+/** Token build script (`npm run tokens:build`): reads `tokens.json`, emits the committed `tokens.css` + `generated.ts`. */
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -18,15 +11,7 @@ const tsOutPath = resolve(here, 'generated.ts');
 
 type TokenTree = Record<string, unknown>;
 
-/**
- * Resolve a `{primitive.color.accent.500}` style reference against the
- * full token tree. Recurses if the resolved value is itself a reference.
- *
- * @param value      The raw value, possibly a `{path}` reference.
- * @param tree       The full token tree to look up against.
- * @returns          The literal value with all references resolved.
- * @throws           If a reference path cannot be resolved.
- */
+/** Resolve a `{primitive.color.accent.500}` reference against the tree, recursing when a resolved value is itself a reference. */
 const resolveReference = (value: string, tree: TokenTree): string => {
   const referenceMatch = /^\{([^}]+)\}$/.exec(value);
   if (!referenceMatch) return value;
@@ -47,16 +32,7 @@ const resolveReference = (value: string, tree: TokenTree): string => {
   return resolveReference(current, tree);
 };
 
-/**
- * Convert a nested token object to a flat array of `[cssName, value]` pairs.
- * Path segments are joined with `-` and prefixed with `--ds-`.
- *
- * Example: `space.025 = "0.125rem"` becomes `--ds-space-025: 0.125rem`.
- *
- * @param subtree    The token branch to flatten.
- * @param prefix     Accumulated CSS variable name segments.
- * @param tree       Full tree, used to resolve `{...}` references.
- */
+/** Flatten a nested token object to `[--ds-cssName, value]` pairs (e.g. `space.025` becomes `--ds-space-025`). */
 const flatten = (
   subtree: TokenTree,
   prefix: string[],
@@ -77,25 +53,13 @@ const flatten = (
   return pairs;
 };
 
-/**
- * Render a list of CSS variable declarations as a selector block.
- *
- * @param selector   CSS selector (e.g. `:root` or `[data-theme="dark"]`).
- * @param pairs      Variable name/value pairs.
- */
 const renderBlock = (selector: string, pairs: Array<[string, string]>): string => {
   const lines = pairs.map(([name, value]) => `  ${name}: ${value};`);
 
   return `${selector} {\n${lines.join('\n')}\n}`;
 };
 
-/**
- * Strip the theme axis from semantic-color paths so the generated CSS
- * variable name does not include `light` or `dark`. The selector itself
- * already differentiates themes.
- *
- * `semantic-color-light-bg-page` becomes `color-bg-page`.
- */
+/** Strip the theme axis from semantic-color names (the selector already differentiates themes): `semantic-color-light-bg-page` becomes `color-bg-page`. */
 const rewriteSemantic = (name: string): string =>
   name
     .replace(/^--ds-semantic-color-(light|dark)-/, '--ds-color-')
@@ -164,7 +128,7 @@ const tsNames = [...new Set([
 for (const name of tsNames) {
   const camel = name
     .replace(/^--ds-/, '')
-    .replace(/-([a-z0-9])/g, (_, c: string) => c.toUpperCase());
+    .replace(/-([a-z0-9])/g, (_, char: string) => char.toUpperCase());
   tsLines.push(`  ${JSON.stringify(camel)}: 'var(${name})',`);
 }
 

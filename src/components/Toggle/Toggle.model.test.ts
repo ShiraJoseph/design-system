@@ -4,6 +4,14 @@ import { useToggleModel } from './Toggle.model';
 
 const originalMatchMedia = window.matchMedia;
 
+const baseArgs: Parameters<typeof useToggleModel>[0] = {
+  size: 'md',
+  visuallyHideLabel: false,
+};
+
+const renderModel = (overrides: Partial<Parameters<typeof useToggleModel>[0]> = {}) =>
+  renderHook(() => useToggleModel({...baseArgs, ...overrides}));
+
 beforeEach(() => {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -23,51 +31,74 @@ afterEach(() => {
 
 describe('useToggleModel', () => {
   it('uses the provided id when given', () => {
-    const {result} = renderHook(() => useToggleModel({id: 'wifi'}));
-    expect(result.current.inputId).toBe('wifi');
+    expect(renderModel({id: 'wifi'}).result.current.inputId).toBe('wifi');
   });
 
   it('generates a stable ds-toggle-* id when none is provided', () => {
-    const {result} = renderHook(() => useToggleModel({}));
-    expect(result.current.inputId).toMatch(/^ds-toggle-/);
+    expect(renderModel().result.current.inputId).toMatch(/^ds-toggle-/);
   });
 
   it('returns a descriptionId tied to the input when description is set', () => {
-    const {result} = renderHook(() =>
-      useToggleModel({id: 'wifi', description: 'auto-connect'}),
-    );
-    expect(result.current.descriptionId).toBe('wifi-desc');
+    expect(
+      renderModel({id: 'wifi', description: 'auto-connect'}).result.current.descriptionId,
+    ).toBe('wifi-desc');
   });
 
   it('returns descriptionId=undefined when description is omitted', () => {
-    const {result} = renderHook(() => useToggleModel({id: 'wifi'}));
-    expect(result.current.descriptionId).toBeUndefined();
+    expect(renderModel({id: 'wifi'}).result.current.descriptionId).toBeUndefined();
+  });
+
+  it('builds the wrapper class list from size and flags', () => {
+    const {result} = renderModel({size: 'sm', disabled: true});
+    expect(result.current.wrapperClasses).toContain('ds-toggle');
+    expect(result.current.wrapperClasses).toContain('ds-size-sm');
+    expect(result.current.wrapperClasses).toContain('ds-disabled');
+  });
+
+  it('appends a passed className to the wrapper', () => {
+    expect(renderModel({className: 'extra'}).result.current.wrapperClasses).toContain('extra');
+  });
+
+  it('omits ds-disabled when not disabled', () => {
+    expect(renderModel().result.current.wrapperClasses).not.toContain('ds-disabled');
+  });
+
+  it('labelClass switches to ds-visually-hidden when visuallyHideLabel is set', () => {
+    expect(renderModel().result.current.labelClass).toBe('ds-label');
+    expect(renderModel({visuallyHideLabel: true}).result.current.labelClass).toBe(
+      'ds-visually-hidden',
+    );
+  });
+
+  it('thumbClasses gains ds-bouncing after a change', () => {
+    const {result} = renderModel();
+    expect(result.current.thumbClasses).not.toContain('ds-bouncing');
+    act(() => result.current.handleChange({} as never));
+    expect(result.current.thumbClasses).toContain('ds-bouncing');
   });
 
   it('handleChange triggers the slide-bounce and forwards to onChange', () => {
     const onChange = vi.fn();
-    const {result} = renderHook(() => useToggleModel({onChange}));
+    const {result} = renderModel({onChange});
     const event = {} as never;
     act(() => result.current.handleChange(event));
-    expect(result.current.bouncing).toBe(true);
+    expect(result.current.thumbClasses).toContain('ds-bouncing');
     expect(onChange).toHaveBeenCalledWith(event);
   });
 
   it('handleChange tolerates a missing onChange', () => {
-    const {result} = renderHook(() => useToggleModel({}));
+    const {result} = renderModel();
     expect(() => act(() => result.current.handleChange({} as never))).not.toThrow();
   });
 
   it('handleThumbAnimationEnd clears bouncing on ds-slide-bounce (not ds-bounce)', () => {
-    const {result} = renderHook(() => useToggleModel({}));
+    const {result} = renderModel();
     act(() => result.current.handleChange({} as never));
-    act(() =>
-      result.current.handleThumbAnimationEnd({animationName: 'ds-bounce'} as never),
-    );
-    expect(result.current.bouncing).toBe(true);
+    act(() => result.current.handleThumbAnimationEnd({animationName: 'ds-bounce'} as never));
+    expect(result.current.thumbClasses).toContain('ds-bouncing');
     act(() =>
       result.current.handleThumbAnimationEnd({animationName: 'ds-slide-bounce'} as never),
     );
-    expect(result.current.bouncing).toBe(false);
+    expect(result.current.thumbClasses).not.toContain('ds-bouncing');
   });
 });

@@ -1,1 +1,2 @@
-export { TextInput, type TextInputProps, type TextInputSize } from './TextInput';
+export { TextInput } from './TextInput';
+export type { TextInputSize } from './TextInput.model';

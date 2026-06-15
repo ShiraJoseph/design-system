@@ -1,33 +1,9 @@
 import { type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
-import { useCheckboxModel } from './Checkbox.model';
+import { Check, Minus } from '../../icons';
+import { type CheckboxSize, useCheckboxModel } from './Checkbox.model';
 import './Checkbox.css';
 
-export type CheckboxSize = 'sm' | 'md';
-
-export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-  /** Visible label. Required for accessibility. */
-  label: ReactNode;
-  /** Helper text linked via aria-describedby. */
-  description?: ReactNode;
-  /** Hide the label visually while keeping it accessible. */
-  visuallyHideLabel?: boolean;
-  /**
-   * Tri-state checkbox. When `true`, the box renders an indeterminate
-   * dash mark instead of a checkmark. The native `indeterminate`
-   * property is set on the underlying input.
-   */
-  indeterminate?: boolean;
-  size?: CheckboxSize;
-  ref?: Ref<HTMLInputElement>;
-}
-
-/**
- * Boolean form input. Built on the native `<input type="checkbox">` so
- * keyboard activation, focus order, and form submission are correct
- * without any extra ARIA. On change, the entire box (border + check)
- * plays a 4-stop bounce, the same press-release animation Button uses,
- * so the check stays a constant size relative to its container.
- */
+/** Boolean form input built on the native `<input type="checkbox">` so keyboard, focus, and form submission are correct without extra ARIA. */
 export const Checkbox = ({
   label,
   description,
@@ -40,49 +16,37 @@ export const Checkbox = ({
   onChange,
   ref,
   ...rest
-}: CheckboxProps) => {
+}: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> & {
+  label: ReactNode;
+  /** Linked to the input via `aria-describedby`. */
+  description?: ReactNode;
+  /** Hide the label visually while keeping it accessible. */
+  visuallyHideLabel?: boolean;
+  /** Renders a dash mark and sets the native `indeterminate` property on the input. */
+  indeterminate?: boolean;
+  /** Defaults to `'md'`. */
+  size?: CheckboxSize;
+  ref?: Ref<HTMLInputElement>;
+}) => {
   const {
     inputId,
     descriptionId,
-    bouncing,
-    internalRef,
+    wrapperClasses,
+    boxClasses,
+    setMergedRef,
     handleChange,
     handleBoxAnimationEnd,
-  } = useCheckboxModel({id, description, indeterminate, onChange});
-
-  const setMergedRef = (node: HTMLInputElement | null) => {
-    internalRef.current = node;
-
-    if (typeof ref === 'function') {
-      ref(node);
-    } else if (ref) {
-      ref.current = node;
-    }
-  };
-
-  const wrapperClasses = [
-    'ds-checkbox',
-    `ds-size-${size}`,
-    indeterminate && 'ds-indeterminate',
-    disabled && 'ds-disabled',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const boxClasses = ['ds-box', bouncing && 'ds-bouncing']
-    .filter(Boolean)
-    .join(' ');
+  } = useCheckboxModel({id, description, indeterminate, size, disabled, className, ref, onChange});
 
   return (
     <div className={wrapperClasses}>
-      <label htmlFor={inputId} className="ds-row">
-        <span className="ds-control">
+      <label htmlFor={inputId} className={'ds-row'}>
+        <span className={'ds-control'}>
           <input
             ref={setMergedRef}
             id={inputId}
-            type="checkbox"
-            className="ds-input"
+            type={'checkbox'}
+            className={'ds-input'}
             disabled={disabled}
             aria-describedby={descriptionId}
             onChange={handleChange}
@@ -90,27 +54,19 @@ export const Checkbox = ({
           />
           <span
             className={boxClasses}
-            aria-hidden="true"
+            aria-hidden={'true'}
             onAnimationEnd={handleBoxAnimationEnd}
           >
-            <svg className="ds-check" viewBox="0 0 16 16" fill="none">
-              <path
-                d="m3.5 8.5 3 3 6-7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="ds-dash"/>
+            <Check className={'ds-check'}/>
+            <Minus className={'ds-dash'}/>
           </span>
         </span>
-        <span className="ds-text">
+        <span className={'ds-text'}>
           <span className={visuallyHideLabel ? 'ds-visually-hidden' : 'ds-label'}>
             {label}
           </span>
           {description && (
-            <span id={descriptionId} className="ds-description">
+            <span id={descriptionId} className={'ds-description'}>
               {description}
             </span>
           )}

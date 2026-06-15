@@ -4,6 +4,7 @@ import { ThemedDocsContainer } from './ThemedDocsContainer';
 import '../src/tokens/tokens.css';
 import '../src/styles/global.css';
 import '../src/styles/animations.css';
+import '../src/styles/stories.css';
 
 const withIntl: Decorator = (Story, context) => {
   const locale = (context.globals.locale ?? 'en') as Locale;
@@ -20,6 +21,9 @@ const withTheme: Decorator = (Story, context) => {
 
   if (typeof document !== 'undefined') {
     document.documentElement.setAttribute('data-theme', theme);
+    // `hyphens: auto` (set in global.css) only kicks in when the document
+    // declares a language the browser has a hyphenation dictionary for.
+    document.documentElement.lang = (context.globals.locale ?? 'en') as string;
     document.body.style.background = 'var(--ds-color-bg-page)';
     document.body.style.color = 'var(--ds-color-text-primary)';
     document.body.style.fontFamily = 'var(--ds-font-family-sans), sans-serif';

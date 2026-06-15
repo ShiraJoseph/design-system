@@ -5,97 +5,94 @@
   gap: var(--ds-space-1);
   border: 0;
   cursor: pointer;
-  font-family: var(--ds-font-family-sans), sans-serif;
-  font-weight: var(--ds-font-weight-bold);
-  letter-spacing: var(--ds-font-letter-spacing-tight);
+  font-family: var(--ds-font-family-display), sans-serif;
+  font-weight: var(--ds-font-weight-semibold);
   border-radius: var(--ds-radius-full);
   box-shadow: var(--ds-shadow-lg);
-}
 
-.ds-fab:disabled {
-  cursor: not-allowed;
-  opacity: var(--ds-opacity-disabled);
-}
+  &:disabled {
+    cursor: not-allowed;
+    opacity: var(--ds-opacity-disabled);
+  }
 
-.ds-fab:hover:not(:disabled) {
-  box-shadow: var(--ds-shadow-lg), var(--ds-dichroic-glow-soft);
-}
+  &:hover:not(:disabled) {
+    box-shadow: var(--ds-shadow-lg), var(--ds-dichroic-glow-soft);
+  }
 
-.ds-fab:active:not(:disabled) {
-  animation: none;
-}
+  &:active:not(:disabled) {
+    animation: none;
+  }
 
-/* Shares the bounce-up family magnitudes with Button (6/2 translateY).
-   The shared .ds-bouncing rule in animations.css applies the animation. */
-.ds-fab.ds-bouncing {
-  --bounce-out: translateY(calc(var(--ds-motion-bounce-translate-out) * -1));
-  --bounce-out-2: translateY(calc(var(--ds-motion-bounce-translate-out-2) * -1));
-}
+  &.ds-bouncing {
+    --bounce-out: translateY(calc(var(--ds-motion-bounce-translate-out) * -1));
+    --bounce-out-2: translateY(calc(var(--ds-motion-bounce-translate-out-2) * -1));
+  }
 
-.ds-fab.ds-quiet,
-.ds-fab.ds-quiet:hover,
-.ds-fab.ds-quiet:active {
-  animation: none;
-}
+  &.ds-quiet,
+  &.ds-quiet:hover,
+  &.ds-quiet:active {
+    animation: none;
+  }
 
-.ds-fab.ds-size-md {
-  width: var(--ds-space-6);
-  height: var(--ds-space-6);
-  font-size: var(--ds-font-size-base);
-}
+  &.ds-size-md {
+    width: var(--ds-space-6);
+    height: var(--ds-space-6);
+    font-size: var(--ds-font-size-base);
+  }
 
-.ds-fab.ds-size-md.ds-extended {
-  width: auto;
-  padding: 0 var(--ds-space-3);
-}
+  &.ds-size-md.ds-extended {
+    width: auto;
+    padding: 0 var(--ds-space-3);
+  }
 
-.ds-fab.ds-size-lg {
-  width: var(--ds-space-8);
-  height: var(--ds-space-8);
-  font-size: var(--ds-font-size-md);
-}
+  &.ds-size-lg {
+    width: var(--ds-space-8);
+    height: var(--ds-space-8);
+    font-size: var(--ds-font-size-md);
+  }
 
-.ds-fab.ds-size-lg.ds-extended {
-  width: auto;
-  padding: 0 var(--ds-space-4);
-}
+  &.ds-size-lg.ds-extended {
+    width: auto;
+    padding: 0 var(--ds-space-4);
+  }
 
-.ds-fab.ds-variant-primary {
-  background: var(--ds-color-action-primary-bg);
-  color: var(--ds-color-action-primary-fg);
-}
+  &.ds-variant-primary {
+    background: var(--ds-color-action-primary-bg);
+    color: var(--ds-color-action-primary-fg);
+  }
 
-.ds-fab.ds-variant-primary:hover:not(:disabled) {
-  background: var(--ds-color-action-primary-bg-hover);
-}
+  &.ds-variant-primary:hover:not(:disabled) {
+    background: var(--ds-color-action-primary-bg-hover);
+  }
 
-.ds-fab.ds-variant-primary:active:not(:disabled) {
-  background: var(--ds-color-action-primary-bg-pressed);
-}
+  &.ds-variant-primary:active:not(:disabled) {
+    background: var(--ds-color-action-primary-bg-pressed);
+  }
 
-.ds-fab.ds-variant-secondary {
-  background: var(--ds-color-action-secondary-bg);
-  color: var(--ds-color-action-secondary-fg);
-  border: var(--ds-border-width-thin) solid var(--ds-color-action-secondary-border);
-}
+  &.ds-variant-secondary {
+    background: var(--ds-color-action-secondary-bg);
+    color: var(--ds-color-action-secondary-fg);
+    border: var(--ds-border-width-thin) solid var(--ds-color-action-secondary-border);
+  }
 
-.ds-fab.ds-variant-secondary:hover:not(:disabled) {
-  background: var(--ds-color-action-secondary-bg-hover);
-}
+  &.ds-variant-secondary:hover:not(:disabled) {
+    background: var(--ds-color-action-secondary-bg-hover);
+  }
 
-.ds-fab.ds-variant-secondary:active:not(:disabled) {
-  background: var(--ds-color-action-secondary-bg-pressed);
-}
+  &.ds-variant-secondary:active:not(:disabled) {
+    background: var(--ds-color-action-secondary-bg-pressed);
+  }
 
-.ds-fab .ds-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.25em;
-  height: 1.25em;
-  flex-shrink: 0;
-}
+  .ds-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ds-size-icon-lg);
+    height: var(--ds-size-icon-lg);
+    flex-shrink: 0;
+  }
 
-.ds-fab .ds-label {
-  font-size: var(--ds-font-size-base);
+  .ds-label {
+    font-size: var(--ds-font-size-base);
+  }
 }

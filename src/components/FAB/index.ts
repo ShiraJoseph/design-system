@@ -1,1 +1,2 @@
-export { FAB, type FABProps, type FABSize, type FABVariant } from './FAB';
+export { FAB } from './FAB';
+export type { FABSize, FABVariant } from './FAB.model';

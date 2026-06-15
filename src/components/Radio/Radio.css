@@ -1,110 +1,99 @@
 .ds-radio {
   font-family: var(--ds-font-family-sans), sans-serif;
   color: var(--ds-color-text-primary);
-}
 
-.ds-radio .ds-row {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: var(--ds-space-2);
-  cursor: pointer;
-  user-select: none;
-}
+  .ds-row {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: var(--ds-space-2);
+    cursor: pointer;
+    user-select: none;
+  }
 
-.ds-radio.ds-disabled .ds-row {
-  cursor: not-allowed;
-  opacity: var(--ds-opacity-disabled);
-}
+  &.ds-disabled .ds-row {
+    cursor: not-allowed;
+    opacity: var(--ds-opacity-disabled);
+  }
 
-/* The control is the height of one line of label text so the radio
-   centers vertically with the first line of the label even when the
-   label has a multi-line description below. */
-.ds-radio .ds-control {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  height: calc(var(--ds-font-size-base) * var(--ds-font-line-height-snug));
-}
+  .ds-control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: calc(var(--ds-font-size-base) * var(--ds-font-line-height-snug));
+  }
 
-.ds-radio .ds-ring {
-  width: var(--ds-space-2);
-  height: var(--ds-space-2);
-  --ds-radio-dot-size: var(--ds-space-1);
-}
+  .ds-ring {
+    width: var(--ds-space-2);
+    height: var(--ds-space-2);
+    --ds-radio-dot-size: var(--ds-space-1);
+  }
 
-.ds-radio .ds-input {
-  position: absolute;
-  inset: 0;
-  width: var(--ds-size-full);
-  height: var(--ds-size-full);
-  margin: 0;
-  opacity: 0;
-  cursor: inherit;
-  z-index: var(--ds-z-raised);
-}
+  .ds-input {
+    position: absolute;
+    inset: 0;
+    width: var(--ds-size-full);
+    height: var(--ds-size-full);
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+    z-index: var(--ds-z-raised);
+  }
 
-/* State changes (border) snap instantly. The only motion is the
-   .ds-bouncing scale pop applied via the shared rule. */
-.ds-radio .ds-ring {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
-  border-radius: var(--ds-radius-full);
-  box-sizing: border-box;
-}
+  .ds-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: var(--ds-border-width-thick) solid var(--ds-color-border-default);
+    border-radius: var(--ds-radius-full);
+    box-sizing: border-box;
+  }
 
-/* Dot appears / disappears instantly via opacity. The bounce lives on
-   the parent .ds-ring so the outer ring + inner dot scale together. */
-.ds-radio .ds-dot {
-  width: var(--ds-radio-dot-size);
-  height: var(--ds-radio-dot-size);
-  background: var(--ds-color-action-primary-bg);
-  border-radius: var(--ds-radius-full);
-  opacity: 0;
-  flex-shrink: 0;
-}
+  .ds-dot {
+    width: var(--ds-radio-dot-size);
+    height: var(--ds-radio-dot-size);
+    background: var(--ds-color-action-primary-bg);
+    border-radius: var(--ds-radius-full);
+    opacity: 0;
+    flex-shrink: 0;
+  }
 
-.ds-radio .ds-input:checked ~ .ds-ring {
-  border-color: var(--ds-color-action-primary-bg);
-}
+  .ds-input:checked ~ .ds-ring {
+    border-color: var(--ds-color-action-primary-bg);
+  }
 
-.ds-radio .ds-input:checked ~ .ds-ring .ds-dot {
-  opacity: 1;
-}
+  .ds-input:checked ~ .ds-ring .ds-dot {
+    opacity: 1;
+  }
 
-.ds-radio .ds-input:focus-visible ~ .ds-ring {
-  outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
-  outline-offset: var(--ds-border-width-heavy);
-}
+  .ds-input:focus-visible ~ .ds-ring {
+    outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
+    outline-offset: var(--ds-border-width-heavy);
+  }
 
-/* JS-triggered bounce on change: parent React component adds the
-   `ds-bouncing` class and removes it on animation end. Lives on .ds-ring
-   so the border + dot scale together; the label outside .ds-control is
-   not affected. */
-.ds-radio .ds-ring.ds-bouncing {
-  --bounce-rest: scale(1);
-  --bounce-out: var(--ds-motion-bounce-scale-sm-out);
-  --bounce-out-2: var(--ds-motion-bounce-scale-sm-out-2);
-}
+  .ds-ring.ds-bouncing {
+    --bounce-rest: scale(1);
+    --bounce-out: var(--ds-motion-bounce-scale-sm-out);
+    --bounce-out-2: var(--ds-motion-bounce-scale-sm-out-2);
+  }
 
-.ds-radio .ds-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-025);
-}
+  .ds-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-025);
+  }
 
-.ds-radio .ds-label {
-  font-size: var(--ds-font-size-base);
-  font-weight: var(--ds-font-weight-medium);
-  line-height: var(--ds-font-line-height-snug);
-}
+  .ds-label {
+    font-size: var(--ds-font-size-base);
+    font-weight: var(--ds-font-weight-regular);
+    line-height: var(--ds-font-line-height-snug);
+  }
 
-.ds-radio .ds-description {
-  font-size: var(--ds-font-size-sm);
-  color: var(--ds-color-text-secondary);
-  line-height: var(--ds-font-line-height-snug);
+  .ds-description {
+    font-size: var(--ds-font-size-sm);
+    color: var(--ds-color-text-secondary);
+    line-height: var(--ds-font-line-height-snug);
+  }
 }

@@ -44,10 +44,27 @@ describe('useRadioModel', () => {
     expect(result.current.descriptionId).toBeUndefined();
   });
 
+  it('builds wrapperClasses with ds-radio and appends a passed className', () => {
+    const {result} = renderHook(() => useRadioModel({className: 'extra'}));
+    expect(result.current.wrapperClasses).toContain('ds-radio');
+    expect(result.current.wrapperClasses).toContain('extra');
+  });
+
+  it('wrapperClasses includes ds-disabled only when disabled', () => {
+    expect(renderHook(() => useRadioModel({disabled: true})).result.current.wrapperClasses).toContain('ds-disabled');
+    expect(renderHook(() => useRadioModel({})).result.current.wrapperClasses).not.toContain('ds-disabled');
+  });
+
+  it('ringClasses starts as ds-ring without the bounce', () => {
+    const {result} = renderHook(() => useRadioModel({}));
+    expect(result.current.ringClasses).toContain('ds-ring');
+    expect(result.current.ringClasses).not.toContain('ds-bouncing');
+  });
+
   it('handleChange triggers the ring bounce', () => {
     const {result} = renderHook(() => useRadioModel({}));
     act(() => result.current.handleChange({} as never));
-    expect(result.current.bouncing).toBe(true);
+    expect(result.current.ringClasses).toContain('ds-bouncing');
   });
 
   it('handleChange forwards to a consumer onChange when provided', () => {
@@ -67,6 +84,6 @@ describe('useRadioModel', () => {
     const {result} = renderHook(() => useRadioModel({}));
     act(() => result.current.handleChange({} as never));
     act(() => result.current.handleRingAnimationEnd({animationName: 'ds-bounce'} as never));
-    expect(result.current.bouncing).toBe(false);
+    expect(result.current.ringClasses).not.toContain('ds-bouncing');
   });
 });

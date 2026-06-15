@@ -2,6 +2,8 @@
 
 A short reference for code-style rules in this repo: universal style, React, CSS, JSON. Component-specific conventions (file structure, JSDoc, accessibility checklist) live in [AGENTS.md](./AGENTS.md).
 
+**These rules apply to all code at all times** — not just new code or the current PR. A pre-existing violation is still a violation; fix it the moment you find it, even if it predates your change. A style review covers the whole repo, never just the diff.
+
 ## Universal
 
 - **DRY.** When two components express the same concept (a bounce curve, a duration, a primitive), they share one definition. Shared things live in shared files.
@@ -17,13 +19,18 @@ A short reference for code-style rules in this repo: universal style, React, CSS
 
 ## React
 
-- **One component per `.tsx` file.** Sub-components extract into their own files.
-- **`ref` is a regular prop.** React 19, no `forwardRef`. Add `ref?: Ref<HTMLElementName>` to the props interface and pass it through.
+- **One component per `.tsx` file.** Each component gets its own camelCase folder; sub-components nest as sibling folders inside the parent (`Card/CardHeader/CardHeader.tsx`), never flat in the parent folder or in top-level `components/`.
+- **Inline trivially-small components.** A one- or two-line wrapper used in a single place is inlined at its call site, not given a file/import/export. A file is for something substantial, publicly exported, or genuinely reused.
+- **`ref` is a regular prop.** React 19, no `forwardRef`. Add `ref?: Ref<HTMLElementName>` to the props and pass it through.
 - **No `useMemo` or `useCallback`** unless there's no alternative. The React Compiler handles memoization.
-- **Component logic lives in `<Name>.model.ts`** (lowercase `model`), exposed as `use<Name>Model`. The `.tsx` file holds JSX, the Props interface, and JSDoc. Non-Props types move to the model file.
+- **The `.tsx` is the hook call + JSX, nothing else.** No state/effects/refs, no helper functions, no named `Props` interface; only inline ternaries in the JSX. Logic, multi-flag className strings, and non-Props types live in `<Name>.model.ts` (lowercase), exposed as `use<Name>Model`. **Exception:** if the only derivation is a SINGLE `const` (typically one className), leave it inline in the `.tsx` — don't create a model file just to hold one value. Two+ derived consts, or any state/effect/handler/ref → extract the model. A trivial merge shared by sibling sub-components belongs in one shared helper, not N one-const models.
+- **Model hooks: inline args type, inferred return.** `use<Name>Model`'s args are an inline anonymous object type (like component props) — no named `UseXxxModelArgs`. Don't annotate the return type either — no `UseXxxModelResult`; let it infer from the returned object.
+- **Refs and the model.** Pass the consumer `ref` into the model only when the model needs the DOM node (measurement, `indeterminate`, focus). Then merge the internal + consumer refs with the shared `assignRefs(node, ...refs)` helper (`src/utils/`), called from inside the ref callback: `const setMergedRef = (node) => assignRefs(node, internalRef, ref);`. No eslint-disable needed (it's a plain helper run from the callback, not during render). If the model doesn't need the node, put `ref` straight on the JSX element instead.
+- **Props are an inline destructured type, not a named interface.** Put per-prop JSDoc on the inline type's members — Storybook's react-docgen reads member JSDoc for the autodocs description column (it does NOT read `@param`). Don't export a `XxxProps` type; consumers use `React.ComponentProps<typeof Component>`.
+- **JSX attribute values always use braces:** `type={'button'}`, `role={'switch'}`, `tabIndex={0}` — never `type="button"`.
 - **Arrow functions everywhere.** No `function ComponentName() {}`, no `function helper() {}`.
 - **Curly braces on `if`/`else`**, except a lone `if` with no `else` and an early-exit body (`if (!value) return;`).
-- **Break up long files.** When a file gets long, split it.
+- **Break up long files; inline too-small ones.** Split a file that's grown long; inline a file too trivial to justify itself.
 
 ## CSS
 
@@ -39,6 +46,7 @@ A short reference for code-style rules in this repo: universal style, React, CSS
 
 - 2-space indentation, single trailing newline, no trailing whitespace.
 - `tokens.json` validates against `tokens.schema.json` and round-trips through `npm run tokens:build` without errors.
+- Color values in `tokens.json` are hex — `#rrggbb`, or 8-digit `#rrggbbaa` for alpha — never `rgb()` / `rgba()`. One format throughout.
 - Every locale file in `src/i18n/messages/` has the same key set.
 - `package.json` dependencies and devDependencies are sorted alphabetically.
 - No data duplication across config files. Versions, paths, and constants have one canonical home.

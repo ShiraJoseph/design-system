@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { useIntl } from 'react-intl';
 import { Toggle } from './Toggle';
 
@@ -19,13 +20,21 @@ const meta = {
     disabled: {control: 'boolean'},
     visuallyHideLabel: {control: 'boolean'},
   },
-  args: {label: 'Email notifications'},
+  args: {label: 'Email notifications', onChange: fn()},
 } satisfies Meta<typeof Toggle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({canvasElement, args}) => {
+    const toggle = within(canvasElement).getByRole('switch', {name: /Email notifications/});
+    await expect(toggle).not.toBeChecked();
+    await userEvent.click(toggle);
+    await expect(toggle).toBeChecked();
+    await expect(args.onChange).toHaveBeenCalledOnce();
+  },
+};
 
 export const Checked: Story = {args: {defaultChecked: true}};
 
@@ -35,6 +44,10 @@ export const WithDescription: Story = {
     description: 'Get a digest at 9am local time. Never spam, you can change this any time.',
     defaultChecked: true,
   },
+  play: async ({canvasElement}) => {
+    const toggle = within(canvasElement).getByRole('switch');
+    await expect(toggle).toHaveAccessibleDescription(/Get a digest/);
+  },
 };
 
 export const Small: Story = {
@@ -43,6 +56,9 @@ export const Small: Story = {
 
 export const Disabled: Story = {
   args: {disabled: true, label: 'Premium feature', description: 'Upgrade to enable.'},
+  play: async ({canvasElement}) => {
+    await expect(within(canvasElement).getByRole('switch')).toBeDisabled();
+  },
 };
 
 export const Localized: Story = {

@@ -1,27 +1,24 @@
-import { type KeyboardEvent, type RefObject, useEffect, useRef, useState } from 'react';
+import { type KeyboardEvent, type Ref, useLayoutEffect, useRef, useState } from 'react';
+import { assignRefs } from '../../utils/assignRefs';
 
 export type ToolbarOrientation = 'horizontal' | 'vertical';
 
-interface UseToolbarModelArgs {
-  orientation: ToolbarOrientation;
-}
-
-interface UseToolbarModelResult {
-  /** Internal ref the consumer must attach to the toolbar container. */
-  containerRef: RefObject<HTMLDivElement | null>;
-  handleKeyDown: (event: KeyboardEvent<HTMLDivElement>) => void;
-}
-
 /**
- * Implements the roving-tabindex pattern for a toolbar of `<button>`
- * children. Exactly one enabled item is tabbable at a time; Arrow
- * keys cycle, Home/End jump to ends, disabled items are skipped, and
- * a MutationObserver keeps the tabindex correct when items get added,
- * removed, or toggled disabled at runtime. The consumer mounts the
- * returned `containerRef` on the toolbar's root element so the hook
- * can observe and drive focus.
+ * Roving-tabindex for a toolbar of `<button>` children; a MutationObserver keeps the tabindex
+ * correct when items are added, removed, or toggled disabled at runtime. Also derives the
+ * container class list and merges the consumer ref.
  */
-export const useToolbarModel = ({orientation}: UseToolbarModelArgs): UseToolbarModelResult => {
+export const useToolbarModel = ({
+  orientation,
+  className,
+  ref,
+  onKeyDown,
+}: {
+  orientation: ToolbarOrientation;
+  className?: string;
+  ref?: Ref<HTMLDivElement>;
+  onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [focusIndex, setFocusIndex] = useState(0);
 
@@ -32,7 +29,7 @@ export const useToolbarModel = ({orientation}: UseToolbarModelArgs): UseToolbarM
     return Array.from(node.querySelectorAll<HTMLButtonElement>('button:not([disabled])'));
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const node = containerRef.current;
     if (!node) return;
 
@@ -63,6 +60,8 @@ export const useToolbarModel = ({orientation}: UseToolbarModelArgs): UseToolbarM
     return () => observer.disconnect();
   }, [focusIndex]);
 
+  const setMergedRef = (node: HTMLDivElement | null) => assignRefs(node, containerRef, ref);
+
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const items = getEnabledItems();
     if (items.length === 0) return;
@@ -90,5 +89,20 @@ export const useToolbarModel = ({orientation}: UseToolbarModelArgs): UseToolbarM
     items[target]?.focus();
   };
 
-  return {containerRef, handleKeyDown};
+  const onContainerKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(event);
+    handleKeyDown(event);
+  };
+
+  const classes = ['ds-toolbar', `ds-orientation-${orientation}`, className]
+    .filter(Boolean)
+    .join(' ');
+
+  return {
+    classes,
+    /** Attach to the toolbar container; merges the internal ref with any external ref so the hook can observe and drive focus. */
+    setMergedRef,
+    /** Composes the consumer's `onKeyDown` with the roving-tabindex navigation. */
+    onContainerKeyDown,
+  };
 };

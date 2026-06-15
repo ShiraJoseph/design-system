@@ -1,66 +1,68 @@
-import {
-  type AnimationEvent,
-  type ChangeEvent,
-  type ReactNode,
-  type RefObject,
-  useEffect,
-  useId,
-  useRef,
-} from 'react';
+import { type ChangeEvent, type ReactNode, type Ref, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
+import { assignRefs } from '../../utils/assignRefs';
 
-interface UseCheckboxModelArgs {
-  id?: string;
-  description?: ReactNode;
-  indeterminate: boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+export type CheckboxSize = 'sm' | 'md';
 
-interface UseCheckboxModelResult {
-  inputId: string;
-  descriptionId: string | undefined;
-  bouncing: boolean;
-  /** Internal ref the consumer must attach to the input (merge with any external ref in component scope). */
-  internalRef: RefObject<HTMLInputElement | null>;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleBoxAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
-}
-
-/**
- * Checkbox wiring: per-instance ids, bounce-on-change, the effect that
- * pushes `indeterminate` to the native input, and the internal ref the
- * component attaches to the <input> so it can write `indeterminate`.
- * Merging the internal ref with an external prop ref happens in the
- * component file (keeps the hook free of ref mutation).
- */
+/** Checkbox wiring: per-instance ids, bounce-on-change, class/state derivation, and the ref that pushes `indeterminate` to the native input. */
 export const useCheckboxModel = ({
   id,
   description,
   indeterminate,
+  size,
+  disabled,
+  className,
+  ref,
   onChange,
-}: UseCheckboxModelArgs): UseCheckboxModelResult => {
+}: {
+  id?: string;
+  description?: ReactNode;
+  indeterminate: boolean;
+  size: CheckboxSize;
+  disabled?: boolean;
+  className?: string;
+  ref?: Ref<HTMLInputElement>;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const reactId = useId();
   const inputId = id ?? `ds-checkbox-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;
-  const internalRef = useRef<HTMLInputElement>(null);
   const {bouncing, triggerBounce, handleBounceAnimationEnd} = useBounceOnChange();
 
-  useEffect(() => {
-    if (internalRef.current) {
-      internalRef.current.indeterminate = indeterminate;
+  const setMergedRef = (node: HTMLInputElement | null) => {
+    if (node) {
+      node.indeterminate = indeterminate;
     }
-  }, [indeterminate]);
+
+    assignRefs(node, ref);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     triggerBounce();
     onChange?.(event);
   };
 
+  const wrapperClasses = [
+    'ds-checkbox',
+    `ds-size-${size}`,
+    indeterminate && 'ds-indeterminate',
+    disabled && 'ds-disabled',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const boxClasses = ['ds-box', bouncing && 'ds-bouncing']
+    .filter(Boolean)
+    .join(' ');
+
   return {
     inputId,
     descriptionId,
-    bouncing,
-    internalRef,
+    wrapperClasses,
+    boxClasses,
+    /** Attach to the input; forwards any external ref and pushes `indeterminate` (which has no JSX prop) straight to the node. */
+    setMergedRef,
     handleChange,
     handleBoxAnimationEnd: handleBounceAnimationEnd,
   };

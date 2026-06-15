@@ -1,22 +1,4 @@
-/**
- * Shared motion primitives. Every animated control in the system uses
- * one of these keyframes; components only supply the CSS variables that
- * shape the motion (--bounce-out, --bounce-out-2, --slide-from,
- * --slide-to, optional --bounce-rest).
- *
- * Every stop is a linear interpolation between adjacent stops; there is
- * no easing anywhere. The bounce is expressed as a series of linear
- * segments: travel out, segment back toward start, travel out a smaller
- * amount, segment back toward start, hold.
- *
- * Imported once from .storybook/preview.tsx for stories and from the
- * consumer app's bootstrap for production. Non-module CSS keeps the
- * keyframe names global (CSS Modules would otherwise scope them).
- */
 
-/* Bounce in place: rest -> out (15%) -> rest (30%) -> smaller out
-   (65%) -> rest (80%) -> held. Used by buttons, modals, controls that
-   sit still and pop on activation. */
 @keyframes ds-bounce {
   0% {
     transform: var(--bounce-rest, none);
@@ -35,8 +17,6 @@
   }
 }
 
-/* Slide A -> B, then bounce back toward A and settle. All linear
-   segments. Used by the toggle thumb. */
 @keyframes ds-slide-bounce {
   0% {
     transform: var(--slide-from);
@@ -58,16 +38,12 @@
   }
 }
 
-/* Continuous rotation for spinners. */
 @keyframes ds-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* Shared application of ds-bounce. Components only need to set the
-   --bounce-out / --bounce-out-2 / --bounce-rest variables on the target
-   element; they do not redeclare the animation. */
 .ds-bouncing {
   animation: ds-bounce var(--ds-motion-duration-medium) linear both;
 }

@@ -3,11 +3,7 @@ import { IntlProvider as ReactIntlProvider } from 'react-intl';
 import enMessages from './messages/en.json';
 import esMessages from './messages/es.json';
 
-/**
- * BCP 47 language tags supported out of the box. Add more by dropping a
- * matching `messages/<tag>.json` file into the i18n directory and
- * extending this union.
- */
+/** Add a locale by dropping a `messages/<tag>.json` file in and extending this union. */
 export type Locale = 'en' | 'es';
 
 const catalogs: Record<Locale, Record<string, string>> = {
@@ -16,13 +12,8 @@ const catalogs: Record<Locale, Record<string, string>> = {
 };
 
 interface IntlProviderProps {
-  /** Active locale. Defaults to `'en'` if not provided. */
   locale?: Locale;
-  /**
-   * Optional message overrides merged on top of the bundled catalog.
-   * Useful for application-level strings consumers want to localize
-   * alongside the design system messages.
-   */
+  /** Overrides merged on top of the bundled catalog, for consumer app-level strings. */
   messages?: Record<string, string>;
   children: ReactNode;
 }
@@ -30,12 +21,8 @@ interface IntlProviderProps {
 const noop = () => {};
 
 /**
- * Wraps the app (or a Storybook story) in `react-intl`'s provider with
- * the design system's bundled message catalogs.
- *
- * Falls back to English if the requested locale is missing, the
- * `defaultLocale` prop ensures react-intl doesn't throw on a missing
- * key, just logs in development.
+ * Wraps the app (or a story) in react-intl's provider with the bundled catalogs,
+ * falling back to English so a missing key logs in dev instead of throwing.
  */
 export const IntlProvider = ({locale = 'en', messages, children}: IntlProviderProps) => {
   const merged = {...catalogs[locale], ...messages};

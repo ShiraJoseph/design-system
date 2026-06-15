@@ -57,13 +57,8 @@ const renderBlock = (block: string): ReactNode => {
 };
 
 /**
- * Tiny markdown renderer for AskAI answers. Supports the subset the
- * static provider emits: fenced code blocks, bullet lists, bold, and
- * italic. Pulled inline so the library doesn't depend on a heavy
- * markdown library, the input set is fixed and small.
- *
- * @param markdown   The markdown string to render.
- * @returns          A React tree of elements.
+ * Tiny markdown renderer for the fixed subset AskAI emits (fenced code,
+ * bullets, bold, italic); inline so the library avoids a heavy markdown dep.
  */
 export const MiniMarkdown = ({markdown}: { markdown: string }): ReactNode => {
   const blocks = markdown.split(/\n(?=```|\n)/);

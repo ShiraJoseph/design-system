@@ -1,31 +1,26 @@
-import { type AnimationEvent, type ChangeEvent, type ReactNode, useId } from 'react';
+import { type ChangeEvent, type ReactNode, useId } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 
-interface UseToggleModelArgs {
-  id?: string;
-  description?: ReactNode;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+export type ToggleSize = 'sm' | 'md';
 
-interface UseToggleModelResult {
-  inputId: string;
-  descriptionId: string | undefined;
-  bouncing: boolean;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleThumbAnimationEnd: (event: AnimationEvent<HTMLSpanElement>) => void;
-}
-
-/**
- * Per-instance ids for Toggle's input + optional description, plus the
- * JS-triggered slide-bounce wiring. Listens specifically for the
- * `ds-slide-bounce` animation name so unrelated nested animations
- * can't accidentally clear the bouncing flag.
- */
+/** Per-instance ids, class derivation, and slide-bounce wiring for Toggle; listens for the `ds-slide-bounce` animation name so nested animations can't clear the bouncing flag. */
 export const useToggleModel = ({
   id,
   description,
+  size,
+  disabled,
+  className,
+  visuallyHideLabel,
   onChange,
-}: UseToggleModelArgs): UseToggleModelResult => {
+}: {
+  id?: string;
+  description?: ReactNode;
+  size: ToggleSize;
+  disabled?: boolean;
+  className?: string;
+  visuallyHideLabel: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
   const reactId = useId();
   const inputId = id ?? `ds-toggle-${reactId}`;
   const descriptionId = description ? `${inputId}-desc` : undefined;
@@ -38,10 +33,23 @@ export const useToggleModel = ({
     onChange?.(event);
   };
 
+  const wrapperClasses = [
+    'ds-toggle',
+    `ds-size-${size}`,
+    disabled && 'ds-disabled',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const thumbClasses = ['ds-thumb', bouncing && 'ds-bouncing'].filter(Boolean).join(' ');
+
   return {
     inputId,
     descriptionId,
-    bouncing,
+    wrapperClasses,
+    thumbClasses,
+    labelClass: visuallyHideLabel ? 'ds-visually-hidden' : 'ds-label',
     handleChange,
     handleThumbAnimationEnd: handleBounceAnimationEnd,
   };

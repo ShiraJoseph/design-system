@@ -4,23 +4,29 @@ This file teaches AI agents (Claude, Copilot, Cursor, etc.) the conventions for
 adding new components to **design-system**. Follow it strictly so the library
 stays internally consistent.
 
+**Every rule here applies to all code at all times** — not just the component
+you're adding and not just the current PR. If you touch or even pass through a
+file that breaks a rule, fix it on sight; a pre-existing violation is still a
+violation. Drift is how a consistent library stops being one.
+
 ## Repo orientation
 
 ```
 src/
 ├── components/<Name>/
-│   ├── <Name>.tsx           # JSX + props interface. JSDoc on the component and every prop.
-│   ├── <Name>.model.ts      # Effects, state, and helpers. Exposed via use<Name>Model hook.
+│   ├── <Name>.tsx           # Hook call + JSX only. Inline props type with per-member JSDoc.
+│   ├── <Name>.model.ts      # State, effects, helpers, className-building, non-Props types.
 │   ├── <Name>.css           # Plain CSS, uses tokens via var(--ds-*), never raw values.
-│   ├── <Name>.stories.tsx   # Storybook stories with i18n + a11y tags.
-│   ├── <Name>.test.tsx      # Component-level tests.
+│   ├── <Name>.stories.tsx   # Storybook stories (play functions are the behavior tests) + a11y tags.
 │   ├── <Name>.model.test.ts # Model-level tests (one test per logic branch).
-│   └── index.ts             # Re-exports the component + types.
+│   ├── <SubName>/           # Each sub-component nests in its own folder here, never flat.
+│   └── index.ts             # Re-exports the component (and any public semantic-union types).
 ├── tokens/                  # Single source of truth for tokens
 │   ├── tokens.json          # Edit this; run `npm run tokens:build`
 │   ├── tokens.css           # GENERATED, do not edit
 │   └── generated.ts         # GENERATED, do not edit
 ├── icons/                   # Custom SVG icons via createIcon factory
+├── utils/                   # Project-wide pure helpers shared by 2+ components (e.g. mergeRefs)
 ├── i18n/                    # react-intl setup + message catalogs
 └── components/AskAI/catalog.ts  # Component metadata; UPDATE when adding components
 ```
@@ -30,15 +36,34 @@ src/
 1. **`ref` is a regular prop.** React 19 dropped the need for `forwardRef`.
    Add `ref?: Ref<HTMLElementName>` to the props interface and pass it through
    to the underlying DOM element. Do not wrap components in `forwardRef`.
-2. **Component logic lives in `<Name>.model.ts`.** All effects, state, helpers,
-   and non-Props type definitions go in the model file, exposed as a single
-   `use<Name>Model` hook. The `.tsx` file holds the JSX, the props interface,
-   and the JSDoc. Filename is lowercase `.model.ts` (or `.model.tsx` if JSX
-   is involved), NOT `.Model.ts`.
-3. **JSDoc on the component and on every public prop.** Storybook autodocs
-   reads these. Missing JSDoc means the docs page is missing a column.
+2. **The `.tsx` is the hook call + JSX, nothing else.** No state/effects/refs, no
+   helper functions, no multi-flag className-building. State, effects, handlers,
+   and non-Props types live in `<Name>.model.ts` (lowercase, or `.model.tsx` if it
+   holds JSX), exposed as a single `use<Name>Model` hook. The only conditionals in
+   the `.tsx` are inline ternaries in the JSX. The hook's args are an inline
+   anonymous object type (like component props) — no named `UseXxxModelArgs` — and
+   its return type is inferred, not annotated (no `UseXxxModelResult`).
+   - **Single-const exception:** don't create a `.model.ts` just to hold ONE
+     derived value. If the only derivation is a single `const` (typically one
+     className), leave it inline in the `.tsx`. Two+ derived consts, or any
+     state/effect/handler/ref → extract the model. A trivial merge shared by
+     sibling sub-components goes in one shared helper, not N one-const models.
+   - **Refs:** pass the consumer `ref` into the model ONLY when the model needs
+     the DOM node (measurement, `indeterminate`, focus). Then merge the internal +
+     consumer refs with the shared `assignRefs(node, ...refs)` helper
+     (`src/utils/`), called from inside the ref callback:
+     `const setMergedRef = (node) => assignRefs(node, internalRef, ref);`. No
+     eslint-disable needed. Otherwise put `ref` straight on the JSX element.
+3. **Props are an inline destructured type with per-member JSDoc — no named
+   `Props` interface.** Storybook's react-docgen reads the JSDoc on the inline
+   type's members to fill the autodocs description column, so every documented
+   prop gets a `/** ... */` directly above it. It does NOT read `@param` tags.
+   Don't export a `<Name>Props` type; consumers use
+   `React.ComponentProps<typeof <Name>>`. Keep a JSDoc on the component itself.
 4. **No raw colors, sizes, shadows, or fonts in CSS.** Use `var(--ds-*)` tokens
    exclusively. If a needed value isn't in `tokens.json`, add it there first.
+   Color values in `tokens.json` are hex — `#rrggbb`, or 8-digit `#rrggbbaa`
+   for alpha — never `rgb()` / `rgba()`. Keep the format consistent.
 5. **Plain CSS with `ds-*` class names.** No CSS Modules, no styled-components,
    no inline styles for visuals (one-off layout in stories is fine).
 6. **Native semantics over ARIA.** Prefer `<button>`, `<dialog>`, `<input>`.
@@ -55,43 +80,45 @@ src/
 11. **Update the catalog.** After adding a component, append a `CatalogComponent`
     entry to `src/components/AskAI/catalog.ts` so `AskAI` can answer questions
     about it.
+12. **Each component gets its own camelCase folder; sub-components nest inside
+    it.** A sub-component lives in its own folder under the parent
+    (`Card/CardHeader/CardHeader.tsx`), never flat in the parent folder and never
+    in top-level `components/`.
+13. **Inline trivially-small components.** A one- or two-line wrapper used in a
+    single place is inlined at its call site, not given a file/import/export. A
+    file is for something substantial, publicly exported, or genuinely reused.
+14. **JSX attribute values always use braces:** `type={'button'}`,
+    `role={'switch'}`, `tabIndex={0}` — never `type="button"`.
+15. **Stories are meaningful demos; tests ride on them.** Put interaction
+    assertions (play functions) ON real demo stories, or in unit/model tests —
+    never create a scaffold-only story that exists just to assert (no
+    `RefForwarding` / `ForwardsKeyDown` two-element nonsense stories). A play
+    function must leave the component in a clean resting state: if it opens
+    something (a Modal), it also closes it. A story that renders open/active on
+    load must say so in its NAME (`Open`, `Expanded`), never silently.
 
 ## Component scaffold (copy/paste starting point)
 
 ```tsx
 // src/components/<Name>/<Name>.tsx
 import { type HTMLAttributes, type ReactNode, type Ref } from 'react';
-import { use<Name>Model } from './<Name>.model';
+import { type <Name>Variant, use<Name>Model } from './<Name>.model';
 import './<Name>.css';
 
-/** Visual treatment. Defaults to `'default'`. */
-export type <Name>Variant = 'default' | 'subtle';
-
-export interface <Name>Props extends HTMLAttributes<HTMLDivElement> {
-  /** One-line JSDoc per prop. Be specific about defaults. */
-  variant?: <Name>Variant;
-  children: ReactNode;
-  ref?: Ref<HTMLDivElement>;
-}
-
-/**
- * One paragraph: when does a consumer reach for this component?
- *
- * Accessibility:
- * - List the guarantees this component bakes in.
- */
+/** One sentence: when does a consumer reach for this component? */
 export const <Name> = ({
   variant = 'default',
   className,
   children,
   ref,
   ...rest
-}: <Name>Props) => {
-  const {/* derived state from the model hook */} = use<Name>Model();
-
-  const classes = ['ds-<name>', `ds-variant-${variant}`, className]
-    .filter(Boolean)
-    .join(' ');
+}: HTMLAttributes<HTMLDivElement> & {
+  /** Visual treatment. Defaults to `'default'`. */
+  variant?: <Name>Variant;
+  children: ReactNode;
+  ref?: Ref<HTMLDivElement>;
+}) => {
+  const {classes} = use<Name>Model({variant, className});
 
   return (
     <div ref={ref} className={classes} {...rest}>
@@ -103,14 +130,23 @@ export const <Name> = ({
 
 ```ts
 // src/components/<Name>/<Name>.model.ts
+export type <Name>Variant = 'default' | 'subtle';
+
 /**
- * Holds effects, state, and helpers for <Name>. The component file consumes
- * this hook and stays focused on JSX. One test per logic branch lives in
- * <Name>.model.test.ts.
+ * State, effects, helpers, and className-building for <Name>. The component file
+ * consumes this hook and stays focused on JSX. One test per logic branch lives
+ * in <Name>.model.test.ts.
  */
-export const use<Name>Model = () => {
-  // useState / useEffect / event handlers go here.
-  return {};
+export const use<Name>Model = ({
+  variant,
+  className,
+}: {
+  variant: <Name>Variant;
+  className?: string;
+}) => {
+  const classes = ['ds-<name>', `ds-variant-${variant}`, className].filter(Boolean).join(' ');
+
+  return {classes};
 };
 ```
 
@@ -146,7 +182,8 @@ export const Default: Story = {};
 
 ```ts
 // src/components/<Name>/index.ts
-export { <Name>, type <Name>Props } from './<Name>';
+export { <Name> } from './<Name>';
+export type { <Name>Variant } from './<Name>.model';
 ```
 
 After scaffolding, also:

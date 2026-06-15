@@ -1,4 +1,5 @@
-export { Card, type CardProps, type CardElevation, type CardPadding } from './Card';
-export { CardHeader, type CardHeaderProps } from './CardHeader';
-export { CardBody, type CardBodyProps } from './CardBody';
-export { CardFooter, type CardFooterProps } from './CardFooter';
+export { Card } from './Card';
+export { CardHeader } from './CardHeader/CardHeader';
+export { CardBody } from './CardBody/CardBody';
+export { CardFooter } from './CardFooter/CardFooter';
+export type { CardElevation, CardPadding } from './Card.model';

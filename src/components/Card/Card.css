@@ -1,47 +1,41 @@
 .ds-card {
   background: var(--ds-color-bg-surface);
   border: var(--ds-border-width-thin) solid var(--ds-color-border-subtle);
-  border-radius: var(--ds-radius-2xl);
+  border-radius: var(--ds-radius-xl);
   color: var(--ds-color-text-primary);
   font-family: var(--ds-font-family-sans), sans-serif;
-}
 
-.ds-card.ds-elevation-flat {
-  box-shadow: none;
-}
+  &.ds-elevation-flat {
+    box-shadow: none;
+  }
 
-.ds-card.ds-elevation-raised {
-  box-shadow: var(--ds-shadow-md);
-}
+  &.ds-elevation-raised {
+    box-shadow: var(--ds-shadow-md);
+  }
 
-.ds-card.ds-elevation-overlay {
-  box-shadow: var(--ds-shadow-lg);
-  background: var(--ds-color-bg-surface-raised);
-}
+  &.ds-elevation-overlay {
+    box-shadow: var(--ds-shadow-lg);
+    background: var(--ds-color-bg-surface-raised);
+  }
 
-.ds-card.ds-padding-none {
-  padding: 0;
-}
+  &.ds-padding-sm {
+    padding: var(--ds-space-1);
+    border-radius: var(--ds-radius-lg);
+  }
 
-.ds-card.ds-padding-sm {
-  padding: var(--ds-space-2);
-}
+  &.ds-padding-lg {
+    padding: var(--ds-space-2);
+    border-radius: var(--ds-radius-xl);
+  }
 
-.ds-card.ds-padding-md {
-  padding: var(--ds-space-3);
-}
+  &.ds-interactive {
+    cursor: pointer;
+  }
 
-.ds-card.ds-padding-lg {
-  padding: var(--ds-space-4);
-}
-
-.ds-card.ds-interactive {
-  cursor: pointer;
-}
-
-.ds-card.ds-interactive:hover {
-  border-color: var(--ds-color-border-default);
-  box-shadow: var(--ds-shadow-lg);
+  &.ds-interactive:hover {
+    border-color: var(--ds-color-border-default);
+    box-shadow: var(--ds-shadow-lg);
+  }
 }
 
 
@@ -51,6 +45,8 @@
   justify-content: space-between;
   gap: var(--ds-space-2);
   margin-bottom: var(--ds-space-2);
+  min-width: 0;
+  flex-wrap: wrap;
 }
 
 .ds-card-header h1,
@@ -58,18 +54,21 @@
 .ds-card-header h3,
 .ds-card-header h4 {
   margin: 0;
+  min-width: 0;
   font-family: var(--ds-font-family-display), sans-serif;
   font-size: var(--ds-font-size-lg);
-  font-weight: var(--ds-font-weight-bold);
-  letter-spacing: var(--ds-font-letter-spacing-tight);
+  font-weight: var(--ds-font-weight-semibold);
   color: var(--ds-color-text-primary);
   line-height: var(--ds-font-line-height-snug);
+  overflow-wrap: anywhere;
 }
 
 .ds-card-body {
+  min-width: 0;
   font-size: var(--ds-font-size-base);
   line-height: var(--ds-font-line-height-normal);
   color: var(--ds-color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 .ds-card-footer {

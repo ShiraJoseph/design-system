@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { AskAI } from './AskAI';
 import { staticProvider, type AskAIProvider } from './providers';
 
@@ -14,13 +15,22 @@ const meta = {
       },
     },
   },
-  decorators: [(Story) => <div style={{width: 'min(640px, 92vw)'}}><Story/></div>],
+  decorators: [(Story) => <div className="story-frame-lg"><Story/></div>],
 } satisfies Meta<typeof AskAI>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Ask the design system')).toBeInTheDocument();
+    await expect(canvas.getByText(/Powered by/)).toBeInTheDocument();
+    await expect(canvas.getByText('What would you like to know?')).toBeInTheDocument();
+    await expect(canvasElement.querySelector('.ds-ask-ai.ds-card')).not.toBeNull();
+    await expect(canvasElement.querySelector('.ds-composer .ds-text-input')).not.toBeNull();
+  },
+};
 
 export const WithCustomSuggestions: Story = {
   args: {
@@ -59,4 +69,26 @@ export const WithCustomProvider: Story = {
 export const StaticProviderProgrammatic: Story = {
   name: 'Static provider (default)',
   args: {provider: staticProvider},
+};
+
+const instantProvider: AskAIProvider = {
+  label: 'Test',
+  async* ask() {
+    yield {chunk: 'Use the Button component for primary actions.'};
+    yield {chunk: '', cites: ['Button']};
+  },
+};
+
+export const StreamsReply: Story = {
+  name: 'Streams a reply (interaction test)',
+  args: {provider: instantProvider, suggestions: ['How do I use Button?']},
+  play: async ({canvasElement}) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', {name: 'How do I use Button?'}));
+    await canvas.findByText(/Use the Button component/);
+    await expect(canvas.getByText('Button')).toBeInTheDocument();
+    const reset = canvas.getByRole('button', {name: 'Reset conversation'});
+    await userEvent.click(reset);
+    await expect(canvas.getByText('What would you like to know?')).toBeInTheDocument();
+  },
 };

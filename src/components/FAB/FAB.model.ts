@@ -1,19 +1,25 @@
-import { type AnimationEvent, type MouseEvent } from 'react';
+import { type MouseEvent, type ReactNode } from 'react';
 import { useBounceOnChange } from '../../hooks/useBounceOnChange';
 
-interface UseFABModelArgs {
+export type FABSize = 'md' | 'lg';
+export type FABVariant = 'primary' | 'secondary';
+
+/** FAB's press-release bounce, click forwarding, and class derivation. */
+export const useFABModel = ({
+  variant,
+  size,
+  label,
+  quiet,
+  className,
+  onClick,
+}: {
+  variant: FABVariant;
+  size: FABSize;
+  label?: ReactNode;
   quiet: boolean;
+  className?: string;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-}
-
-interface UseFABModelResult {
-  bouncing: boolean;
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  handleAnimationEnd: (event: AnimationEvent<HTMLButtonElement>) => void;
-}
-
-/** FAB's press-release bounce + click forwarding, pulled out of the JSX file. */
-export const useFABModel = ({quiet, onClick}: UseFABModelArgs): UseFABModelResult => {
+}) => {
   const {bouncing, triggerBounce, handleBounceAnimationEnd} = useBounceOnChange();
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -24,8 +30,20 @@ export const useFABModel = ({quiet, onClick}: UseFABModelArgs): UseFABModelResul
     onClick?.(event);
   };
 
+  const classes = [
+    'ds-fab',
+    `ds-variant-${variant}`,
+    `ds-size-${size}`,
+    label && 'ds-extended',
+    quiet && 'ds-quiet',
+    bouncing && 'ds-bouncing',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return {
-    bouncing,
+    classes,
     handleClick,
     handleAnimationEnd: handleBounceAnimationEnd,
   };

@@ -1,61 +1,30 @@
 import { type HTMLAttributes, type ReactNode, type Ref } from 'react';
+import { type CardElevation, type CardPadding, useCardModel } from './Card.model';
 import './Card.css';
 
-/** Surface elevation. Higher levels add stronger shadows and contrast. */
-export type CardElevation = 'flat' | 'raised' | 'overlay';
-
-/** Internal padding scale. */
-export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
-
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  elevation?: CardElevation;
-  padding?: CardPadding;
-  /**
-   * When provided, the entire card becomes a focusable affordance, use
-   * for clickable cards. The `as` prop pattern is intentionally avoided
-   * here because making a generic `<div>` keyboard-accessible quickly
-   * grows complex; for navigation, wrap the card in an `<a>` instead.
-   */
-  interactive?: boolean;
-  children: ReactNode;
-  ref?: Ref<HTMLDivElement>;
-}
-
-/**
- * Generic surface for grouping related content. Defaults to `raised`
- * elevation. Pair with `CardHeader`, `CardBody`, and `CardFooter` for
- * consistent internal layout.
- *
- * Accessibility: Card itself adds no semantics. If the card represents
- * a discrete region (e.g, a settings panel), wrap content in
- * `<section aria-labelledby>` and reference the heading inside.
- */
+/** Generic surface for grouping related content; pair with `CardHeader`, `CardBody`, and `CardFooter`. Adds no semantics of its own. */
 export const Card = ({
   elevation = 'raised',
-  padding = 'md',
+  padding = 'lg',
   interactive = false,
   className,
   children,
   ref,
   ...rest
-}: CardProps) => {
-  const classes = [
-    'ds-card',
-    `ds-elevation-${elevation}`,
-    `ds-padding-${padding}`,
-    interactive && 'ds-interactive',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+}: HTMLAttributes<HTMLDivElement> & {
+  /** Defaults to `'raised'`. */
+  elevation?: CardElevation;
+  /** Defaults to `'lg'`. */
+  padding?: CardPadding;
+  /** Makes the card a focusable affordance; for navigation, wrap the card in an `<a>` instead. */
+  interactive?: boolean;
+  children: ReactNode;
+  ref?: Ref<HTMLDivElement>;
+}) => {
+  const {classes, tabIndex} = useCardModel({elevation, padding, interactive, className});
 
   return (
-    <div
-      ref={ref}
-      className={classes}
-      tabIndex={interactive ? 0 : undefined}
-      {...rest}
-    >
+    <div ref={ref} className={classes} tabIndex={tabIndex} {...rest}>
       {children}
     </div>
   );

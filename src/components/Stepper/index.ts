@@ -1,6 +1,2 @@
-export {
-  Stepper,
-  type StepperProps,
-  type StepperOrientation,
-  type StepDescriptor,
-} from './Stepper';
+export { Stepper } from './Stepper';
+export type { StepperOrientation, StepDescriptor } from './Stepper.model';
