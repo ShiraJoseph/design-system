@@ -87,6 +87,13 @@ src/
     file is for something substantial, publicly exported, or genuinely reused.
 14. **JSX attribute values always use braces:** `type={'button'}`,
     `role={'switch'}`, `tabIndex={0}` — never `type="button"`.
+15. **Stories are meaningful demos; tests ride on them.** Put interaction
+    assertions (play functions) ON real demo stories, or in unit/model tests —
+    never create a scaffold-only story that exists just to assert (no
+    `RefForwarding` / `ForwardsKeyDown` two-element nonsense stories). A play
+    function must leave the component in a clean resting state: if it opens
+    something (a Modal), it also closes it. A story that renders open/active on
+    load must say so in its NAME (`Open`, `Expanded`), never silently.
 
 ## Component scaffold (copy/paste starting point)
 

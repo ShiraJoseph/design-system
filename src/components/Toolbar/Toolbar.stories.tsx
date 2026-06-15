@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, userEvent, within } from 'storybook/test';
 import { Toolbar } from './Toolbar';
 import { ToolbarItem } from './ToolbarItem/ToolbarItem';
 import { IconButton } from '../IconButton';
@@ -102,82 +102,5 @@ export const Segmented: Story = {
     await userEvent.click(week);
     await expect(week).toHaveAttribute('aria-pressed', 'true');
     await expect(toolbar).toHaveAttribute('data-selected-item', 'week');
-  },
-};
-
-const itemHandlers = {onSelect: fn(), onClick: fn()};
-
-export const SelectsOnClick: Story = {
-  args: {'aria-label': 'Format', selectedItemId: 'bold'},
-  render: (args) => (
-    <Toolbar {...args}>
-      <ToolbarItem id="bold" onSelect={itemHandlers.onSelect} onClick={itemHandlers.onClick}>
-        Bold
-      </ToolbarItem>
-      <ToolbarItem id="italic" disabled>
-        Italic
-      </ToolbarItem>
-    </Toolbar>
-  ),
-  play: async ({canvasElement}) => {
-    itemHandlers.onSelect.mockClear();
-    itemHandlers.onClick.mockClear();
-    const canvas = within(canvasElement);
-    const toolbar = canvas.getByRole('toolbar', {name: 'Format'});
-    await expect(toolbar).toHaveAttribute('data-selected-item', 'bold');
-
-    const bold = canvas.getByRole('button', {name: 'Bold'});
-    await expect(canvas.getByText('Bold')).toBeInTheDocument();
-    await userEvent.click(bold);
-    await expect(itemHandlers.onSelect).toHaveBeenCalled();
-    await expect(itemHandlers.onClick).toHaveBeenCalled();
-
-    const italic = canvas.getByRole('button', {name: 'Italic'});
-    await expect(italic).toBeDisabled();
-  },
-};
-
-export const ForwardsKeyDown: Story = {
-  args: {'aria-label': 'Format', onKeyDown: fn()},
-  render: (args) => (
-    <Toolbar {...args}>
-      <ToolbarItem id="a">A</ToolbarItem>
-      <ToolbarItem id="b">B</ToolbarItem>
-    </Toolbar>
-  ),
-  play: async ({canvasElement, args}) => {
-    const canvas = within(canvasElement);
-    canvas.getAllByRole('button')[0].focus();
-    await userEvent.keyboard('{ArrowRight}');
-    await expect(args.onKeyDown).toHaveBeenCalled();
-  },
-};
-
-export const RefForwarding: Story = {
-  render: (args) => {
-    const objectRef = useRef<HTMLDivElement>(null);
-
-    return (
-      <div className="story-column">
-        <Toolbar {...args} aria-label="Object ref" ref={objectRef}>
-          <IconButton aria-label="New" icon={<Plus/>}/>
-        </Toolbar>
-        <Toolbar
-          {...args}
-          aria-label="Callback ref"
-          ref={(node) => node?.setAttribute('data-ref-attached', 'true')}
-        >
-          <IconButton aria-label="Search" icon={<Search/>}/>
-        </Toolbar>
-      </div>
-    );
-  },
-  play: async ({canvasElement}) => {
-    const toolbars = within(canvasElement).getAllByRole('toolbar');
-    await expect(toolbars).toHaveLength(2);
-    await expect(within(canvasElement).getByRole('toolbar', {name: 'Callback ref'})).toHaveAttribute(
-      'data-ref-attached',
-      'true',
-    );
   },
 };

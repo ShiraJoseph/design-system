@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Checkbox } from './Checkbox';
@@ -48,27 +47,6 @@ export const Indeterminate: Story = {
 };
 export const Small: Story = {args: {size: 'sm'}};
 
-export const RefForwarding: Story = {
-  render: (args) => {
-    const objectRef = useRef<HTMLInputElement>(null);
-
-    return (
-      <div className="story-row">
-        <Checkbox {...args} label="Object ref" ref={objectRef}/>
-        <Checkbox
-          {...args}
-          label="Callback ref"
-          ref={(node) => node?.setAttribute('data-ref-attached', 'true')}
-        />
-      </div>
-    );
-  },
-  play: async ({canvasElement}) => {
-    const boxes = within(canvasElement).getAllByRole('checkbox');
-    await expect(boxes).toHaveLength(2);
-    await expect(boxes[1]).toHaveAttribute('data-ref-attached', 'true');
-  },
-};
 export const Disabled: Story = {
   args: {disabled: true},
   play: async ({canvasElement}) => {

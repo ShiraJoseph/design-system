@@ -63,7 +63,6 @@ pre {
 :focus-visible {
   outline: var(--ds-border-width-thick) solid var(--ds-color-border-focus);
   outline-offset: var(--ds-border-width-heavy);
-  border-radius: var(--ds-radius-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {

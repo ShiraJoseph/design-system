@@ -61,7 +61,29 @@ export const Confirmation: Story = {
     await expect(dialog).toHaveAttribute('aria-labelledby', heading.id);
     const description = canvas.getByText(/cannot be undone/);
     await expect(dialog).toHaveAttribute('aria-describedby', description.id);
-    await expect(canvas.getByRole('button', {name: 'Cancel'})).toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button', {name: 'Cancel'}));
+    await expect(dialog.open).toBe(false);
+  },
+};
+
+export const Open: Story = {
+  args: {
+    open: true,
+    onClose: () => {},
+    title: 'Delete this account?',
+    description: 'This action cannot be undone. All associated data will be permanently removed.',
+    dismissOnBackdropClick: false,
+    footer: (
+      <>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="danger">Delete</Button>
+      </>
+    ),
+  },
+  render: (args) => <Modal {...args}/>,
+  play: async ({canvasElement}) => {
+    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
+    await expect(dialog.open).toBe(true);
   },
 };
 
