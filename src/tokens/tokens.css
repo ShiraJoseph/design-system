@@ -113,7 +113,7 @@
   --ds-color-action-secondary-bg-pressed: rgba(254, 234, 205, 0.85);
   --ds-color-action-secondary-fg: #0a0c1f;
   --ds-color-action-secondary-border: rgba(94, 52, 20, 0.2);
-  --ds-color-action-danger-bg: rgba(244, 63, 94, 0.92);
+  --ds-color-action-danger-bg: #e11d48;
   --ds-color-action-danger-bg-hover: rgba(244, 63, 94, 1);
   --ds-color-action-danger-bg-pressed: rgba(159, 18, 57, 1);
   --ds-color-action-danger-fg: #fffdf8;
@@ -148,7 +148,7 @@
   --ds-color-action-secondary-bg-pressed: rgba(255, 255, 255, 0.2);
   --ds-color-action-secondary-fg: rgba(248, 248, 245, 0.96);
   --ds-color-action-secondary-border: rgba(255, 255, 255, 0.16);
-  --ds-color-action-danger-bg: rgba(244, 63, 94, 0.85);
+  --ds-color-action-danger-bg: #e11d48;
   --ds-color-action-danger-bg-hover: rgba(244, 63, 94, 1);
   --ds-color-action-danger-bg-pressed: rgba(159, 18, 57, 1);
   --ds-color-action-danger-fg: #fffdf8;
@@ -184,7 +184,7 @@
     --ds-color-action-secondary-bg-pressed: rgba(255, 255, 255, 0.2);
     --ds-color-action-secondary-fg: rgba(248, 248, 245, 0.96);
     --ds-color-action-secondary-border: rgba(255, 255, 255, 0.16);
-    --ds-color-action-danger-bg: rgba(244, 63, 94, 0.85);
+    --ds-color-action-danger-bg: #e11d48;
     --ds-color-action-danger-bg-hover: rgba(244, 63, 94, 1);
     --ds-color-action-danger-bg-pressed: rgba(159, 18, 57, 1);
     --ds-color-action-danger-fg: #fffdf8;

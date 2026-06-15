@@ -1,4 +1,4 @@
-import { type MouseEvent, type ReactNode, useEffect, useId, useRef, } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useId, useLayoutEffect, useRef, } from 'react';
 import { useIntl } from 'react-intl';
 
 /**
@@ -25,7 +25,7 @@ export const useModalModel = ({
   const descId = description ? `ds-modal-desc-${reactId}` : undefined;
   const resolvedCloseLabel = closeLabel ?? intl.formatMessage({id: 'modal.close'});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (open && !dialog.open) {
