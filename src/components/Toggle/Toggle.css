@@ -59,7 +59,9 @@
 
   .ds-thumb {
     position: absolute;
-    top: var(--ds-toggle-thumb-inset);
+    top: 0;
+    bottom: 0;
+    margin-block: auto;
     left: var(--ds-toggle-thumb-inset);
     width: var(--ds-toggle-thumb-size);
     height: var(--ds-toggle-thumb-size);
