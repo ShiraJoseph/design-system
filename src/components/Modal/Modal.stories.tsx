@@ -54,21 +54,28 @@ export const Confirmation: Story = {
   },
 };
 
-export const Open: Story = {
-  args: {
-    open: true,
-    onClose: () => {},
-    title: 'Delete this account?',
-    description: 'This action cannot be undone. All associated data will be permanently removed.',
-    dismissOnBackdropClick: false,
-    footer: (
-      <>
-        <Button variant="secondary">Cancel</Button>
-        <Button variant="danger">Delete</Button>
-      </>
-    ),
+export const OpenByDefault: Story = {
+  name: 'Open by default',
+  tags: ['!autodocs'],
+  args: {open: false, onClose: () => {}, title: ''},
+  render: () => {
+    const [open, setOpen] = useState(true);
+
+    return (
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Delete this account?"
+        description="This action cannot be undone. All associated data will be permanently removed."
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="danger" onClick={() => setOpen(false)}>Delete</Button>
+          </>
+        }
+      />
+    );
   },
-  render: (args) => <Modal {...args}/>,
   play: async ({canvasElement}) => {
     const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
     await expect(dialog.open).toBe(true);
