@@ -46,6 +46,7 @@ A short reference for code-style rules in this repo: universal style, React, CSS
 
 - 2-space indentation, single trailing newline, no trailing whitespace.
 - `tokens.json` validates against `tokens.schema.json` and round-trips through `npm run tokens:build` without errors.
+- Color values in `tokens.json` are hex — `#rrggbb`, or 8-digit `#rrggbbaa` for alpha — never `rgb()` / `rgba()`. One format throughout.
 - Every locale file in `src/i18n/messages/` has the same key set.
 - `package.json` dependencies and devDependencies are sorted alphabetically.
 - No data duplication across config files. Versions, paths, and constants have one canonical home.

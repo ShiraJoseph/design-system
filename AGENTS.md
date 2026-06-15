@@ -62,6 +62,8 @@ src/
    `React.ComponentProps<typeof <Name>>`. Keep a JSDoc on the component itself.
 4. **No raw colors, sizes, shadows, or fonts in CSS.** Use `var(--ds-*)` tokens
    exclusively. If a needed value isn't in `tokens.json`, add it there first.
+   Color values in `tokens.json` are hex — `#rrggbb`, or 8-digit `#rrggbbaa`
+   for alpha — never `rgb()` / `rgba()`. Keep the format consistent.
 5. **Plain CSS with `ds-*` class names.** No CSS Modules, no styled-components,
    no inline styles for visuals (one-off layout in stories is fine).
 6. **Native semantics over ARIA.** Prefer `<button>`, `<dialog>`, `<input>`.
