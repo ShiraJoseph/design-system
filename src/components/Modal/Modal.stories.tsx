@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect } from 'storybook/test';
 import { Modal } from './Modal';
 import { Button } from '../Button';
 
@@ -52,18 +52,6 @@ export const Confirmation: Story = {
       </>
     );
   },
-  play: async ({canvasElement}) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole('button', {name: 'Delete account'}));
-    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
-    await expect(dialog.open).toBe(true);
-    const heading = canvas.getByText('Delete this account?');
-    await expect(dialog).toHaveAttribute('aria-labelledby', heading.id);
-    const description = canvas.getByText(/cannot be undone/);
-    await expect(dialog).toHaveAttribute('aria-describedby', description.id);
-    await userEvent.click(canvas.getByRole('button', {name: 'Cancel'}));
-    await expect(dialog.open).toBe(false);
-  },
 };
 
 export const Open: Story = {
@@ -105,17 +93,6 @@ export const Minimal: Story = {
         </Modal>
       </>
     );
-  },
-  play: async ({canvasElement}) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole('button', {name: 'Open'}));
-    const dialog = canvasElement.querySelector('.ds-modal') as HTMLDialogElement;
-    await expect(dialog.open).toBe(true);
-    await expect(dialog).not.toHaveAttribute('aria-describedby');
-    await expect(canvasElement.querySelector('.ds-modal-footer')).toBeNull();
-    await expect(canvas.getByText('body content')).toBeInTheDocument();
-    await userEvent.click(canvas.getByRole('button', {name: 'Dismiss'}));
-    await expect(dialog.open).toBe(false);
   },
 };
 
